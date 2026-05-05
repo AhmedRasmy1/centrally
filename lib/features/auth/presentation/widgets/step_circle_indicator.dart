@@ -1,4 +1,5 @@
 import 'package:centrally/core/res/color_manager.dart';
+import 'package:centrally/core/res/values_manager.dart';
 import 'package:flutter/material.dart';
 
 class StepCircleIndicator extends StatelessWidget {
@@ -15,12 +16,16 @@ class StepCircleIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: 16,
+      radius: AppRadius.r16,
       backgroundColor: (isActive || isCompleted)
           ? ColorManager.primary
           : ColorManager.primary.withOpacity(0.15),
       child: isCompleted
-          ? const Icon(Icons.check, color: ColorManager.white, size: 16)
+          ? const Icon(
+              Icons.check,
+              color: ColorManager.white,
+              size: AppSize.s16,
+            )
           : Text(
               '$number',
               style: TextStyle(

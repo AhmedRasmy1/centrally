@@ -12,8 +12,11 @@ class InfoNoticeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.circular(12),
-        side: const BorderSide(color: ColorManager.primaryLight, width: 0.5),
+        borderRadius: BorderRadiusGeometry.circular(AppRadius.r12),
+        side: const BorderSide(
+          color: ColorManager.primaryLight,
+          width: AppSize.s0_5,
+        ),
       ),
       margin: EdgeInsets.zero,
       elevation: 0,

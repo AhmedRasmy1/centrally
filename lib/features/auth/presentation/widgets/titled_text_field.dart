@@ -43,9 +43,9 @@ class TitledTextField extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
                   color: ColorManager.grey300,
-                  width: 1,
+                  width: AppSize.s1,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppRadius.r12),
               ),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(AppPadding.p10),

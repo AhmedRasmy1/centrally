@@ -1,5 +1,6 @@
 import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/style_manager.dart';
+import 'package:centrally/core/res/values_manager.dart';
 import 'package:flutter/material.dart';
 
 class ValidationCheck extends StatelessWidget {
@@ -17,10 +18,10 @@ class ValidationCheck extends StatelessWidget {
       children: [
         Icon(
           Icons.check_circle_outlined,
-          size: 18,
+          size: AppSize.s18,
           color: isValid ? ColorManager.success : ColorManager.grey500,
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: AppSize.s8),
         Text(
           validTitle,
           style: AppTextStyles.bodySmall.copyWith(

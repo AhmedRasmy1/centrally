@@ -45,6 +45,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         key: formKey,
         child: Padding(
           padding: const EdgeInsets.all(AppPadding.p16),
@@ -54,7 +55,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
               //StepIndicator
               const Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 64),
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s64),
                   child: StepIndicator(currentStep: 2),
                 ),
               ),
@@ -62,7 +63,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
               MainTitle(title: StringsManager.createAdminTitle.tr()),
               //Sub Title
               SubTitle(title: StringsManager.createAdminSubtitle.tr()),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSize.s24),
               //Admin Name Text Field
               TitledTextField(
                 controller: adminNameController,
@@ -88,7 +89,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 isPassword: true,
                 showValidationChecks: true,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSize.s16),
               //Confirm Password Text Field
               PasswordTitledTextField(
                 controller: confirmPasswordController,
@@ -98,10 +99,10 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 isConfirmPassword: true,
                 matchController: passwordController,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSize.s8),
               //Blue Notice Card
               const InfoNoticeCard(),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSize.s32),
               //Navigation Button
               PrimaryButton(
                 onPressed: () {
@@ -111,7 +112,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 },
                 buttonLabel: StringsManager.createAccountButton.tr(),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSize.s16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -132,7 +133,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSize.s16),
               Center(
                 child: Text.rich(
                   textAlign: TextAlign.center,
@@ -151,7 +152,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                   ),
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSize.s32),
             ],
           ),
         ),

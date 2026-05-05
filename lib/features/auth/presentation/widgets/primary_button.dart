@@ -15,7 +15,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: AppPadding.p16),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
@@ -25,7 +25,7 @@ class PrimaryButton extends StatelessWidget {
             foregroundColor: ColorManager.white,
             padding: const EdgeInsets.symmetric(vertical: AppPadding.p24),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadius.r12),
             ),
             elevation: 0,
           ),

@@ -2,6 +2,7 @@ import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/icons_manager.dart';
 import 'package:centrally/core/res/strings_manager.dart';
 import 'package:centrally/core/res/style_manager.dart';
+import 'package:centrally/core/res/values_manager.dart';
 import 'package:centrally/features/auth/presentation/widgets/labeled_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,17 @@ class FeaturesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.circular(10),
-        side: const BorderSide(color: ColorManager.grey300, width: 0.5),
+        borderRadius: BorderRadiusGeometry.circular(AppRadius.r10),
+        side: const BorderSide(
+          color: ColorManager.grey300,
+          width: AppSize.s0_5,
+        ),
       ),
       margin: EdgeInsets.zero,
       elevation: 0,
       color: ColorManager.grey200,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppPadding.p16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

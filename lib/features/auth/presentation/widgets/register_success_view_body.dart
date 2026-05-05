@@ -17,22 +17,22 @@ class RegisterSuccessViewBody extends StatelessWidget {
         padding: const EdgeInsets.all(AppPadding.p16),
         child: Column(
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: AppSize.s40),
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
                     color: ColorManager.success.withOpacity(0.2),
-                    blurRadius: 16,
+                    blurRadius: AppRadius.r16,
                     spreadRadius: 3,
                   ),
                 ],
               ),
               child: const CircleAvatar(
-                radius: 42,
+                radius: AppRadius.r42,
                 backgroundColor: ColorManager.success,
-                child: Icon(Icons.check_rounded, size: 50),
+                child: Icon(Icons.check_rounded, size: AppSize.s50),
               ),
             ),
 
@@ -46,13 +46,13 @@ class RegisterSuccessViewBody extends StatelessWidget {
               ),
             ),
             Text(
-                StringsManager.registerSuccessSubtitle.tr(),
+              StringsManager.registerSuccessSubtitle.tr(),
               style: AppTextStyles.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: AppSize.s40),
             const FeaturesCard(),
-            const SizedBox(height: 100),
+            const SizedBox(height: AppSize.s100),
             PrimaryButton(
               onPressed: () {},
               buttonLabel: StringsManager.goToDashboard.tr(),

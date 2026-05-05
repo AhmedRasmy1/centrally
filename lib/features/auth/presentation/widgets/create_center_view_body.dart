@@ -39,6 +39,7 @@ class _CreateCenterViewBodyState extends State<CreateCenterViewBody> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         key: formKey,
         child: Padding(
           padding: const EdgeInsets.all(AppPadding.p16),
@@ -54,7 +55,7 @@ class _CreateCenterViewBodyState extends State<CreateCenterViewBody> {
 
               MainTitle(title: StringsManager.createCenterTitle.tr()),
               SubTitle(title: StringsManager.createCenterSubtitle.tr()),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSize.s24),
               TitledTextField(
                 controller: nameController,
                 title: StringsManager.centerNameLabel.tr(),
@@ -76,9 +77,9 @@ class _CreateCenterViewBodyState extends State<CreateCenterViewBody> {
                 icon: IconsManager.callIcon,
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSize.s8),
               const InfoNoticeCard(),
-              const SizedBox(height: 86),
+              const SizedBox(height: AppSize.s100),
               PrimaryButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {

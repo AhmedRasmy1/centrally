@@ -1,4 +1,6 @@
 import 'package:centrally/core/res/strings_manager.dart';
+import 'package:centrally/core/utils/password_regex.dart';
+import 'package:centrally/features/auth/domain/entities/password_validation_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AuthValidator {
@@ -47,19 +49,19 @@ class AuthValidator {
       return StringsManager.passwordMin.tr();
     }
 
-    if (!RegExp(r'[A-Z]').hasMatch(v)) {
+    if (!PasswordRegex.upper.hasMatch(v)) {
       return StringsManager.passwordUpperCase.tr();
     }
 
-    if (!RegExp(r'[a-z]').hasMatch(v)) {
+    if (!PasswordRegex.lower.hasMatch(v)) {
       return StringsManager.passwordLowerCase.tr();
     }
 
-    if (!RegExp(r'[0-9]').hasMatch(v)) {
+    if (!PasswordRegex.number.hasMatch(v)) {
       return StringsManager.passwordNumber.tr();
     }
 
-    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(v)) {
+    if (!PasswordRegex.special.hasMatch(v)) {
       return StringsManager.passwordSpecial.tr();
     }
 
@@ -70,31 +72,10 @@ class AuthValidator {
   static PasswordValidationState validatePasswordLive(String value) {
     return PasswordValidationState(
       hasMinLength: value.length >= 8,
-      hasUppercase: RegExp(r'[A-Z]').hasMatch(value),
-      hasLowercase: RegExp(r'[a-z]').hasMatch(value),
-      hasNumber: RegExp(r'[0-9]').hasMatch(value),
-      hasSpecial: RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value),
+      hasUppercase: PasswordRegex.upper.hasMatch(value),
+      hasLowercase: PasswordRegex.lower.hasMatch(value),
+      hasNumber: PasswordRegex.number.hasMatch(value),
+      hasSpecial: PasswordRegex.special.hasMatch(value),
     );
   }
-}
-
-//? i want to return to this point to check if it is in a correct place or not
-
-class PasswordValidationState {
-  final bool hasMinLength;
-  final bool hasUppercase;
-  final bool hasLowercase;
-  final bool hasNumber;
-  final bool hasSpecial;
-
-  const PasswordValidationState({
-    required this.hasMinLength,
-    required this.hasUppercase,
-    required this.hasLowercase,
-    required this.hasNumber,
-    required this.hasSpecial,
-  });
-
-  bool get isValid =>
-      hasMinLength && hasUppercase && hasLowercase && hasNumber && hasSpecial;
 }

@@ -1,11 +1,44 @@
 {
   "app_name": "Centrally",
   "welcome": "Welcome",
-  "onboarding_title": "Discover our world",
 
-  "password_min": "At least 8 characters",
-  "password_uppercase": "Contains uppercase letter",
-  "password_lowercase": "Contains lowercase letter",
-  "password_number": "Contains a number",
-  "password_special": "Contains a special character"
+  "onboarding_skip": "Skip",
+  "onboarding_next": "Next",
+  "onboarding_login": "Login",
+  "onboarding_signup": "Sign Up",
+
+  "onboarding_1_title": "Your day at a glance",
+  "onboarding_1_body": "Open Centerly and instantly see everything waiting for you today — classes, attendance, and payments.",
+
+  "onboarding_2_title": "All students in one place",
+  "onboarding_2_body": "Track attendance, monitor progress, and view full student history — no papers or WhatsApp groups.",
+
+  "onboarding_3_title": "Know your numbers accurately",
+  "onboarding_3_body": "Track expected, collected, and remaining payments each month — and send reminders with one click.",
+
+  "login_welcome_title": "Welcome back",
+  "login_welcome_subtitle": "Log in to continue your day with Centerly",
+  "login_email_label": "Email",
+  "login_email_hint": "example@email.com",
+  "login_password_label": "Password",
+  "login_remember_me": "Remember me",
+  "login_forgot_password": "Forgot password?",
+  "login_submit": "Login",
+  "login_no_account": "New center?",
+  "login_create_account": "Create account",
+
+  "validation_email_required": "Email is required",
+  "validation_email_invalid": "Invalid email format",
+  "validation_phone_required": "Phone number is required",
+  "validation_phone_invalid": "Invalid phone number",
+  "validation_password_required": "Password is required",
+  "validation_password_min": "Password must be at least 8 characters",
+
+  "password_min": "يجب أن تكون 8 أحرف على الأقل",
+  "password_uppercase": "يجب أن تحتوي على حرف كبير",
+  "password_lowercase": "يجب أن تحتوي على حرف صغير",
+  "password_number": "يجب أن تحتوي على رقم",
+  "password_special": "يجب أن تحتوي على رمز خاص"
+ 
+  
 }

@@ -52,7 +52,7 @@ class AuthValidator {
     }
 
     if (!RegExp(r'[a-z]').hasMatch(v)) {
-      return StringsManager.paswordLowerCase.tr();
+      return StringsManager.passwordLowerCase.tr();
     }
 
     if (!RegExp(r'[0-9]').hasMatch(v)) {

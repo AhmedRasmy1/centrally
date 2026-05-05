@@ -40,7 +40,7 @@ class StringsManager {
   //Password State
   static const String passwordMin = 'password_min';
   static const String passwordUpperCase = 'password_uppercase';
-  static const String paswordLowerCase = 'password_lowercase';
+  static const String passwordLowerCase = 'password_lowercase';
   static const String passwordNumber = 'password_number';
   static const String passwordSpecial = 'password_special';
   static const String loader = 'loader';

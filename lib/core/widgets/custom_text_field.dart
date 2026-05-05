@@ -19,6 +19,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
 
+  final List<String>? autofillHints;
+
   const CustomTextFormField({
     super.key,
     required this.controller,
@@ -33,6 +35,7 @@ class CustomTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.onChanged,
+    this.autofillHints,
   });
 
   @override
@@ -49,6 +52,7 @@ class CustomTextFormField extends StatelessWidget {
       onChanged: onChanged,
       textAlign: TextAlign.start,
       style: theme.textTheme.bodyMedium,
+      autofillHints: autofillHints,
 
       onFieldSubmitted: (_) {
         if (nextFocusNode != null) {

@@ -35,6 +35,7 @@ class EmailField extends StatelessWidget {
             color: ColorManager.grey500,
             size: AppSize.s24,
           ),
+          autofillHints: const [AutofillHints.email],
           validator: (value) => AuthValidator.validateEmail(value),
         ),
       ],

@@ -34,6 +34,7 @@ class PasswordField extends StatelessWidget {
           StringsManager.loginPasswordLabel.tr(),
           style: AppTextStyles.titleSmall,
         ),
+
         const SizedBox(height: AppSize.s8),
         CustomTextFormField(
           controller: controller,
@@ -55,7 +56,7 @@ class PasswordField extends StatelessWidget {
               size: AppSize.s24,
             ),
           ),
-
+          autofillHints: const [AutofillHints.password],
           validator: (value) => AuthValidator.validatePassword(value),
         ),
       ],

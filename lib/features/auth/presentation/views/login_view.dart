@@ -1,6 +1,5 @@
 import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/values_manager.dart';
-import 'package:centrally/core/utils/validation.dart';
 import 'package:centrally/features/auth/presentation/widgets/brand_logo.dart';
 import 'package:centrally/features/auth/presentation/widgets/email_feild.dart';
 import 'package:centrally/features/auth/presentation/widgets/password_field.dart';

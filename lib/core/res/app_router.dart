@@ -36,17 +36,20 @@ class AppRouter {
   );
 
   static String? _authRedirect(BuildContext context, GoRouterState state) {
-    final token = CacheService.getData(key: CacheConstants.userToken) as String?;
+    final token =
+        CacheService.getData(key: CacheConstants.userToken) as String?;
     final isAuthenticated = token != null && token.isNotEmpty;
     final isSplash = state.matchedLocation == RoutesManager.splashPath;
 
     if (isSplash) return null;
 
-    const publicRoutes = [RoutesManager.onboardingPath, RoutesManager.loginPath];
+    const publicRoutes = [
+      RoutesManager.onboardingPath,
+      RoutesManager.loginPath,
+    ];
     if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
       return RoutesManager.loginPath;
     }
-
     return null;
   }
 }

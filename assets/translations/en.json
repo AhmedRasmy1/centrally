@@ -38,7 +38,9 @@
   "password_uppercase": "يجب أن تحتوي على حرف كبير",
   "password_lowercase": "يجب أن تحتوي على حرف صغير",
   "password_number": "يجب أن تحتوي على رقم",
-  "password_special": "يجب أن تحتوي على رمز خاص"
+  "password_special": "يجب أن تحتوي على رمز خاص",
+  "loader": "Loading..."
+
  
   
 }

@@ -12,7 +12,8 @@ class BrandLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logoWidth = context.screenWidth * 0.35;
+    final logoWidth =
+        context.screenWidth * 0.35.clamp(AppSize.s100, AppSize.s200);
     final logoHeight = logoWidth;
     return Center(
       child: Image.asset(

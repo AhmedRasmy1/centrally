@@ -1,10 +1,13 @@
+import 'dart:developer';
+
+import 'package:centrally/core/res/app_constants.dart';
 import 'package:centrally/core/res/assets_manager.dart';
 import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/routes_manager.dart';
-import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -21,34 +24,36 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> _initialize() async {
-    await Future.wait([
-      Future.delayed(const Duration(milliseconds: 1500)),
-      _prefetchAppState(),
-    ]);
-
-    FlutterNativeSplash.remove();
-
-    if (!mounted) return;
-
-    final token = CacheService.getData(key: CacheConstants.userToken) as String?;
-    if (token != null && token.isNotEmpty) {
-      context.goNamed(RoutesManager.onboardingName); // replace with home once built
-    } else {
-      context.goNamed(RoutesManager.onboardingName);
+    try {
+      await Future.wait([
+        Future.delayed(const Duration(milliseconds: AppConstants.splashDelay)),
+        _prefetchAppState(),
+      ]);
+    } catch (error, stackTrace) {
+      log('Error during Splash prefetch', error: error, stackTrace: stackTrace);
+      await Sentry.captureException(error, stackTrace: stackTrace);
+    } finally {
+      FlutterNativeSplash.remove();
     }
+
+    _navigate();
   }
 
   Future<void> _prefetchAppState() async {
-    // Placeholder for remote config / feature flags / auth validation.
+    // TODO: Load remote config / feature flags / validate auth token.
+  }
+
+  void _navigate() {
+    if (!mounted) return;
+
+    context.goNamed(RoutesManager.homeName);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.white,
-      body: Center(
-        child: Image.asset(AssetsManager.logoAppIcon, width: 120),
-      ),
+      body: Center(child: Image.asset(AssetsManager.logoAppIcon, width: 120)),
     );
   }
 }

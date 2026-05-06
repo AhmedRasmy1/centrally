@@ -52,8 +52,8 @@ class AppRouter {
     const publicRoutes = [
       RoutesManager.onboardingPath,
       RoutesManager.loginPath,
-      RoutesManager.homePath,
     ];
+
     if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
       return RoutesManager.loginPath;
     }

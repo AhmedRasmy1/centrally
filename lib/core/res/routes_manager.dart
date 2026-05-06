@@ -10,6 +10,7 @@ class RoutesManager {
   static const String loginPath = '/login';
   static const String loginName = 'login';
 
+
   static const String createCenterPath = '/create_center';
   static const String createCenterName = 'create_center';
 
@@ -18,4 +19,8 @@ class RoutesManager {
 
   static const String registerSuccessPath = '/register_success';
   static const String registerSuccessName = 'register_success';
+
+  static const String homePath = '/home';
+  static const String homeName = 'home';
+
 }

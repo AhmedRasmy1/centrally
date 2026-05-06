@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'color_manager.dart';
 import 'font_manager.dart';
+import 'color_manager.dart';
+import 'package:flutter/material.dart';
 
-TextStyle _style(double size, FontWeight weight, Color color) => TextStyle(
-  fontFamily: FontFamily.cairo,
-  fontSize: size,
-  fontWeight: weight,
-  color: color,
-);
+TextStyle _style(double size, FontWeight weight, Color color, [double? height]) => TextStyle(
+      fontFamily: FontFamily.cairo,
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+    );
 
 class AppTextStyles {
   AppTextStyles._();

@@ -1,13 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:centrally/core/res/routes_manager.dart';
+import 'package:centrally/features/splash/splash_view.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/features/auth/presentation/views/create_admin_view.dart';
 import 'package:centrally/features/auth/presentation/views/create_center_view.dart';
 import 'package:centrally/features/auth/presentation/views/login_view.dart';
+
 import 'package:centrally/features/auth/presentation/views/register_success_view.dart';
+
+
+import 'package:centrally/features/onboarding/presentation/view/onboarding_view.dart';
+
+import 'package:centrally/features/home/home_demo.dart';
+
 import 'package:centrally/features/onboarding/onboarding_view.dart';
 import 'package:centrally/features/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 
 class AppRouter {
   AppRouter._();
@@ -36,6 +47,7 @@ class AppRouter {
         builder: (context, state) => const LoginView(),
       ),
       GoRoute(
+
         path: RoutesManager.createCenterPath,
         name: RoutesManager.createCenterName,
         builder: (context, state) => const CreateCenterView(),
@@ -49,22 +61,30 @@ class AppRouter {
         path: RoutesManager.registerSuccessPath,
         name: RoutesManager.registerSuccessName,
         builder: (context, state) => const RegisterSuccessView(),
+
+        path: RoutesManager.homePath,
+        name: RoutesManager.homeName,
+        builder: (context, state) => const HomePage(),
+
       ),
     ],
   );
 
   static String? _authRedirect(BuildContext context, GoRouterState state) {
-    final token = CacheService.getData(key: CacheConstants.userToken) as String?;
+    final token =
+        CacheService.getData(key: CacheConstants.userToken) as String?;
     final isAuthenticated = token != null && token.isNotEmpty;
     final isSplash = state.matchedLocation == RoutesManager.splashPath;
 
     if (isSplash) return null;
 
-    const publicRoutes = [RoutesManager.onboardingPath, RoutesManager.loginPath];
+    const publicRoutes = [
+      RoutesManager.onboardingPath,
+      RoutesManager.loginPath,
+    ];
     if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
       return RoutesManager.loginPath;
     }
-
     return null;
   }
 }

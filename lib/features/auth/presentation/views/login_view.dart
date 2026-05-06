@@ -1,10 +1,15 @@
-import 'package:centrally/core/res/assets_manager.dart';
 import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/routes_manager.dart';
 import 'package:centrally/core/res/strings_manager.dart';
 import 'package:centrally/core/res/style_manager.dart';
 import 'package:centrally/core/res/values_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:centrally/features/auth/presentation/widgets/brand_logo.dart';
+import 'package:centrally/features/auth/presentation/widgets/email_feild.dart';
+import 'package:centrally/features/auth/presentation/widgets/password_field.dart';
+import 'package:centrally/features/auth/presentation/widgets/remember_forgor_row.dart';
+import 'package:centrally/features/auth/presentation/widgets/sign_up_row.dart';
+import 'package:centrally/features/auth/presentation/widgets/submit_button.dart';
+import 'package:centrally/features/auth/presentation/widgets/welcome_header.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,7 +25,9 @@ class _LoginViewState extends State<LoginView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  String password = '';
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -29,9 +36,15 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState?.validate() ?? false) {
       // TODO: dispatch login cubit event
+
+      setState(() => _isLoading = true);
+
+      await Future.delayed(const Duration(seconds: 2)); // simulate API
+
+      setState(() => _isLoading = false);
     }
   }
 
@@ -48,28 +61,36 @@ class _LoginViewState extends State<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: AppSize.s40),
-                const _BrandLogo(),
+                const BrandLogo(),
                 const SizedBox(height: AppSize.s32),
-                const _WelcomeHeader(),
+                const WelcomeHeader(),
                 const SizedBox(height: AppSize.s32),
-                _EmailField(controller: _emailController),
+                EmailField(controller: _emailController),
                 const SizedBox(height: AppSize.s16),
-                _PasswordField(
+                PasswordField(
                   controller: _passwordController,
                   obscure: _obscurePassword,
                   onToggleObscure: () =>
                       setState(() => _obscurePassword = !_obscurePassword),
+
+                  // onChanged: (value) {
+                  //   setState(() {
+                  //     password = value;
+                  //   });
+                  // },
                 ),
+
                 const SizedBox(height: AppSize.s12),
-                _RememberForgotRow(
+                RememberForgotRow(
+                  onPressed: () {},
                   rememberMe: _rememberMe,
                   onRememberChanged: (v) =>
                       setState(() => _rememberMe = v ?? false),
                 ),
                 const SizedBox(height: AppSize.s32),
-                _SubmitButton(onPressed: _submit),
+                SubmitButton(onPressed: _submit, isLoading: _isLoading),
                 const SizedBox(height: AppSize.s20),
-                const _SignUpRow(),
+                SignUpRow(onTap: () {}),
               ],
             ),
           ),

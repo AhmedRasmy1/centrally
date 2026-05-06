@@ -29,8 +29,11 @@
 
   "validation_email_required": "البريد الإلكتروني مطلوب",
   "validation_email_invalid": "صيغة البريد غير صحيحة",
+  "validation_phone_required": "رقم التليفون مطلوب",
+  "validation_phone_invalid": "صيغة الرقم غير صحيحة",
   "validation_password_required": "كلمة المرور مطلوبة",
   "validation_password_min": "كلمة المرور 8 أحرف على الأقل",
+
 
   "create_center_title": "إنشاء مركزك التعليمي",
   "create_center_subtitle": "ابدا بإضافة بيانات المركز",
@@ -73,4 +76,13 @@
   "validation_numbers_only": "أرقام فقط",
   "validation_password_mismatch": "كلمة المرور غير متطابقة",
   "validation_password_conditions": "يرجى استيفاء شروط كلمة المرور"
+  "password_min": "يجب أن تكون 8 أحرف على الأقل",
+  "password_uppercase": "يجب أن تحتوي على حرف كبير",
+  "password_lowercase": "يجب أن تحتوي على حرف صغير",
+  "password_number": "يجب أن تحتوي على رقم",
+  "password_special": "يجب أن تحتوي على رمز خاص",
+  "loader": "جاري التحميل..."
+
+  
+
 }

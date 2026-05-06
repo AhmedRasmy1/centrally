@@ -53,11 +53,9 @@ class AppRouter {
       RoutesManager.onboardingPath,
       RoutesManager.loginPath,
     ];
-
     if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
       return RoutesManager.loginPath;
     }
-
     return null;
   }
 }

@@ -7,7 +7,7 @@ import 'package:centrally/features/onboarding/models/onboarding_model.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/skip_row.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/Dots_Indicator.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/onboarding_page.dart';
-import 'package:centrally/features/onboarding/presentation/widgets/onboarding_buttons.dart.dart';
+import 'package:centrally/features/onboarding/presentation/widgets/onboarding_buttons.dart';
 
 
 
@@ -51,6 +51,9 @@ class _OnboardingViewState extends State<OnboardingView> {
             Expanded(
               child: PageView.builder(
                 controller: _controller,
+                  physics: _isLastPage
+                      ? const NeverScrollableScrollPhysics()
+                      : const BouncingScrollPhysics(),
                 onPageChanged: (i) => setState(() => _currentPage = i),
                 itemCount: onboardingPages.length,
                 itemBuilder: (_, i) =>OnboardingPage(model: onboardingPages[i])

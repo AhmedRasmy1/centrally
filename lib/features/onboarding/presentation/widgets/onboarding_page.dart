@@ -44,7 +44,6 @@ class OnboardingPage extends StatelessWidget {
             model.bodyKey.tr(),
             style: AppTextStyles.bodyMedium.copyWith(
               color: ColorManager.textSecondary,
-              height: 1.6,
             ),
           ),
 

@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'color_manager.dart';
 import 'font_manager.dart';
+import 'color_manager.dart';
+import 'package:flutter/material.dart';
 
-TextStyle _style(double size, FontWeight weight, Color color) => TextStyle(
+TextStyle _style(double size, FontWeight weight, Color color, [double? height]) => TextStyle(
       fontFamily: FontFamily.cairo,
       fontSize: size,
       fontWeight: weight,
       color: color,
+      height: height,
     );
 
 class AppTextStyles {
@@ -28,7 +29,7 @@ class AppTextStyles {
 
   // Body
   static TextStyle bodyLarge = _style(16, FontWeightManager.regular, ColorManager.textPrimary);
-  static TextStyle bodyMedium = _style(14, FontWeightManager.regular, ColorManager.textPrimary);
+  static TextStyle bodyMedium = _style(14, FontWeightManager.regular, ColorManager.textPrimary, 1.6);
   static TextStyle bodySmall = _style(12, FontWeightManager.regular, ColorManager.textSecondary);
 
   // Label

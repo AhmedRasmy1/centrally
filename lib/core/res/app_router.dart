@@ -1,11 +1,18 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:centrally/core/res/routes_manager.dart';
+import 'package:centrally/features/splash/splash_view.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/features/auth/presentation/views/login_view.dart';
+<<<<<<< onboarding
+import 'package:centrally/features/onboarding/presentation/view/onboarding_view.dart';
+=======
 import 'package:centrally/features/home/home_demo.dart';
 import 'package:centrally/features/onboarding/onboarding_view.dart';
 import 'package:centrally/features/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+>>>>>>> main
 
 class AppRouter {
   AppRouter._();

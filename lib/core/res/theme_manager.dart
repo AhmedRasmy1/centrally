@@ -1,170 +1,146 @@
 import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/font_manager.dart';
+import 'package:centrally/core/res/style_manager.dart';
 import 'package:centrally/core/res/values_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-abstract final class AppTheme {
+class AppTheme {
+  AppTheme._();
+
   static ThemeData get light => ThemeData(
         useMaterial3: true,
-        fontFamily: AppFontFamily.cairo,
-        scaffoldBackgroundColor: AppColors.scaffold,
-        colorScheme: const ColorScheme.light(
-          primary: AppColors.primaryBlue,
-          onPrimary: AppColors.white,
-          secondary: AppColors.primaryBlueDark,
-          onSecondary: AppColors.white,
-          error: AppColors.error,
-          onError: AppColors.white,
-          surface: AppColors.surface,
-          onSurface: AppColors.darkText,
+        fontFamily: FontFamily.cairo,
+        scaffoldBackgroundColor: ColorManager.background,
+        colorScheme: const ColorScheme(
+          brightness: Brightness.light,
+          primary: ColorManager.primary,
+          onPrimary: ColorManager.white,
+          primaryContainer: ColorManager.primaryLight,
+          onPrimaryContainer: ColorManager.white,
+          secondary: ColorManager.primaryLight,
+          onSecondary: ColorManager.white,
+          secondaryContainer: ColorManager.grey100,
+          onSecondaryContainer: ColorManager.textPrimary,
+          error: ColorManager.error,
+          onError: ColorManager.white,
+          errorContainer: ColorManager.errorLight,
+          onErrorContainer: ColorManager.error,
+          surface: ColorManager.surface,
+          onSurface: ColorManager.textPrimary,
+          outline: ColorManager.border,
+          outlineVariant: ColorManager.divider,
         ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.scaffold,
+        appBarTheme: AppBarTheme(
+          backgroundColor: ColorManager.surface,
+          foregroundColor: ColorManager.textPrimary,
           elevation: 0,
           centerTitle: true,
-          iconTheme: IconThemeData(color: AppColors.darkText),
-          titleTextStyle: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s18,
-            fontWeight: AppFontWeight.semiBold,
-            color: AppColors.darkText,
-          ),
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness: Brightness.dark,
-            systemNavigationBarColor: Colors.transparent,
-            systemNavigationBarIconBrightness: Brightness.dark,
+          titleTextStyle: AppTextStyles.titleLarge,
+          iconTheme: const IconThemeData(color: ColorManager.textPrimary),
+          surfaceTintColor: Colors.transparent,
+        ),
+        textTheme: TextTheme(
+          displayLarge: AppTextStyles.displayLarge,
+          displayMedium: AppTextStyles.displayMedium,
+          headlineLarge: AppTextStyles.headlineLarge,
+          headlineMedium: AppTextStyles.headlineMedium,
+          headlineSmall: AppTextStyles.headlineSmall,
+          titleLarge: AppTextStyles.titleLarge,
+          titleMedium: AppTextStyles.titleMedium,
+          titleSmall: AppTextStyles.titleSmall,
+          bodyLarge: AppTextStyles.bodyLarge,
+          bodyMedium: AppTextStyles.bodyMedium,
+          bodySmall: AppTextStyles.bodySmall,
+          labelLarge: AppTextStyles.labelLarge,
+          labelSmall: AppTextStyles.labelSmall,
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: ColorManager.primary,
+            foregroundColor: ColorManager.white,
+            minimumSize: const Size(double.infinity, AppSize.s52),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.r12),
+            ),
+            textStyle: AppTextStyles.labelLarge,
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryBlue,
-            foregroundColor: AppColors.white,
-            minimumSize: const Size(double.infinity, AppSize.s58),
+            backgroundColor: ColorManager.primary,
+            foregroundColor: ColorManager.white,
+            minimumSize: const Size(double.infinity, AppSize.s52),
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.r12),
             ),
-            textStyle: const TextStyle(
-              fontFamily: AppFontFamily.cairo,
-              fontSize: AppFontSize.s18,
-              fontWeight: AppFontWeight.bold,
-            ),
+            textStyle: AppTextStyles.labelLarge,
           ),
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            foregroundColor: AppColors.primaryBlue,
-            minimumSize: const Size(double.infinity, AppSize.s58),
-            side: const BorderSide(color: AppColors.primaryBlue),
+            foregroundColor: ColorManager.primary,
+            minimumSize: const Size(double.infinity, AppSize.s52),
+            side: const BorderSide(color: ColorManager.primary),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.r12),
             ),
-            textStyle: const TextStyle(
-              fontFamily: AppFontFamily.cairo,
-              fontSize: AppFontSize.s18,
-              fontWeight: AppFontWeight.bold,
-            ),
+            textStyle: AppTextStyles.labelLarge,
           ),
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: AppColors.primaryBlue,
-            textStyle: const TextStyle(
-              fontFamily: AppFontFamily.cairo,
-              fontSize: AppFontSize.s14,
-              fontWeight: AppFontWeight.medium,
-            ),
+            foregroundColor: ColorManager.primary,
+            textStyle: AppTextStyles.labelLarge,
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: AppColors.surface,
+          fillColor: ColorManager.surface,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: AppPadding.p16,
             vertical: AppPadding.p14,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppRadius.r12),
-            borderSide: const BorderSide(color: AppColors.lightGrey),
+            borderSide: const BorderSide(color: ColorManager.border),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppRadius.r12),
-            borderSide: const BorderSide(color: AppColors.lightGrey),
+            borderSide: const BorderSide(color: ColorManager.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppRadius.r12),
-            borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5),
+            borderSide:
+                const BorderSide(color: ColorManager.primary, width: 1.5),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppRadius.r12),
-            borderSide: const BorderSide(color: AppColors.error),
+            borderSide: const BorderSide(color: ColorManager.error),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppRadius.r12),
-            borderSide: const BorderSide(color: AppColors.error, width: 1.5),
+            borderSide:
+                const BorderSide(color: ColorManager.error, width: 1.5),
           ),
-          hintStyle: const TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s14,
-            color: AppColors.hintText,
-          ),
-          errorStyle: const TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s12,
-            color: AppColors.error,
+          hintStyle:
+              AppTextStyles.bodyMedium.copyWith(color: ColorManager.textSecondary),
+          labelStyle: AppTextStyles.bodyMedium,
+          errorStyle:
+              AppTextStyles.bodySmall.copyWith(color: ColorManager.error),
+        ),
+        cardTheme: CardThemeData(
+          color: ColorManager.surface,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.r16),
+            side: const BorderSide(color: ColorManager.divider),
           ),
         ),
         dividerTheme: const DividerThemeData(
-          color: AppColors.divider,
+          color: ColorManager.divider,
           thickness: 1,
           space: 0,
-        ),
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s32,
-            fontWeight: AppFontWeight.bold,
-            color: AppColors.darkText,
-          ),
-          titleLarge: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s24,
-            fontWeight: AppFontWeight.bold,
-            color: AppColors.darkText,
-          ),
-          titleMedium: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s18,
-            fontWeight: AppFontWeight.semiBold,
-            color: AppColors.darkText,
-          ),
-          bodyLarge: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s16,
-            fontWeight: AppFontWeight.regular,
-            color: AppColors.bodyText,
-            height: 1.7,
-          ),
-          bodyMedium: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s14,
-            fontWeight: AppFontWeight.regular,
-            color: AppColors.bodyText,
-          ),
-          bodySmall: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s12,
-            fontWeight: AppFontWeight.regular,
-            color: AppColors.grey,
-          ),
-          labelLarge: TextStyle(
-            fontFamily: AppFontFamily.cairo,
-            fontSize: AppFontSize.s16,
-            fontWeight: AppFontWeight.semiBold,
-            color: AppColors.darkText,
-          ),
         ),
       );
 }

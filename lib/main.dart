@@ -16,12 +16,12 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Future.wait([
-    CacheService.init(),
+    CacheService.cacheInitialization(),
     EasyLocalization.ensureInitialized(),
   ]);
 
   configureDependencies();
-  Bloc.observer = const AppBlocObserver();
+  Bloc.observer = const MyBlocObserver();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(
@@ -51,7 +51,7 @@ class Centrally extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppStrings.appName.tr(),
+      onGenerateTitle: (context) => StringsManager.appName.tr(),
       routerConfig: AppRouter.router,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

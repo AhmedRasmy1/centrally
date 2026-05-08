@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
 
-abstract final class AppColors {
-  // Brand
-  static const Color primaryBlue = Color(0xFF1E4FD8);
-  static const Color primaryBlueDark = Color(0xFF1640B0);
-  static const Color primaryBlueLight = Color(0xFFE8EEFB);
+class ColorManager {
+  ColorManager._();
 
-  // Text
-  static const Color darkText = Color(0xFF1A1A2E);
-  static const Color bodyText = Color(0xFF6B7280);
-  static const Color hintText = Color(0xFF9CA3AF);
+  // Primary palette
+  static const Color primary = Color(0xFF246EFA);
+  static const Color primaryLight = Color(0xFF7FAAFC);
+  static const Color primaryBright = Color(0xFFE9F1FF);
+  static const Color primaryDark = Color(0xFF1558D6);
 
-  // Neutrals
+  // Neutral
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
-  static const Color grey = Color(0xFF9CA3AF);
-  static const Color lightGrey = Color(0xFFE5E7EB);
-  static const Color divider = Color(0xFFF3F4F6);
+  static const Color background = Color(0xFFFAFAFA);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color grey100 = Color(0xFFF3F4F6);
+  static const Color grey200 = Color(0xFFF5F5F7);
+  static const Color grey300 = Color(0xFFD1D5DB);
+  static const Color grey500 = Color(0xFF6B7280);
+  static const Color grey700 = Color(0xFF374151);
+  static const Color grey900 = Color(0xFF111827);
 
   // Semantic
-  static const Color error = Color(0xFFEF4444);
-  static const Color success = Color(0xFF22C55E);
-  static const Color warning = Color(0xFFF59E0B);
+  static const Color error = Color(0xFFDC2626);
+  static const Color errorLight = Color(0xFFFEE2E2);
+  static const Color success = Color(0xFF16A34A);
+  static const Color successLight = Color(0xFFDCFCE7);
+  static const Color warning = Color(0xFFD97706);
+  static const Color warningLight = Color(0xFFFEF3C7);
 
-  // Surface
-  static const Color scaffold = Color(0xFFFFFFFF);
-  static const Color surface = Color(0xFFF9FAFB);
+  // Text
+  static const Color textPrimary = grey900;
+  static const Color textSecondary = grey500;
+  static const Color textDisabled = grey300;
+
+  // Border / Divider
+  static const Color border = grey300;
+  static const Color divider = grey100;
 }

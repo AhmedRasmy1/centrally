@@ -19,56 +19,73 @@ class TitledTextField extends StatelessWidget {
   final String title, hint, icon;
   final TextInputType keyboardType;
 
+  OutlineInputBorder _border({Color? color, double width = 1}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppRadius.r12),
+      borderSide: BorderSide(
+        color: color ?? ColorManager.border,
+        width: width,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //Title
         Text(title, style: AppTextStyles.titleSmall),
-        //TextField
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppPadding.p16),
-          child: TextFormField(
-            controller: controller,
-            keyboardType: keyboardType,
-            textAlign: TextAlign.start,
-            decoration: InputDecoration(
-              fillColor: ColorManager.grey200,
-              contentPadding: const EdgeInsets.all(AppPadding.p20),
-              hintText: hint,
-              hintStyle: AppTextStyles.bodyLarge.copyWith(
-                color: ColorManager.grey500,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: ColorManager.grey300,
-                  width: AppSize.s1,
+        const SizedBox(height: AppSize.s8),
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          textAlign: TextAlign.start,
+          style: Theme.of(context).textTheme.bodyMedium,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: ColorManager.grey100,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppPadding.p16,
+              vertical: AppPadding.p14,
+            ),
+            hintText: hint,
+            hintStyle: AppTextStyles.bodyMedium.copyWith(
+              color: ColorManager.grey500,
+            ),
+            border: _border(),
+            enabledBorder: _border(),
+            focusedBorder: _border(color: ColorManager.primary, width: 1.5),
+            errorBorder: _border(color: ColorManager.error),
+            focusedErrorBorder:
+                _border(color: ColorManager.error, width: 1.5),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(AppPadding.p12),
+              child: SvgPicture.asset(
+                icon,
+                colorFilter: const ColorFilter.mode(
+                  ColorManager.grey500,
+                  BlendMode.srcIn,
                 ),
-                borderRadius: BorderRadius.circular(AppRadius.r12),
-              ),
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(AppPadding.p10),
-                child: SvgPicture.asset(icon),
               ),
             ),
-            validator: (v) {
-              if (v == null || v.trim().isEmpty) {
-                return StringsManager.validationRequired.tr();
-              }
-              if (keyboardType == TextInputType.emailAddress) {
-                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(v)) {
-                  return StringsManager.validationEmailInvalid.tr();
-                }
-              } else if (keyboardType == TextInputType.number) {
-                if (!RegExp(r'^[0-9]+$').hasMatch(v)) {
-                  return StringsManager.validationNumbersOnly.tr();
-                }
-              }
-              return null;
-            },
           ),
+          validator: (v) {
+            if (v == null || v.trim().isEmpty) {
+              return StringsManager.validationRequired.tr();
+            }
+            if (keyboardType == TextInputType.emailAddress) {
+              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(v)) {
+                return StringsManager.validationEmailInvalid.tr();
+              }
+            } else if (keyboardType == TextInputType.number) {
+              if (!RegExp(r'^[0-9]+$').hasMatch(v)) {
+                return StringsManager.validationNumbersOnly.tr();
+              }
+            }
+            return null;
+          },
         ),
+        const SizedBox(height: AppSize.s20),
       ],
     );
   }

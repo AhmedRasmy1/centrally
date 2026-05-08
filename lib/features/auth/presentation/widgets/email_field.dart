@@ -2,7 +2,6 @@
 // Email field
 // ---------------------------------------------------------------------------
 
-import 'package:centrally/core/extensions/context_extensions.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
@@ -26,7 +25,7 @@ class EmailField extends StatelessWidget {
           StringsManager.loginEmailLabel.tr(),
           style: AppTextStyles.titleSmall,
         ),
-        SizedBox(height: context.screenHeight * 0.01), //AppSize.s8
+        const SizedBox(height: AppSize.s8),
         CustomTextFormField(
           controller: controller,
           hintText: StringsManager.loginEmailHint.tr(),

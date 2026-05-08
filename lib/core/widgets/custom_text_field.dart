@@ -80,17 +80,17 @@ class CustomTextFormField extends StatelessWidget {
 
         border: _border(),
         enabledBorder: _border(),
-        focusedBorder: _border(color: ColorManager.primary, width: 2),
+        focusedBorder: _border(color: ColorManager.primary, width: 1.5),
 
         errorBorder: _border(color: ColorManager.error),
-        focusedErrorBorder: _border(color: ColorManager.error, width: 2),
+        focusedErrorBorder: _border(color: ColorManager.error, width: 1.5),
       ),
     );
   }
 
   OutlineInputBorder _border({Color? color, double width = 1}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppRadius.r10),
+      borderRadius: BorderRadius.circular(AppRadius.r12),
       borderSide: BorderSide(color: color ?? ColorManager.border, width: width),
     );
   }

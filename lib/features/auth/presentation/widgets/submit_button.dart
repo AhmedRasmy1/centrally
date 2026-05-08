@@ -1,34 +1,3 @@
-﻿// // ---------------------------------------------------------------------------
-// // Submit button
-// // ---------------------------------------------------------------------------
-
-// import 'package:centrally/core/theme/color_manager.dart';
-// import 'package:centrally/core/constants/strings_manager.dart';
-// import 'package:centrally/core/theme/style_manager.dart';
-// import 'package:centrally/core/theme/values_manager.dart';
-// import 'package:easy_localization/easy_localization.dart';
-// import 'package:flutter/material.dart';
-
-// class SubmitButton extends StatelessWidget {
-//   const SubmitButton({required this.onPressed, super.key});
-
-//   final VoidCallback onPressed;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: AppSize.s54,
-//       child: FilledButton(
-//         onPressed: onPressed,
-//         child: Text(
-//           StringsManager.loginSubmit.tr(),
-//           style: AppTextStyles.titleMedium.copyWith(color: ColorManager.white),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
@@ -49,22 +18,29 @@ class SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s54,
-      child: FilledButton(
-        onPressed: () {
-          if (isLoading) return;
-          onPressed?.call();
-        },
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorManager.primary,
+          disabledBackgroundColor: ColorManager.primary,
+          foregroundColor: ColorManager.white,
+          padding: const EdgeInsets.symmetric(vertical: AppPadding.p16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.r12),
+          ),
+          elevation: 0,
+        ),
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           child: isLoading
               ? const SizedBox(
-                  key: ValueKey(StringsManager.loader),
+                  key: ValueKey('loader'),
                   width: AppSize.s20,
                   height: AppSize.s20,
                   child: CircularProgressIndicator(
                     strokeWidth: AppSize.s2,
-                    color: Colors.white,
+                    color: ColorManager.white,
                   ),
                 )
               : Text(

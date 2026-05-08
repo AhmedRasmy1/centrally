@@ -32,13 +32,19 @@ class PasswordTitledTextField extends StatefulWidget {
 
 class _PasswordTitledTextFieldState extends State<PasswordTitledTextField> {
   bool obscurePassword = true;
-  bool hasMinLength = false;
-  bool hasNumber = false;
-  bool hasUppercase = false;
-  void togglePasswordVisibility() {
-    setState(() {
-      obscurePassword = !obscurePassword;
-    });
+
+  void _togglePasswordVisibility() {
+    setState(() => obscurePassword = !obscurePassword);
+  }
+
+  OutlineInputBorder _border({Color? color, double width = 1}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppRadius.r12),
+      borderSide: BorderSide(
+        color: color ?? ColorManager.border,
+        width: width,
+      ),
+    );
   }
 
   @override
@@ -46,41 +52,49 @@ class _PasswordTitledTextFieldState extends State<PasswordTitledTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //Title
         Text(widget.title, style: AppTextStyles.titleSmall),
-        //TextField
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppPadding.p16),
-          child: TextFormField(
+        const SizedBox(height: AppSize.s8),
+        TextFormField(
             controller: widget.controller,
             obscureText: obscurePassword,
             textAlign: TextAlign.start,
+            style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              fillColor: ColorManager.grey200,
-              contentPadding: const EdgeInsets.all(AppPadding.p20),
+              filled: true,
+              fillColor: ColorManager.grey100,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppPadding.p16,
+                vertical: AppPadding.p14,
+              ),
               hintText: widget.hint,
-              hintStyle: AppTextStyles.bodyLarge.copyWith(
+              hintStyle: AppTextStyles.bodyMedium.copyWith(
                 color: ColorManager.grey500,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: ColorManager.grey300,
-                  width: AppSize.s1,
-                ),
-                borderRadius: BorderRadius.circular(AppRadius.r12),
-              ),
+              border: _border(),
+              enabledBorder: _border(),
+              focusedBorder: _border(color: ColorManager.primary, width: 1.5),
+              errorBorder: _border(color: ColorManager.error),
+              focusedErrorBorder:
+                  _border(color: ColorManager.error, width: 1.5),
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(AppPadding.p10),
-                child: SvgPicture.asset(widget.icon),
+                padding: const EdgeInsets.all(AppPadding.p12),
+                child: SvgPicture.asset(
+                  widget.icon,
+                  colorFilter: const ColorFilter.mode(
+                    ColorManager.grey500,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
-              suffixIcon: GestureDetector(
-                onTap: togglePasswordVisibility,
-                child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p10),
-                  child: SvgPicture.asset(
-                    obscurePassword
-                        ? IconsManager.eyeVisibleIcon
-                        : IconsManager.eyeInvisibleIcon,
+              suffixIcon: IconButton(
+                onPressed: _togglePasswordVisibility,
+                icon: SvgPicture.asset(
+                  obscurePassword
+                      ? IconsManager.eyeVisibleIcon
+                      : IconsManager.eyeInvisibleIcon,
+                  colorFilter: const ColorFilter.mode(
+                    ColorManager.grey500,
+                    BlendMode.srcIn,
                   ),
                 ),
               ),
@@ -104,9 +118,8 @@ class _PasswordTitledTextFieldState extends State<PasswordTitledTextField> {
               }
               return null;
             },
-          ),
         ),
-
+        const SizedBox(height: AppSize.s8),
         if (widget.showValidationChecks)
           ValueListenableBuilder<TextEditingValue>(
             valueListenable: widget.controller,

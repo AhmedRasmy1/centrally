@@ -77,9 +77,8 @@ class _CreateCenterViewBodyState extends State<CreateCenterViewBody> {
                 icon: IconsManager.callIcon,
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: AppSize.s8),
               const InfoNoticeCard(),
-              const SizedBox(height: AppSize.s100),
+              const SizedBox(height: AppSize.s24),
               PrimaryButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {

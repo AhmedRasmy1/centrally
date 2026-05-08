@@ -1,10 +1,10 @@
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/style_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+﻿import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/theme/style_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/features/auth/presentation/widgets/features_card.dart';
 import 'package:centrally/features/auth/presentation/widgets/primary_button.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:centrally/core/res/strings_manager.dart';
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:flutter/material.dart';
 
 class RegisterSuccessViewBody extends StatelessWidget {

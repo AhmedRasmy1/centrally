@@ -1,5 +1,5 @@
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/font_manager.dart';
+﻿import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/theme/font_manager.dart';
 import 'package:flutter/material.dart';
 
 TextStyle _style(

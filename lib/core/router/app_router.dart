@@ -1,4 +1,4 @@
-import 'package:centrally/core/res/routes_manager.dart';
+﻿import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/features/auth/presentation/views/create_admin_view.dart';
 import 'package:centrally/features/auth/presentation/views/create_center_view.dart';

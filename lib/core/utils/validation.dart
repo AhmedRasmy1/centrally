@@ -1,4 +1,4 @@
-import 'package:centrally/core/res/strings_manager.dart';
+﻿import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/utils/password_regex.dart';
 import 'package:centrally/features/auth/domain/entities/password_validation_state.dart';
 import 'package:easy_localization/easy_localization.dart';

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/routes_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/router/routes_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/features/onboarding/models/onboarding_model.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/skip_row.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/dots_indicator.dart';

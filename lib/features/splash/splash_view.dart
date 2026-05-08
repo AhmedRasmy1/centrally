@@ -1,8 +1,8 @@
-import 'dart:developer';
+﻿import 'dart:developer';
 
-import 'package:centrally/core/res/app_constants.dart';
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/routes_manager.dart';
+import 'package:centrally/core/constants/app_constants.dart';
+import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/widgets/brand_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';

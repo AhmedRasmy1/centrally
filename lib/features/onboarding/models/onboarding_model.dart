@@ -1,5 +1,5 @@
-import 'package:centrally/core/res/assets_manager.dart';
-import 'package:centrally/core/res/strings_manager.dart';
+﻿import 'package:centrally/core/constants/assets_manager.dart';
+import 'package:centrally/core/constants/strings_manager.dart';
 
 class OnboardingPageData {
   const OnboardingPageData({

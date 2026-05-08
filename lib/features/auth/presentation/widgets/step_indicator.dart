@@ -1,7 +1,7 @@
-import 'package:centrally/core/res/values_manager.dart';
+﻿import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/features/auth/presentation/widgets/step_circle_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:centrally/core/res/color_manager.dart';
+import 'package:centrally/core/theme/color_manager.dart';
 
 class StepIndicator extends StatelessWidget {
   final int currentStep;

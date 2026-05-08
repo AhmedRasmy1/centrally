@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../models/onboarding_model.dart';
-import 'package:centrally/core/res/style_manager.dart';
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+import 'package:centrally/core/theme/style_manager.dart';
+import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class OnboardingPage extends StatelessWidget {

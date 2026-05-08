@@ -1,11 +1,11 @@
-// // ---------------------------------------------------------------------------
+﻿// // ---------------------------------------------------------------------------
 // // Submit button
 // // ---------------------------------------------------------------------------
 
-// import 'package:centrally/core/res/color_manager.dart';
-// import 'package:centrally/core/res/strings_manager.dart';
-// import 'package:centrally/core/res/style_manager.dart';
-// import 'package:centrally/core/res/values_manager.dart';
+// import 'package:centrally/core/theme/color_manager.dart';
+// import 'package:centrally/core/constants/strings_manager.dart';
+// import 'package:centrally/core/theme/style_manager.dart';
+// import 'package:centrally/core/theme/values_manager.dart';
 // import 'package:easy_localization/easy_localization.dart';
 // import 'package:flutter/material.dart';
 
@@ -29,10 +29,10 @@
 //   }
 // }
 
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/strings_manager.dart';
-import 'package:centrally/core/res/style_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/constants/strings_manager.dart';
+import 'package:centrally/core/theme/style_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

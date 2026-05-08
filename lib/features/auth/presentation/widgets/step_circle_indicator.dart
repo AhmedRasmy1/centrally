@@ -1,5 +1,5 @@
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+﻿import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:flutter/material.dart';
 
 class StepCircleIndicator extends StatelessWidget {

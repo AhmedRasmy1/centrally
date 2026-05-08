@@ -1,6 +1,6 @@
-import 'package:centrally/core/res/icons_manager.dart';
-import 'package:centrally/core/res/routes_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+﻿import 'package:centrally/core/constants/icons_manager.dart';
+import 'package:centrally/core/router/routes_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/features/auth/presentation/widgets/info_notice_card.dart';
 import 'package:centrally/features/auth/presentation/widgets/main_title.dart';
 import 'package:centrally/features/auth/presentation/widgets/primary_button.dart';
@@ -8,7 +8,7 @@ import 'package:centrally/features/auth/presentation/widgets/step_indicator.dart
 import 'package:centrally/features/auth/presentation/widgets/sub_title.dart';
 import 'package:centrally/features/auth/presentation/widgets/titled_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:centrally/core/res/strings_manager.dart';
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

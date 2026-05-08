@@ -6,7 +6,15 @@
       "Bash(Select-Object -Property FullName)",
       "PowerShell(head -50)",
       "Bash(Get-ChildItem \"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\\\\lib\\\\core\\\\widgets\\\\\" | Select-Object Name; Get-ChildItem \"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\\\\lib\\\\features\\\\onboarding\\\\\" -Recurse)",
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "Bash(git add *)",
+      "Bash(git rm *)",
+      "Bash(git commit -m ' *)",
+      "PowerShell(cd \"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\"; $env:PATH += \";C:\\\\flutter\\\\bin;C:\\\\src\\\\flutter\\\\bin;$env:LOCALAPPDATA\\\\flutter\\\\bin\"; flutter analyze --no-pub 2>&1 | Select-Object -First 100)",
+      "PowerShell($env:PATH = \"$env:PATH;$env:LOCALAPPDATA\\\\flutter\\\\bin;$env:USERPROFILE\\\\flutter\\\\bin;C:\\\\flutter\\\\bin;C:\\\\src\\\\flutter\\\\bin\"; Get-Command flutter -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source)",
+      "PowerShell(cd \"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\"; Get-ChildItem assets -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object FullName)",
+      "PowerShell(cd \"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\"; Get-ChildItem assets -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\\\\\", \"\"\\) })",
+      "PowerShell(cd \"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\"; Get-ChildItem lib\\\\features\\\\auth\\\\presentation -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\Users\\\\dell\\\\Desktop\\\\Centerly_mobile\\\\\", \"\"\\) })"
     ]
   }
 }

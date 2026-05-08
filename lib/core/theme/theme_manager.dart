@@ -1,7 +1,7 @@
-import 'package:centrally/core/res/color_manager.dart';
-import 'package:centrally/core/res/font_manager.dart';
-import 'package:centrally/core/res/style_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+﻿import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/theme/font_manager.dart';
+import 'package:centrally/core/theme/style_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {

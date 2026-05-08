@@ -1,6 +1,6 @@
-import 'package:centrally/core/func/extensions.dart';
-import 'package:centrally/core/res/assets_manager.dart';
-import 'package:centrally/core/res/values_manager.dart';
+﻿import 'package:centrally/core/extensions/context_extensions.dart';
+import 'package:centrally/core/constants/assets_manager.dart';
+import 'package:centrally/core/theme/values_manager.dart';
 import 'package:flutter/material.dart';
 
 class BrandLogo extends StatelessWidget {

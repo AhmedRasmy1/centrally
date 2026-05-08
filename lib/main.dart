@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
+﻿import 'package:bloc/bloc.dart';
 import 'package:centrally/core/di/di.dart';
-import 'package:centrally/core/res/app_constants.dart';
-import 'package:centrally/core/res/app_router.dart';
-import 'package:centrally/core/res/strings_manager.dart';
-import 'package:centrally/core/res/theme_manager.dart';
+import 'package:centrally/core/constants/app_constants.dart';
+import 'package:centrally/core/router/app_router.dart';
+import 'package:centrally/core/constants/strings_manager.dart';
+import 'package:centrally/core/theme/theme_manager.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/core/utils/my_bloc_observer.dart';
 import 'package:easy_localization/easy_localization.dart';

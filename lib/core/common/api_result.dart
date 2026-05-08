@@ -1,11 +1,15 @@
-class Result<T> {}
-
-class Success<T> implements Result<T> {
-  T data;
-  Success(this.data);
+sealed class Result<T> {
+  const Result();
 }
 
-class Fail<T> implements Result<T> {
-  Exception exception;
-  Fail(this.exception);
+final class Success<T> extends Result<T> {
+  const Success(this.data);
+
+  final T data;
+}
+
+final class Failure<T> extends Result<T> {
+  const Failure(this.exception);
+
+  final Exception exception;
 }

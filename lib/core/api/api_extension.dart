@@ -1,56 +1,45 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:centrally/core/common/api_result.dart';
+import 'package:centrally/core/common/custom_exception.dart';
 import 'package:dio/dio.dart';
-
-import '../common/api_result.dart';
-import '../common/custom_exception.dart';
 
 Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
   try {
-    final result = await apiCall.call();
+    final result = await apiCall();
     return Success(result);
   } on TimeoutException catch (_) {
-    return Fail(NoInternetError());
+    return const Failure(NoInternetException());
   } on DioException catch (ex) {
-    dynamic message;
-
-    try {
-      final data = ex.response?.data;
-
-      if (data is String) {
-        final decoded = json.decode(data);
-        if (decoded is Map<String, dynamic>) {
-          message = decoded['message'] ?? 'The server returned an error';
-        } else {
-          message = 'The server returned an error';
-        }
-      } else if (data is Map<String, dynamic>) {
-        message = data['message'] ?? 'The server returned an error';
-      } else {
-        message = 'The server returned an error';
-      }
-    } catch (_) {
-      message = 'The server returned an error';
-    }
-
-    log('$message');
+    final message = _extractMessage(ex);
+    log('DioException: $message', name: 'ApiExtension');
 
     if (ex.response != null) {
-      return Fail(
+      return Failure(
         ServerError(
           statusCode: ex.response?.statusCode,
-          serverMessage: message.toString(),
+          message: message,
         ),
       );
-    } else {
-      return Fail(DioHttpException(ex));
     }
+    return Failure(DioHttpException(ex));
   } on IOException catch (_) {
-    return Fail(NoInternetError());
+    return const Failure(NoInternetException());
   } on Exception catch (ex) {
-    return Fail(ex);
+    return Failure(ex);
+  }
+}
+
+String _extractMessage(DioException ex) {
+  try {
+    final data = ex.response?.data;
+    if (data is Map<String, dynamic>) {
+      return (data['message'] as String?) ?? 'The server returned an error';
+    }
+    return 'The server returned an error';
+  } catch (_) {
+    return 'The server returned an error';
   }
 }

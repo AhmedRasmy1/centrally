@@ -1,15 +1,27 @@
 import 'package:dio/dio.dart';
 
 class ServerError implements Exception {
-  String? serverMessage;
-  int? statusCode;
-  ServerError({required this.statusCode, required this.serverMessage});
+  const ServerError({required this.statusCode, required this.message});
+
+  final int? statusCode;
+  final String message;
+
+  @override
+  String toString() => 'ServerError($statusCode): $message';
 }
 
 class DioHttpException implements Exception {
-  DioException? exception;
+  const DioHttpException(this.exception);
 
-  DioHttpException(this.exception);
+  final DioException exception;
+
+  @override
+  String toString() => 'DioHttpException: ${exception.message}';
 }
 
-class NoInternetError implements Exception {}
+class NoInternetException implements Exception {
+  const NoInternetException();
+
+  @override
+  String toString() => 'NoInternetException: No internet connection';
+}

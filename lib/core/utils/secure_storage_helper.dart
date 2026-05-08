@@ -1,28 +1,21 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class SecureStorageHelper {
+class SecureStorage {
+  const SecureStorage() : _storage = const FlutterSecureStorage();
+
   final FlutterSecureStorage _storage;
 
-  SecureStorageHelper() : _storage = const FlutterSecureStorage();
+  Future<void> write({required String key, required String value}) =>
+      _storage.write(key: key, value: value);
 
-  Future<void> saveData({required String key, required String value}) async {
-    await _storage.write(key: key, value: value);
-  }
+  Future<String?> read(String key) => _storage.read(key: key);
 
-  Future<String?> readData({required String key}) async {
-    return await _storage.read(key: key);
-  }
+  Future<void> delete(String key) => _storage.delete(key: key);
 
-  Future<void> deleteData({required String key}) async {
-    await _storage.delete(key: key);
-  }
-
-  Future<void> clearAll() async {
-    await _storage.deleteAll();
-  }
+  Future<void> deleteAll() => _storage.deleteAll();
 }
 
-class StorageKeys {
+abstract final class StorageKeys {
   static const String userToken = 'USER_TOKEN';
   static const String userId = 'USER_ID';
   static const String languageCode = 'LANGUAGE_CODE';

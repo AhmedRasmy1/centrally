@@ -1,5 +1,17 @@
 {
   "app_name": "Centrally",
   "welcome": "Welcome",
-  "onboarding_title": "Discover our world"
+  "skip": "Skip",
+  "next": "Next",
+  "login": "Login",
+  "register": "Create Account",
+  "email": "Email",
+  "password": "Password",
+  "forgot_password": "Forgot Password?",
+  "onboarding_title_1": "Manage Your Teams",
+  "onboarding_desc_1": "Organize and manage your teams and students all in one place with ease.",
+  "onboarding_title_2": "Track Progress",
+  "onboarding_desc_2": "Monitor attendance, performance, and progress across all your groups.",
+  "onboarding_title_3": "Stay Notified",
+  "onboarding_desc_3": "Receive real-time updates and notifications for everything that matters."
 }

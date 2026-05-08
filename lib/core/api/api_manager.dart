@@ -5,14 +5,9 @@ import 'package:injectable/injectable.dart';
 @singleton
 @injectable
 class ApiManager {
-  late Dio _dio;
-  ApiManager() {
-    _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
-  }
-  // Exception handleDioError(DioException e) {
-  //   return ServerError(
-  //     e.response?.statusCode,
-  //     e.response?.data['message'] ?? 'Unknown Error',
-  //   );
-  // }
+  ApiManager() : _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
+
+  final Dio _dio;
+
+  Dio get dio => _dio;
 }

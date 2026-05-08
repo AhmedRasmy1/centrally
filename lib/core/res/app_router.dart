@@ -4,22 +4,25 @@ import 'package:centrally/features/onboarding/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class AppRouter {
+abstract final class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: RoutesManager.onboardingPath,
+    initialLocation: AppRoutes.onboarding,
     errorBuilder: (context, state) => Scaffold(
-      appBar: AppBar(title: const Text('No Router Found')),
-      body: const Center(child: Text('No Router Found')),
+      appBar: AppBar(title: const Text('Page Not Found')),
+      body: const Center(child: Text('404 — Page not found')),
     ),
     routes: [
       GoRoute(
-        path: RoutesManager.onboardingPath,
-        name: RoutesManager.onboardingName,
+        path: AppRoutes.onboarding,
         builder: (context, state) => const OnboardingView(),
       ),
       GoRoute(
-        path: RoutesManager.loginPath,
-        name: RoutesManager.loginName,
+        path: AppRoutes.login,
+        builder: (context, state) => const LoginView(),
+      ),
+      GoRoute(
+        path: AppRoutes.register,
+        // TODO: replace with RegisterView when implemented
         builder: (context, state) => const LoginView(),
       ),
     ],

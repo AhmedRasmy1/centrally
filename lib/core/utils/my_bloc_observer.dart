@@ -2,44 +2,50 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 
-class MyBlocObserver implements BlocObserver {
+class AppBlocObserver extends BlocObserver {
+  const AppBlocObserver();
+
   @override
-  void onChange(BlocBase bloc, Change change) {
-    log('onChange(${bloc.runtimeType}, $change)');
+  void onCreate(BlocBase<dynamic> bloc) {
+    super.onCreate(bloc);
+    log('onCreate: ${bloc.runtimeType}', name: 'BlocObserver');
   }
 
   @override
-  void onClose(BlocBase bloc) {
-    log('onClose(${bloc.runtimeType})');
+  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
+    super.onChange(bloc, change);
+    log('onChange: ${bloc.runtimeType}\n  $change', name: 'BlocObserver');
   }
 
   @override
-  void onCreate(BlocBase bloc) {
-    log('onCreate(${bloc.runtimeType})');
+  void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
+    super.onEvent(bloc, event);
+    log('onEvent: ${bloc.runtimeType} → $event', name: 'BlocObserver');
   }
 
   @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    log('onError(${bloc.runtimeType}, $error, $stackTrace)');
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
+    super.onTransition(bloc, transition);
+    log('onTransition: ${bloc.runtimeType}\n  $transition', name: 'BlocObserver');
   }
 
   @override
-  void onEvent(Bloc bloc, Object? event) {
-    log('onEvent(${bloc.runtimeType}, $event)');
+  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
+    super.onError(bloc, error, stackTrace);
+    log(
+      'onError: ${bloc.runtimeType}\n  $error',
+      name: 'BlocObserver',
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
-    log('onTransition(${bloc.runtimeType}, $transition)');
-  }
-
-  @override
-  void onDone(
-    Bloc bloc,
-    Object? event, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) {
-    log('onDone(${bloc.runtimeType}, $event, $error, $stackTrace)');
+  void onClose(BlocBase<dynamic> bloc) {
+    super.onClose(bloc);
+    log('onClose: ${bloc.runtimeType}', name: 'BlocObserver');
   }
 }

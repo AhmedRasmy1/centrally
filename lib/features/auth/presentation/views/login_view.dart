@@ -1,5 +1,7 @@
 import 'package:centrally/core/res/color_manager.dart';
+import 'package:centrally/core/res/routes_manager.dart';
 import 'package:centrally/core/res/values_manager.dart';
+import 'package:go_router/go_router.dart';
 import 'package:centrally/features/auth/presentation/widgets/brand_logo.dart';
 import 'package:centrally/features/auth/presentation/widgets/email_feild.dart';
 import 'package:centrally/features/auth/presentation/widgets/password_field.dart';
@@ -86,7 +88,9 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(height: AppSize.s32),
                 SubmitButton(onPressed: _submit, isLoading: _isLoading),
                 const SizedBox(height: AppSize.s20),
-                SignUpRow(onTap: () {}),
+                SignUpRow(
+                  onTap: () => context.pushNamed(RoutesManager.createCenterName),
+                ),
               ],
             ),
           ),

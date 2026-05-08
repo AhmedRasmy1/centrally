@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:centrally/core/res/app_constants.dart';
-import 'package:centrally/core/res/assets_manager.dart';
 import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/routes_manager.dart';
+import 'package:centrally/core/widgets/brand_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
@@ -51,9 +51,9 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: ColorManager.white,
-      body: Center(child: Image.asset(AssetsManager.logoAppIcon, width: 120)),
+      body: Center(child: BrandLogo()),
     );
   }
 }

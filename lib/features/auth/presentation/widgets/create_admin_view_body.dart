@@ -52,19 +52,15 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //StepIndicator
               const Center(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s64),
                   child: StepIndicator(currentStep: 2),
                 ),
               ),
-              //Main Title
               MainTitle(title: StringsManager.createAdminTitle.tr()),
-              //Sub Title
               SubTitle(title: StringsManager.createAdminSubtitle.tr()),
               const SizedBox(height: AppSize.s24),
-              //Admin Name Text Field
               TitledTextField(
                 controller: adminNameController,
                 title: StringsManager.adminNameLabel.tr(),
@@ -72,7 +68,6 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 icon: IconsManager.userIcon,
                 keyboardType: TextInputType.name,
               ),
-              //Admin Email Text Field
               TitledTextField(
                 controller: adminEmailController,
                 title: StringsManager.adminEmailLabel.tr(),
@@ -80,7 +75,6 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 icon: IconsManager.mailIcon,
                 keyboardType: TextInputType.emailAddress,
               ),
-              //Password Text Field
               PasswordTitledTextField(
                 controller: passwordController,
                 title: StringsManager.adminPasswordLabel.tr(),
@@ -90,7 +84,6 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 showValidationChecks: true,
               ),
               const SizedBox(height: AppSize.s16),
-              //Confirm Password Text Field
               PasswordTitledTextField(
                 controller: confirmPasswordController,
                 title: StringsManager.adminConfirmPasswordLabel.tr(),
@@ -100,10 +93,8 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 matchController: passwordController,
               ),
               const SizedBox(height: AppSize.s8),
-              //Blue Notice Card
               const InfoNoticeCard(),
               const SizedBox(height: AppSize.s32),
-              //Navigation Button
               PrimaryButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {

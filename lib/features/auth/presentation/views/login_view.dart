@@ -1,8 +1,8 @@
 import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/routes_manager.dart';
 import 'package:centrally/core/res/values_manager.dart';
+import 'package:centrally/core/widgets/brand_logo.dart';
 import 'package:go_router/go_router.dart';
-import 'package:centrally/features/auth/presentation/widgets/brand_logo.dart';
 import 'package:centrally/features/auth/presentation/widgets/email_feild.dart';
 import 'package:centrally/features/auth/presentation/widgets/password_field.dart';
 import 'package:centrally/features/auth/presentation/widgets/remember_forgor_row.dart';
@@ -23,7 +23,6 @@ class _LoginViewState extends State<LoginView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
-  String password = '';
   bool _obscurePassword = true;
   bool _isLoading = false;
 
@@ -70,12 +69,6 @@ class _LoginViewState extends State<LoginView> {
                   obscure: _obscurePassword,
                   onToggleObscure: () =>
                       setState(() => _obscurePassword = !_obscurePassword),
-
-                  // onChanged: (value) {
-                  //   setState(() {
-                  //     password = value;
-                  //   });
-                  // },
                 ),
 
                 const SizedBox(height: AppSize.s12),

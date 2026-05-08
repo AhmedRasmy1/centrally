@@ -1,4 +1,5 @@
 import 'package:centrally/core/res/color_manager.dart';
+import 'package:centrally/core/res/values_manager.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -73,23 +74,23 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: ColorManager.grey100,
 
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 14,
+          horizontal: AppPadding.p16,
+          vertical: AppPadding.p12,
         ),
 
         border: _border(),
         enabledBorder: _border(),
         focusedBorder: _border(color: ColorManager.primary, width: 2),
 
-        errorBorder: _border(color: Colors.red),
-        focusedErrorBorder: _border(color: Colors.red, width: 2),
+        errorBorder: _border(color: ColorManager.error),
+        focusedErrorBorder: _border(color: ColorManager.error, width: 2),
       ),
     );
   }
 
   OutlineInputBorder _border({Color? color, double width = 1}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(AppRadius.r10),
       borderSide: BorderSide(color: color ?? ColorManager.border, width: width),
     );
   }

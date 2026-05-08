@@ -13,6 +13,7 @@ class OnboardingPage extends StatelessWidget {
     required this.model,
   });
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p24),

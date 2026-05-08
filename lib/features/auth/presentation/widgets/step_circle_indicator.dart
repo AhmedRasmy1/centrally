@@ -19,7 +19,7 @@ class StepCircleIndicator extends StatelessWidget {
       radius: AppRadius.r16,
       backgroundColor: (isActive || isCompleted)
           ? ColorManager.primary
-          : ColorManager.primary.withOpacity(0.15),
+          : ColorManager.primary.withValues(alpha: 0.15),
       child: isCompleted
           ? const Icon(
               Icons.check,
@@ -31,7 +31,7 @@ class StepCircleIndicator extends StatelessWidget {
               style: TextStyle(
                 color: isActive
                     ? Colors.white
-                    : ColorManager.primary.withOpacity(0.5),
+                    : ColorManager.primary.withValues(alpha: 0.5),
               ),
             ),
     );

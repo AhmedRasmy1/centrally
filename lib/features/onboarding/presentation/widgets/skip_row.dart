@@ -6,7 +6,7 @@ import 'package:centrally/core/res/strings_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class SkipRow extends StatelessWidget {
-  const SkipRow({required this.visible, required this.onSkip});
+  const SkipRow({super.key, required this.visible, required this.onSkip});
 
   final bool visible;
   final VoidCallback onSkip;

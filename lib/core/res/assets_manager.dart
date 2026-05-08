@@ -5,8 +5,8 @@ class AssetsManager {
   static const _onboarding = '$_images/onboarding';
 
   // Brand
-  static const String logoAppIcon = '$_images/centerly_logo.png';
-  static const String splashIcon = '$_images/centrally_splash_Icon.png';
+  static const String logoAppIcon = '$_images/logo_app_icon.png';
+  static const String logoAppIconSmall = '$_images/logo_app_icon_small.png';
 
   // Onboarding
   static const String onboarding1 = '$_onboarding/onboarding_schedule.png';

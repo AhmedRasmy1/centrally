@@ -7,8 +7,8 @@ class DotIndicator extends StatelessWidget {
     super.key,
     required this.currentIndex,
     required this.count,
-    this.activeColor = AppColors.primaryBlue,
-    this.inactiveColor = AppColors.lightGrey,
+    this.activeColor = ColorManager.primary,
+    this.inactiveColor = ColorManager.grey300,
   });
 
   final int currentIndex;

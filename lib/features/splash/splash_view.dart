@@ -46,7 +46,7 @@ class _SplashViewState extends State<SplashView> {
   void _navigate() {
     if (!mounted) return;
 
-    context.goNamed(RoutesManager.homeName);
+    context.goNamed(RoutesManager.onboardingName);
   }
 
   @override

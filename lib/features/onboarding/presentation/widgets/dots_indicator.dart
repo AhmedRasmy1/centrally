@@ -3,7 +3,7 @@ import 'package:centrally/core/res/color_manager.dart';
 import 'package:centrally/core/res/values_manager.dart';
 
 class DotsIndicator extends StatelessWidget {
-  const DotsIndicator({required this.count, required this.current});
+  const DotsIndicator({super.key, required this.count, required this.current});
 
   final int count;
   final int current;

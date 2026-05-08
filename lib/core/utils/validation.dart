@@ -46,15 +46,15 @@ class AuthValidator {
     }
 
     if (v.length < 8) {
-      return StringsManager.passwordMin.tr();
+      return StringsManager.passwordMinLength.tr();
     }
 
     if (!PasswordRegex.upper.hasMatch(v)) {
-      return StringsManager.passwordUpperCase.tr();
+      return StringsManager.passwordUppercase.tr();
     }
 
     if (!PasswordRegex.lower.hasMatch(v)) {
-      return StringsManager.passwordLowerCase.tr();
+      return StringsManager.passwordLowercase.tr();
     }
 
     if (!PasswordRegex.number.hasMatch(v)) {

@@ -5,7 +5,7 @@ import 'package:centrally/core/res/routes_manager.dart';
 import 'package:centrally/core/res/values_manager.dart';
 import 'package:centrally/features/onboarding/models/onboarding_model.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/skip_row.dart';
-import 'package:centrally/features/onboarding/presentation/widgets/Dots_Indicator.dart';
+import 'package:centrally/features/onboarding/presentation/widgets/dots_indicator.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/onboarding_page.dart';
 import 'package:centrally/features/onboarding/presentation/widgets/onboarding_buttons.dart';
 

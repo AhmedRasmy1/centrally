@@ -23,7 +23,7 @@ class RegisterSuccessViewBody extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: ColorManager.success.withOpacity(0.2),
+                    color: ColorManager.success.withValues(alpha: 0.2),
                     blurRadius: AppRadius.r16,
                     spreadRadius: 3,
                   ),

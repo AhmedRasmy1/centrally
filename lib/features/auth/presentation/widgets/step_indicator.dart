@@ -38,7 +38,7 @@ class StepIndicator extends StatelessWidget {
               child: ColoredBox(
                 color: isCompleted
                     ? ColorManager.primary
-                    : ColorManager.primary.withOpacity(0.2),
+                    : ColorManager.primary.withValues(alpha: 0.2),
               ),
             ),
           ),

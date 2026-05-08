@@ -22,7 +22,7 @@ class BrandLogo extends StatelessWidget {
         AssetsManager.logoAppIcon,
         width: logoWidth,
         height: logoHeight,
-        errorBuilder: (_, __, _) =>
+        errorBuilder: (_, _, _) =>
             const SizedBox(width: AppSize.s120, height: AppSize.s120),
       ),
     );

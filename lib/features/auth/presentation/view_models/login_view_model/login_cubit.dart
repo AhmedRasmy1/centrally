@@ -31,12 +31,17 @@ class LoginCubit extends Cubit<LoginState> {
             key: CacheConstants.role,
             value: result.data.role,
           ),
+          CacheService.setData(
+            key: CacheConstants.refreshToken,
+            value: result.data.refreshToken,
+          ),
         ]);
 
         emit(LoginState.success(result.data));
         log('=====================> ${result.data}');
         log('=====================> ${result.data.accessToken}');
         log('=====================> ${result.data.role}');
+        log('=====================> ${result.data.refreshToken}');
         break;
       case Failure<LoginEntity>():
         emit(LoginState.failure(result.exception.toString()));

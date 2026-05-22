@@ -38,10 +38,10 @@ class LoginCubit extends Cubit<LoginState> {
         ]);
 
         emit(LoginState.success(result.data));
-        log('=====================> ${result.data}');
-        log('=====================> ${result.data.accessToken}');
-        log('=====================> ${result.data.role}');
-        log('=====================> ${result.data.refreshToken}');
+        // log('=====================> ${result.data}');
+        // log('=====================> ${result.data.accessToken}');
+        // log('=====================> ${result.data.role}');
+        // log('=====================> ${result.data.refreshToken}');
         break;
       case Failure<LoginEntity>():
         emit(LoginState.failure(result.exception.toString()));

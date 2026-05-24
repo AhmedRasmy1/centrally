@@ -74,5 +74,16 @@
   "track_payments_and_reports": "تتبع المدفوعات والتقارير",
   "go_to_dashboard": "الانتقال إلى لوحة التحكم",
 
-  "loader": "جاري التحميل..."
+  "loader": "جاري التحميل...",
+
+"change_password_title":         "تغيير كلمة المرور",
+"change_password_old_label":     "كلمة المرور الحالية",
+"change_password_new_label":     "كلمة المرور الجديدة",
+"change_password_confirm_label": "تأكيد كلمة المرور الجديدة",
+"change_password_submit":        "حفظ كلمة المرور",
+"change_password_success":       "تم تغيير كلمة المرور بنجاح"
+
+
+   
+  
 }

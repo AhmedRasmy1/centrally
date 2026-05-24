@@ -86,4 +86,12 @@ class StringsManager {
 
   // Misc
   static const String loader = 'loader';
+  //change password
+  static const String changePasswordTitle    = 'change_password_title';
+static const String changePasswordOldLabel = 'change_password_old_label';
+static const String changePasswordNewLabel = 'change_password_new_label';
+static const String changePasswordConfirmLabel = 'change_password_confirm_label';
+static const String changePasswordSubmit   = 'change_password_submit';
+static const String changePasswordSuccess  = 'change_password_success';
+
 }

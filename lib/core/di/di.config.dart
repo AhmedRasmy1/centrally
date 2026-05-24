@@ -13,6 +13,14 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/auth/data/data_sources/change_password_data_source.dart'
+    as _i834;
+import '../../features/auth/data/data_sources_impl/change_password_source_impl.dart'
+    as _i235;
+import '../../features/auth/domain/usecases/change_password_usecase.dart'
+    as _i788;
+import '../../features/auth/presentation/view_models/change_password_view_model/change_password_cubit.dart'
+    as _i833;
 import '../api/api_manager.dart' as _i1047;
 import '../api/api_module.dart' as _i0;
 
@@ -26,6 +34,12 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.singleton<_i1047.ApiManager>(() => _i1047.ApiManager());
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
+    gh.factory<_i834.ChangePasswordDataSource>(
+      () => _i235.ChangePasswordDataSourceImpl(gh<_i1047.ApiManager>()),
+    );
+    gh.factory<_i833.ChangePasswordCubit>(
+      () => _i833.ChangePasswordCubit(gh<_i788.ChangePasswordUseCase>()),
+    );
     return this;
   }
 }

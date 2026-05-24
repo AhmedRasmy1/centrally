@@ -74,5 +74,13 @@
   "track_payments_and_reports": "Track payments and reports",
   "go_to_dashboard": "Go to Dashboard",
 
-  "loader": "Loading..."
+  "loader": "Loading...",
+
+"change_password_title":         "Change Password",
+"change_password_old_label":     "Current Password",
+"change_password_new_label":     "New Password",
+"change_password_confirm_label": "Confirm New Password",
+"change_password_submit":        "Save Password",
+"change_password_success":       "Password updated successfully"
+
 }

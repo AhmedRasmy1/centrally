@@ -96,7 +96,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
                           ),
                         ),
                       );
-                      context.goNamed(RoutesManager.splashName);
+                      context.goNamed(RoutesManager.loginName);
                     },
                     failure: (message) {
                       ScaffoldMessenger.of(

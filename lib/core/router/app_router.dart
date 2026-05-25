@@ -1,9 +1,11 @@
-﻿import 'package:centrally/core/router/routes_manager.dart';
+import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/features/auth/presentation/views/create_admin_view.dart';
 import 'package:centrally/features/auth/presentation/views/create_center_view.dart';
+import 'package:centrally/features/auth/presentation/views/forget_password_view.dart';
 import 'package:centrally/features/auth/presentation/views/login_view.dart';
 import 'package:centrally/features/auth/presentation/views/register_success_view.dart';
+import 'package:centrally/features/auth/presentation/views/reset_password_view.dart';
 import 'package:centrally/features/home/home_demo.dart';
 import 'package:centrally/features/onboarding/presentation/view/onboarding_view.dart';
 import 'package:centrally/features/splash/splash_view.dart';
@@ -18,9 +20,7 @@ class AppRouter {
     redirect: _authRedirect,
     errorBuilder: (context, state) => Scaffold(
       appBar: AppBar(title: const Text('Page Not Found')),
-      body: Center(
-        child: Text('No route defined for ${state.uri.path}'),
-      ),
+      body: Center(child: Text('No route defined for ${state.uri.path}')),
     ),
     routes: [
       GoRoute(
@@ -58,6 +58,19 @@ class AppRouter {
         name: RoutesManager.homeName,
         builder: (context, state) => const HomePage(),
       ),
+      GoRoute(
+        path: RoutesManager.forgetPasswordPath,
+        name: RoutesManager.forgetPasswordName,
+        builder: (context, state) => const ForgetPasswordView(),
+      ),
+      GoRoute(
+        path: RoutesManager.resetPasswordPath,
+        name: RoutesManager.resetPasswordName,
+        builder: (context, state) {
+          final email = state.pathParameters['email'] ?? '';
+          return ResetPasswordView(email: email);
+        },
+      ),
     ],
   );
 
@@ -72,12 +85,17 @@ class AppRouter {
     const publicRoutes = [
       RoutesManager.onboardingPath,
       RoutesManager.loginPath,
+      RoutesManager.forgetPasswordPath,
+      RoutesManager.resetPasswordPath,
       RoutesManager.createCenterPath,
       RoutesManager.createAdminPath,
       RoutesManager.registerSuccessPath,
     ];
 
     if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
+      if (state.matchedLocation.startsWith('/reset_password')) {
+        return null;
+      }
       return RoutesManager.loginPath;
     }
     return null;

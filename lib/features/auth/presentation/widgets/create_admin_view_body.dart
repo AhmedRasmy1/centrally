@@ -59,7 +59,10 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 ),
               ),
               MainTitle(title: StringsManager.createAdminTitle.tr()),
-              SubTitle(title: StringsManager.createAdminSubtitle.tr()),
+              SubTitle(
+                title: StringsManager.createAdminSubtitle.tr(),
+                textAlign: TextAlign.start,
+              ),
               const SizedBox(height: AppSize.s24),
               TitledTextField(
                 controller: adminNameController,
@@ -93,7 +96,7 @@ class _CreateAdminViewBodyState extends State<CreateAdminViewBody> {
                 matchController: passwordController,
               ),
               const SizedBox(height: AppSize.s8),
-              const InfoNoticeCard(),
+              InfoNoticeCard(infoText: StringsManager.noticeInfo.tr()),
               const SizedBox(height: AppSize.s32),
               PrimaryButton(
                 onPressed: () {

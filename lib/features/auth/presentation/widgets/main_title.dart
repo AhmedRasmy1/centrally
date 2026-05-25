@@ -8,14 +8,9 @@ class MainTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppPadding.p16),
-      child: Text(
-        title,
-        style: AppTextStyles.headlineMedium.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+    return Text(
+      title,
+      style: AppTextStyles.headlineMedium.copyWith(fontWeight: FontWeight.bold),
     );
   }
 }

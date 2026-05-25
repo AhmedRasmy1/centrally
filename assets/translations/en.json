@@ -74,5 +74,32 @@
   "track_payments_and_reports": "Track payments and reports",
   "go_to_dashboard": "Go to Dashboard",
 
-  "loader": "Loading..."
+  "forgot_password_title": "Forgot Password",
+  "forgot_password_main_title": "Forgot Password?",
+  "forgot_password_subtitle": "Enter your email address and we will send you \n a code to reset your password.",
+  "email_address_label": "Email Address",
+  "enter_your_email_hint": "Enter your email",
+  "send_code_button": "Send Code",
+  "remember_password": "Remember your password? ",
+  "forget_password_info_notice": "We will verify your identity through your registered email to ensure your account remains protected.",
+  "password_reset_code_sent": "If an account with that email exists, an OTP has been sent to your email.",
+  "enter_valid_email": "Please enter a valid email address",
+
+  "security_title": "Security",
+  "create_new_password_title": "Create New Password",
+  "create_new_password_subtitle": "Your new password must be different from previous passwords.",
+  "new_password_label": "New Password",
+  "new_password_hint": "Enter your new password",
+  "confirm_password_label": "Confirm Password",
+  "confirm_new_password_hint": "Confirm your new password",
+  "reset_password_info_notice": "We will send you a confirmation email once your password has been successfully updated.",
+  "reset_password_button": "Reset Password",
+  "verification_code_label": "Verification Code",
+  "password_reset_code_hint": "Enter 6-digit code",
+  "password_reset_success": "Password reset successfully! You can now log in with your new password.",
+
+  "loader": "Loading...",
+  "no_internet": "No internet connection",
+  "unknown_error": "An unknown error occurred",
+  "email_not_found": "Email not found"
 }

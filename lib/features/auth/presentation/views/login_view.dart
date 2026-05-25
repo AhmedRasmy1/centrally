@@ -73,7 +73,9 @@ class _LoginViewState extends State<LoginView> {
 
                 const SizedBox(height: AppSize.s12),
                 RememberForgotRow(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushNamed(RoutesManager.forgetPasswordName);
+                  },
                   rememberMe: _rememberMe,
                   onRememberChanged: (v) =>
                       setState(() => _rememberMe = v ?? false),
@@ -82,7 +84,8 @@ class _LoginViewState extends State<LoginView> {
                 SubmitButton(onPressed: _submit, isLoading: _isLoading),
                 const SizedBox(height: AppSize.s20),
                 SignUpRow(
-                  onTap: () => context.pushNamed(RoutesManager.createCenterName),
+                  onTap: () =>
+                      context.pushNamed(RoutesManager.createCenterName),
                 ),
               ],
             ),

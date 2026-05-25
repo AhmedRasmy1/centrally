@@ -6,7 +6,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class InfoNoticeCard extends StatelessWidget {
-  const InfoNoticeCard({super.key});
+  const InfoNoticeCard({super.key, required this.infoText});
+  final String infoText;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +34,13 @@ class InfoNoticeCard extends StatelessWidget {
                 color: ColorManager.primaryDark,
               ),
             ),
-            Text(
-              StringsManager.noticeInfo.tr(),
-              style: AppTextStyles.bodySmall.copyWith(
-                color: ColorManager.primaryDark,
+            Expanded(
+              child: Text(
+                softWrap: true,
+                infoText,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: ColorManager.primaryDark,
+                ),
               ),
             ),
           ],

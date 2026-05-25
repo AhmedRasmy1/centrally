@@ -8,9 +8,11 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.buttonLabel,
+    this.icon,
   });
   final VoidCallback onPressed;
   final String buttonLabel;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,17 @@ class PrimaryButton extends StatelessWidget {
           ),
           elevation: 0,
         ),
-        child: Text(
-          buttonLabel,
-          style: AppTextStyles.titleMedium.copyWith(
-            color: ColorManager.white,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              buttonLabel,
+              style: AppTextStyles.titleMedium.copyWith(
+                color: ColorManager.white,
+              ),
+            ),
+            Icon(icon != null ? Icons.arrow_forward_ios_rounded : null),
+          ],
         ),
       ),
     );

@@ -34,11 +34,14 @@ class StringsManager {
   static const String validationEmailInvalid = 'validation_email_invalid';
   static const String validationPhoneRequired = 'validation_phone_required';
   static const String validationPhoneInvalid = 'validation_phone_invalid';
-  static const String validationPasswordRequired = 'validation_password_required';
+  static const String validationPasswordRequired =
+      'validation_password_required';
   static const String validationPasswordMin = 'validation_password_min';
   static const String validationNumbersOnly = 'validation_numbers_only';
-  static const String validationPasswordMismatch = 'validation_password_mismatch';
-  static const String validationPasswordConditions = 'validation_password_conditions';
+  static const String validationPasswordMismatch =
+      'validation_password_mismatch';
+  static const String validationPasswordConditions =
+      'validation_password_conditions';
 
   // Create Center
   static const String createCenterTitle = 'create_center_title';
@@ -61,7 +64,8 @@ class StringsManager {
   static const String adminEmailHint = 'admin_email_hint';
   static const String adminPasswordLabel = 'admin_password_label';
   static const String adminPasswordHint = 'admin_password_hint';
-  static const String adminConfirmPasswordLabel = 'admin_confirm_password_label';
+  static const String adminConfirmPasswordLabel =
+      'admin_confirm_password_label';
   static const String createAccountButton = 'create_account_button';
   static const String haveAccount = 'have_account';
   static const String loginAction = 'login_action';
@@ -84,6 +88,36 @@ class StringsManager {
   static const String trackPaymentsAndReports = 'track_payments_and_reports';
   static const String goToDashboard = 'go_to_dashboard';
 
+  // Forget Password
+  static const String forgotPasswordTitle = 'forgot_password_title';
+  static const String forgotPasswordMainTitle = 'forgot_password_main_title';
+  static const String forgotPasswordSubtitle = 'forgot_password_subtitle';
+  static const String emailAddressLabel = 'email_address_label';
+  static const String enterYourEmailHint = 'enter_your_email_hint';
+  static const String sendCodeButton = 'send_code_button';
+  static const String rememberPassword = 'remember_password';
+  static const String forgetPasswordInfoNotice = 'forget_password_info_notice';
+  static const String passwordResetCodeSent = 'password_reset_code_sent';
+  static const String enterValidEmail = 'enter_valid_email';
+
+  // Reset Password
+  static const String securityTitle = 'security_title';
+  static const String createNewPasswordTitle = 'create_new_password_title';
+  static const String createNewPasswordSubtitle =
+      'create_new_password_subtitle';
+  static const String newPasswordLabel = 'new_password_label';
+  static const String newPasswordHint = 'new_password_hint';
+  static const String confirmPasswordLabel = 'confirm_password_label';
+  static const String confirmNewPasswordHint = 'confirm_new_password_hint';
+  static const String resetPasswordInfoNotice = 'reset_password_info_notice';
+  static const String resetPasswordButton = 'reset_password_button';
+  static const String passwordResetCodeHint = 'password_reset_code_hint';
+  static const String verificationCodeLabel = 'verification_code_label';
+  static const String passwordResetSuccess = 'password_reset_success';
+
   // Misc
   static const String loader = 'loader';
+  static const String noInternet = 'no_internet';
+  static const String unknownError = 'unknown_error';
+  static const String emailNotFound = 'email_not_found';
 }

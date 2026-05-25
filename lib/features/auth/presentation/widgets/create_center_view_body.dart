@@ -54,7 +54,10 @@ class _CreateCenterViewBodyState extends State<CreateCenterViewBody> {
               ),
 
               MainTitle(title: StringsManager.createCenterTitle.tr()),
-              SubTitle(title: StringsManager.createCenterSubtitle.tr()),
+              SubTitle(
+                title: StringsManager.createCenterSubtitle.tr(),
+                textAlign: TextAlign.start,
+              ),
               const SizedBox(height: AppSize.s24),
               TitledTextField(
                 controller: nameController,
@@ -77,7 +80,7 @@ class _CreateCenterViewBodyState extends State<CreateCenterViewBody> {
                 icon: IconsManager.callIcon,
                 keyboardType: TextInputType.number,
               ),
-              const InfoNoticeCard(),
+              InfoNoticeCard(infoText: StringsManager.noticeInfo.tr()),
               const SizedBox(height: AppSize.s24),
               PrimaryButton(
                 onPressed: () {

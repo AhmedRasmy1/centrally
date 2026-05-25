@@ -14,4 +14,5 @@ class IconsManager {
   static const String userIcon = '$_icons/user_icon.svg';
   static const String eyeVisibleIcon = '$_icons/eye_visible_icon.svg';
   static const String eyeInvisibleIcon = '$_icons/eye-invisible_icon.svg';
+  static const String verificationIcon = '$_icons/verification_icon.svg';
 }

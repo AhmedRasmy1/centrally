@@ -38,7 +38,7 @@ Future<void> main() async {
       supportedLocales: const [Locale('ar'), Locale('en')],
       path: AppConstants.translationsPath,
       fallbackLocale: const Locale('en'),
-      startLocale: const Locale('ar'),
+      startLocale: const Locale('en'),
       child: const Centrally(),
     ),
   );

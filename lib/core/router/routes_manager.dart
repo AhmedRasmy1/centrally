@@ -19,6 +19,12 @@ class RoutesManager {
   static const String registerSuccessPath = '/register_success';
   static const String registerSuccessName = 'register_success';
 
+  static const String forgetPasswordPath = '/forget_password';
+  static const String forgetPasswordName = 'forget_password';
+
+  static const String resetPasswordPath = '/reset_password/:email';
+  static const String resetPasswordName = 'reset_password';
+
   static const String homePath = '/home';
   static const String homeName = 'home';
 }

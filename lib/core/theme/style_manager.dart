@@ -8,12 +8,12 @@ TextStyle _style(
   Color color, [
   double? height,
 ]) => TextStyle(
-      fontFamily: FontFamily.cairo,
-      fontSize: size,
-      fontWeight: weight,
-      color: color,
-      height: height,
-    );
+  fontFamily: FontFamily.cairo,
+  fontSize: size,
+  fontWeight: weight,
+  color: color,
+  height: height,
+);
 
 class AppTextStyles {
   AppTextStyles._();
@@ -33,6 +33,11 @@ class AppTextStyles {
   // Headline
   static final TextStyle headlineLarge = _style(
     FontSize.s24,
+    FontWeightManager.bold,
+    ColorManager.textPrimary,
+  );
+  static final TextStyle headlineSemiLarge = _style(
+    FontSize.s22,
     FontWeightManager.bold,
     ColorManager.textPrimary,
   );

@@ -7,8 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:centrally/features/auth/presentation/widgets/submit_button.dart';
 import 'package:centrally/features/auth/presentation/widgets/password_field.dart';
 import 'package:centrally/features/auth/presentation/view_models/change_password_view_model/change_password_cubit.dart';
-  import 'package:centrally/core/constants/strings_manager.dart';
-
+import 'package:centrally/core/constants/strings_manager.dart';
 
 class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({super.key});
@@ -77,6 +76,13 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   PasswordField(
                     controller: _oldPassCtrl,
                     obscure: _obscureOld,
+                    hintText: 'كلمة المرور الحالية',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'برجاء إدخال كلمة المرور الحالية';
+                      }
+                      return null;
+                    },
                     onToggleObscure: () =>
                         setState(() => _obscureOld = !_obscureOld),
                   ),
@@ -86,6 +92,17 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   PasswordField(
                     controller: _newPassCtrl,
                     obscure: _obscureNew,
+                    hintText:
+                        'كلمة المرور الجديدة', // تقدر تبدلها بـ StringsManager
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'برجاء إدخال كلمة المرور الجديدة';
+                      }
+                      if (value.length < 6) {
+                        return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+                      }
+                      return null;
+                    },
                     onToggleObscure: () =>
                         setState(() => _obscureNew = !_obscureNew),
                   ),
@@ -95,6 +112,17 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   PasswordField(
                     controller: _confirmPassCtrl,
                     obscure: _obscureConfirm,
+                    hintText:
+                        'تأكيد كلمة المرور الجديدة', // تقدر تبدلها بـ StringsManager
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'برجاء تأكيد كلمة المرور';
+                      }
+                      if (value != _newPassCtrl.text) {
+                        return 'كلمات المرور غير متطابقة!'; // اللوجيك الأهم هنا
+                      }
+                      return null;
+                    },
                     onToggleObscure: () =>
                         setState(() => _obscureConfirm = !_obscureConfirm),
                   ),
@@ -106,7 +134,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                       state.maybeWhen(
                         orElse: () {},
                         loading: () => setState(() => _isLoading = true),
-                        success: () {
+                        success: (_) {
                           setState(() => _isLoading = false);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -116,6 +144,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                               backgroundColor: Colors.green,
                             ),
                           );
+                          // تفريغ الحقول بعد النجاح
                           _oldPassCtrl.clear();
                           _newPassCtrl.clear();
                           _confirmPassCtrl.clear();

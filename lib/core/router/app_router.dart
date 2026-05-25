@@ -1,5 +1,6 @@
 ﻿import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
+import 'package:centrally/features/auth/presentation/views/change_password_view.dart';
 import 'package:centrally/features/auth/presentation/views/create_admin_view.dart';
 import 'package:centrally/features/auth/presentation/views/create_center_view.dart';
 import 'package:centrally/features/auth/presentation/views/login_view.dart';
@@ -18,9 +19,7 @@ class AppRouter {
     redirect: _authRedirect,
     errorBuilder: (context, state) => Scaffold(
       appBar: AppBar(title: const Text('Page Not Found')),
-      body: Center(
-        child: Text('No route defined for ${state.uri.path}'),
-      ),
+      body: Center(child: Text('No route defined for ${state.uri.path}')),
     ),
     routes: [
       GoRoute(
@@ -57,6 +56,11 @@ class AppRouter {
         path: RoutesManager.homePath,
         name: RoutesManager.homeName,
         builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: RoutesManager.changePasswordPath,
+        name: RoutesManager.changePasswordName,
+        builder: (context, state) => const ChangePasswordView(),
       ),
     ],
   );

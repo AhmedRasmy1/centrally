@@ -12,15 +12,16 @@ class ChangePasswordDataSourceImpl implements ChangePasswordDataSource {
   ChangePasswordDataSourceImpl(this.apiManager);
 
   @override
-  Future<Result<String>> changePassword(ChangePasswordEntity entity) {
+  Future<Result<ChangePasswordEntity>> changePassword(
+    ChangePasswordEntity entity,
+  ) {
     return executeApi(() async {
       final response = await apiManager.changePassword(
         entity.currentPassword,
         entity.newPassword,
       );
-
-    
-     return "Password changed successfully";
+      final data = response.toChangePasswordEntity();
+      return data;
     });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:centrally/features/auth/domain/entities/change_password_entity.dart';
 import 'package:injectable/injectable.dart';
 import 'package:centrally/core/common/api_result.dart';
 import 'package:centrally/features/auth/domain/repo/change_password_repo.dart';
@@ -8,7 +9,7 @@ class ChangePasswordUseCase {
 
   ChangePasswordUseCase(this._repo);
 
-  Future<Result<void>> call({
+  Future<Result<ChangePasswordEntity>> call({
     required String oldPassword,
     required String newPassword,
   }) {

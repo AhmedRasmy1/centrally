@@ -12,17 +12,21 @@ class ApiManager {
   Dio get dio => _dio;
 
   Future<ChangePasswordModel> changePassword(
-  String currentPassword,
-  String newPassword,
-) async {
-  final response = await _dio.post(
-    ApiConstants.changePasswordEndpoint,
-    data: {
-      'currentPassword': currentPassword,
-      'newPassword': newPassword,
-    },
-  );
+    String currentPassword,
+    String newPassword,
+  ) async {
+    // final token = CacheService.getData(key: CacheConstants.userToken);
 
-  return ChangePasswordModel.fromJson(response.data);
-}
+    final response = await _dio.post(
+      ApiConstants.changePasswordEndpoint,
+      data: {'currentPassword': currentPassword, 'newPassword': newPassword},
+      options: Options(
+        headers: {
+          // 'Authorization': 'Bearer $token',
+        },
+      ),
+    );
+
+    return ChangePasswordModel.fromJson(response.data);
+  }
 }

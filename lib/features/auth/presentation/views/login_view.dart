@@ -82,7 +82,8 @@ class _LoginViewState extends State<LoginView> {
                 SubmitButton(onPressed: _submit, isLoading: _isLoading),
                 const SizedBox(height: AppSize.s20),
                 SignUpRow(
-                  onTap: () => context.pushNamed(RoutesManager.createCenterName),
+                  onTap: () =>
+                      context.pushNamed(RoutesManager.createCenterName),
                 ),
               ],
             ),

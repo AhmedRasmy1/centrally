@@ -16,6 +16,9 @@ class PasswordField extends StatelessWidget {
     required this.controller,
     required this.obscure,
     required this.onToggleObscure,
+    this.label,
+    this.hintText,
+    this.validator,
     super.key,
     this.onChanged,
   });
@@ -25,20 +28,23 @@ class PasswordField extends StatelessWidget {
   final VoidCallback onToggleObscure;
   final Function(String)? onChanged;
 
+  final String? label;
+  final String? hintText;
+  final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          StringsManager.loginPasswordLabel.tr(),
+          label ?? StringsManager.loginPasswordLabel.tr(),
           style: AppTextStyles.titleSmall,
         ),
-
         const SizedBox(height: AppSize.s8),
         CustomTextFormField(
           controller: controller,
-          hintText: StringsManager.loginPasswordLabel.tr(),
+          hintText: hintText ?? StringsManager.loginPasswordLabel.tr(),
           obscureText: obscure,
           onChanged: onChanged,
           prefixIcon: const Icon(
@@ -57,7 +63,8 @@ class PasswordField extends StatelessWidget {
             ),
           ),
           autofillHints: const [AutofillHints.password],
-          validator: (value) => AuthValidator.validatePassword(value),
+          validator:
+              validator ?? (value) => AuthValidator.validatePassword(value),
         ),
       ],
     );

@@ -3,10 +3,7 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class SecureStorage {
-  const SecureStorage()
-    : _storage = const FlutterSecureStorage(
-        aOptions: AndroidOptions(encryptedSharedPreferences: true),
-      );
+  const SecureStorage() : _storage = const FlutterSecureStorage();
 
   final FlutterSecureStorage _storage;
 

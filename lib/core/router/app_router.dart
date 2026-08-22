@@ -1,12 +1,13 @@
-﻿import 'package:centrally/core/router/routes_manager.dart';
+import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/features/auth/presentation/views/create_admin_view.dart';
 import 'package:centrally/features/auth/presentation/views/create_center_view.dart';
 import 'package:centrally/features/auth/presentation/views/login_view.dart';
 import 'package:centrally/features/auth/presentation/views/register_success_view.dart';
-import 'package:centrally/features/home/home_demo.dart';
 import 'package:centrally/features/onboarding/presentation/view/onboarding_view.dart';
 import 'package:centrally/features/splash/splash_view.dart';
+import 'package:centrally/models/centerly_models.dart';
+import 'package:centrally/screens/main_shell_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,9 +19,7 @@ class AppRouter {
     redirect: _authRedirect,
     errorBuilder: (context, state) => Scaffold(
       appBar: AppBar(title: const Text('Page Not Found')),
-      body: Center(
-        child: Text('No route defined for ${state.uri.path}'),
-      ),
+      body: Center(child: Text('No route defined for ${state.uri.path}')),
     ),
     routes: [
       GoRoute(
@@ -56,7 +55,14 @@ class AppRouter {
       GoRoute(
         path: RoutesManager.homePath,
         name: RoutesManager.homeName,
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) {
+          final cachedRole =
+              CacheService.getData(key: CacheConstants.role) as String?;
+          final role = UserRole.fromName(
+            state.uri.queryParameters['role'] ?? cachedRole,
+          );
+          return MainShellView(role: role);
+        },
       ),
     ],
   );
@@ -80,6 +86,11 @@ class AppRouter {
     if (!isAuthenticated && !publicRoutes.contains(state.matchedLocation)) {
       return RoutesManager.loginPath;
     }
+
+    if (isAuthenticated && state.matchedLocation == RoutesManager.loginPath) {
+      return RoutesManager.homePath;
+    }
+
     return null;
   }
 }

@@ -18,10 +18,7 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
 
     if (ex.response != null) {
       return Failure(
-        ServerError(
-          statusCode: ex.response?.statusCode,
-          message: message,
-        ),
+        ServerError(statusCode: ex.response?.statusCode, message: message),
       );
     }
     return Failure(DioHttpException(ex));
@@ -32,14 +29,30 @@ Future<Result<T>> executeApi<T>(Future<T> Function() apiCall) async {
   }
 }
 
+// String _extractMessage(DioException ex) {
+//   try {
+//     final data = ex.response?.data;
+//     if (data is Map<String, dynamic>) {
+//       return (data['message'] as String?) ?? 'The server returned an error';
+//     }
+//     return 'The server returned an error';
+//   } catch (_) {
+//     return 'The server returned an error';
+//   }
+// }
 String _extractMessage(DioException ex) {
   try {
     final data = ex.response?.data;
     if (data is Map<String, dynamic>) {
-      return (data['message'] as String?) ?? 'The server returned an error';
+      final message =
+          (data['message'] as String?) ??
+          (data['error'] as String?) ??
+          (data['title'] as String?);
+      if (message != null && message.isNotEmpty) return message;
     }
-    return 'The server returned an error';
+    if (data is String && data.isNotEmpty) return data;
+    return 'Unexpected server error (${ex.response?.statusCode})';
   } catch (_) {
-    return 'The server returned an error';
+    return 'Unexpected error occurred';
   }
 }

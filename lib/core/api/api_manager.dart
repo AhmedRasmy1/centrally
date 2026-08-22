@@ -6,9 +6,9 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class ApiManager {
-  final Dio _dio;
+  ApiManager(@Named('mainDio') this._dio);
 
-  ApiManager() : _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
+  final Dio _dio;
 
   Dio get dio => _dio;
 

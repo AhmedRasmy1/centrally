@@ -1,8 +1,12 @@
-﻿import 'package:bloc/bloc.dart';
+﻿import 'dart:async';
+
+import 'package:bloc/bloc.dart';
+import 'package:centrally/core/api/auth_event_bus.dart';
 import 'package:centrally/core/di/di.dart';
 import 'package:centrally/core/constants/app_constants.dart';
 import 'package:centrally/core/router/app_router.dart';
 import 'package:centrally/core/constants/strings_manager.dart';
+import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/theme/theme_manager.dart';
 import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/core/utils/my_bloc_observer.dart';
@@ -10,6 +14,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:go_router/go_router.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -44,8 +49,33 @@ Future<void> main() async {
   );
 }
 
-class Centrally extends StatelessWidget {
+class Centrally extends StatefulWidget {
   const Centrally({super.key});
+
+  @override
+  State<Centrally> createState() => _CentrallyState();
+}
+
+class _CentrallyState extends State<Centrally> {
+  late final StreamSubscription<AuthEvent> _authSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _authSubscription = getIt<AuthEventBus>().stream.listen((event) {
+      if (event == AuthEvent.logout && mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) context.go(RoutesManager.loginPath);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,12 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class SecureStorage {
-  const SecureStorage() : _storage = const FlutterSecureStorage();
+  const SecureStorage()
+    : _storage = const FlutterSecureStorage(
+        aOptions: AndroidOptions(encryptedSharedPreferences: true),
+      );
 
   final FlutterSecureStorage _storage;
 
@@ -19,4 +24,8 @@ abstract final class StorageKeys {
   static const String userToken = 'USER_TOKEN';
   static const String userId = 'USER_ID';
   static const String languageCode = 'LANGUAGE_CODE';
+  static const String accessToken = 'ACCESS_TOKEN';
+  static const String refreshToken = 'REFRESH_TOKEN';
+  static const String userRole = 'USER_ROLE';
+  static const String teacherId = 'TEACHER_ID';
 }

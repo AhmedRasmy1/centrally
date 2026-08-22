@@ -22,8 +22,7 @@ class CacheService {
 
   static dynamic getData({required String key}) => _prefs.get(key);
 
-  static Future<bool> deleteItem({required String key}) =>
-      _prefs.remove(key);
+  static Future<bool> deleteItem({required String key}) => _prefs.remove(key);
 
   static Future<bool> clearItems() => _prefs.clear();
 }
@@ -35,5 +34,5 @@ class CacheConstants {
   static const String role = 'role';
   static const String userEmail = 'userEmail';
   static const String userType = 'userType';
-  static const String technicianService = 'technicianService';
+  static const String refreshToken = 'refreshToken';
 }

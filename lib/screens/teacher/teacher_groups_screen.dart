@@ -4,17 +4,25 @@ import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
+import 'package:centrally/screens/secretary/data_management/add_edit_group_screen.dart';
+import 'package:centrally/screens/secretary/data_management/enter_grades_assignments_screen.dart';
+import 'package:centrally/screens/secretary/data_management/group_enrollment_screen.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Groups screen — matches Figma:
-/// - White AppBar "المجموعات" centered
+/// - White AppBar "المجموعات" centered (with + Add button for Secretary)
 /// - Search field
 /// - Grade level header with left blue border accent
 /// - Group cards: name + schedule + capacity + next session grey bar
 class TeacherGroupsScreen extends StatefulWidget {
-  const TeacherGroupsScreen({super.key});
+  const TeacherGroupsScreen({
+    this.role = UserRole.teacher,
+    super.key,
+  });
+
+  final UserRole role;
 
   @override
   State<TeacherGroupsScreen> createState() => _TeacherGroupsScreenState();
@@ -22,6 +30,98 @@ class TeacherGroupsScreen extends StatefulWidget {
 
 class _TeacherGroupsScreenState extends State<TeacherGroupsScreen> {
   String _query = '';
+
+  void _onGroupTap(Group group) {
+    if (widget.role != UserRole.secretary) return;
+
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      backgroundColor: ColorManager.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppRadius.r24),
+        ),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppPadding.p16,
+            0,
+            AppPadding.p16,
+            AppPadding.p24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${group.name} - ${group.subjectName}',
+                style: AppTextStyles.headlineSmall,
+              ),
+              const SizedBox(height: AppSize.s16),
+              ListTile(
+                leading: const Icon(
+                  Icons.group_outlined,
+                  color: ColorManager.primary,
+                ),
+                title: Text(
+                  StringsManager.dataMgmtEnrollmentTitle.tr(),
+                  style: AppTextStyles.titleSmall,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => GroupEnrollmentScreen(group: group),
+                    ),
+                  ).then((_) => setState(() {}));
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.edit_note_outlined,
+                  color: ColorManager.warning,
+                ),
+                title: Text(
+                  StringsManager.dataMgmtGradesAssignmentsTitle.tr(),
+                  style: AppTextStyles.titleSmall,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => EnterGradesAssignmentsScreen(
+                        preselectedGroupId: group.id,
+                      ),
+                    ),
+                  ).then((_) => setState(() {}));
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.edit_outlined,
+                  color: ColorManager.success,
+                ),
+                title: Text(
+                  StringsManager.dataMgmtEditGroupTitle.tr(),
+                  style: AppTextStyles.titleSmall,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => AddEditGroupScreen(group: group),
+                    ),
+                  ).then((_) => setState(() {}));
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +147,20 @@ class _TeacherGroupsScreenState extends State<TeacherGroupsScreen> {
         ),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          if (widget.role == UserRole.secretary)
+            IconButton(
+              icon: const Icon(Icons.add, color: ColorManager.primary),
+              tooltip: StringsManager.dataMgmtAddGroupTitle.tr(),
+              onPressed: () => Navigator.of(context)
+                  .push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const AddEditGroupScreen(),
+                    ),
+                  )
+                  .then((_) => setState(() {})),
+            ),
+        ],
       ),
       body: Column(
         children: [
@@ -81,7 +195,10 @@ class _TeacherGroupsScreenState extends State<TeacherGroupsScreen> {
                         for (final group in filteredGroups.where(
                           (g) => g.gradeLevelName == grade,
                         )) ...[
-                          _GroupCard(group: group),
+                          _GroupCard(
+                            group: group,
+                            onTap: () => _onGroupTap(group),
+                          ),
                           const SizedBox(height: AppSize.s10),
                         ],
                         const SizedBox(height: AppSize.s8),
@@ -129,71 +246,77 @@ class _GradeLevelHeader extends StatelessWidget {
 // ── Group Card ────────────────────────────────────────────────────────────────
 
 class _GroupCard extends StatelessWidget {
-  const _GroupCard({required this.group});
+  const _GroupCard({required this.group, this.onTap});
 
   final Group group;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return TeacherCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(group.name, style: AppTextStyles.headlineSmall),
-          const SizedBox(height: AppSize.s10),
-          _InfoLine(
-            icon: Icons.calendar_today_outlined,
-            text: group.scheduleLabel,
-          ),
-          const SizedBox(height: AppSize.s6),
-          _InfoLine(
-            icon: Icons.people_outline,
-            text: '${group.capacity} ${StringsManager.groupsStudentsLabel.tr()}',
-          ),
-          const SizedBox(height: AppSize.s12),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppPadding.p12,
-              vertical: AppPadding.p10,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.r12),
+      child: TeacherCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(group.name, style: AppTextStyles.headlineSmall),
+            const SizedBox(height: AppSize.s10),
+            _InfoLine(
+              icon: Icons.calendar_today_outlined,
+              text: group.scheduleLabel,
             ),
-            decoration: BoxDecoration(
-              color: ColorManager.grey200,
-              borderRadius: BorderRadius.circular(AppRadius.r8),
+            const SizedBox(height: AppSize.s6),
+            _InfoLine(
+              icon: Icons.people_outline,
+              text:
+                  '${group.capacity} ${StringsManager.groupsStudentsLabel.tr()}',
             ),
-            child: Row(
-              children: [
-                Text(
-                  StringsManager.groupsNextSession.tr(),
-                  style: AppTextStyles.labelLarge.copyWith(
-                    color: ColorManager.primary,
+            const SizedBox(height: AppSize.s12),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppPadding.p12,
+                vertical: AppPadding.p10,
+              ),
+              decoration: BoxDecoration(
+                color: ColorManager.grey200,
+                borderRadius: BorderRadius.circular(AppRadius.r8),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    StringsManager.groupsNextSession.tr(),
+                    style: AppTextStyles.labelLarge.copyWith(
+                      color: ColorManager.primary,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                const Icon(
-                  Icons.calendar_today_outlined,
-                  size: AppSize.s16,
-                  color: ColorManager.grey500,
-                ),
-                const SizedBox(width: AppSize.s4),
-                Text(
-                  _formatDate(group.nextSessionAt),
-                  style: AppTextStyles.labelSmall,
-                ),
-                const SizedBox(width: AppSize.s12),
-                const Icon(
-                  Icons.schedule_outlined,
-                  size: AppSize.s16,
-                  color: ColorManager.grey500,
-                ),
-                const SizedBox(width: AppSize.s4),
-                Text(
-                  _formatTimeShort(group.nextSessionAt),
-                  style: AppTextStyles.labelSmall,
-                ),
-              ],
+                  const Spacer(),
+                  const Icon(
+                    Icons.calendar_today_outlined,
+                    size: AppSize.s16,
+                    color: ColorManager.grey500,
+                  ),
+                  const SizedBox(width: AppSize.s4),
+                  Text(
+                    _formatDate(group.nextSessionAt),
+                    style: AppTextStyles.labelSmall,
+                  ),
+                  const SizedBox(width: AppSize.s12),
+                  const Icon(
+                    Icons.schedule_outlined,
+                    size: AppSize.s16,
+                    color: ColorManager.grey500,
+                  ),
+                  const SizedBox(width: AppSize.s4),
+                  Text(
+                    _formatTimeShort(group.nextSessionAt),
+                    style: AppTextStyles.labelSmall,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

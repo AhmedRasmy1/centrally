@@ -4,6 +4,7 @@ import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
+import 'package:centrally/screens/secretary/secretary_attendance_sheet_screen.dart';
 import 'package:centrally/screens/teacher/student_profile/teacher_student_profile_screen.dart';
 import 'package:centrally/screens/teacher/teacher_attendance_sheet_screen.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
@@ -20,9 +21,14 @@ import 'package:flutter/material.dart';
 /// - Cancel Session text button
 /// - Footer note
 class TeacherSessionDetailsScreen extends StatefulWidget {
-  const TeacherSessionDetailsScreen({required this.session, super.key});
+  const TeacherSessionDetailsScreen({
+    required this.session,
+    this.role = UserRole.teacher,
+    super.key,
+  });
 
   final Session session;
+  final UserRole role;
 
   @override
   State<TeacherSessionDetailsScreen> createState() =>
@@ -44,6 +50,26 @@ class _TeacherSessionDetailsScreenState
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _openAttendanceSheet() {
+    if (widget.role == UserRole.secretary) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => SecretaryAttendanceSheetScreen(
+            session: widget.session,
+          ),
+        ),
+      ).then((_) => setState(() {}));
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => TeacherAttendanceSheetScreen(
+            session: widget.session,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -147,13 +173,7 @@ class _TeacherSessionDetailsScreenState
             ),
           ),
           _BottomActions(
-            onOpenSheet: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => TeacherAttendanceSheetScreen(
-                  session: widget.session,
-                ),
-              ),
-            ),
+            onOpenSheet: _openAttendanceSheet,
             onCancel: () => _showCancelSheet(context),
           ),
         ],

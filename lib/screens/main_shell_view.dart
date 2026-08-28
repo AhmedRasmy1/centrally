@@ -1,18 +1,15 @@
 import 'package:centrally/core/constants/strings_manager.dart';
-import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
-import 'package:centrally/core/theme/style_manager.dart';
-import 'package:centrally/core/theme/values_manager.dart';
-import 'package:centrally/core/utils/cached_data_shared_preferences.dart';
 import 'package:centrally/models/centerly_models.dart';
+import 'package:centrally/screens/secretary/secretary_finance_screen.dart';
+import 'package:centrally/screens/secretary/secretary_home_screen.dart';
 import 'package:centrally/screens/teacher/teacher_groups_screen.dart';
 import 'package:centrally/screens/teacher/teacher_home_screen.dart';
 import 'package:centrally/screens/teacher/teacher_sessions_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-/// The main shell for Teacher role — shows the 4-tab bottom navigation
+/// The main shell for Teacher and Secretary roles — shows the 4-tab bottom navigation
 /// matching the Figma design: الرئيسية / الحصص / المجموعات / المالية
 class MainShellView extends StatefulWidget {
   const MainShellView({required this.role, super.key});
@@ -68,37 +65,19 @@ class _MainShellViewState extends State<MainShellView> {
   List<Widget> _buildPages() {
     if (widget.role == UserRole.teacher) {
       return [
-        _FinancePlaceholder(onLogout: _logout),
-        const TeacherGroupsScreen(),
-        const TeacherSessionsScreen(),
+        const SecretaryFinanceScreen(),
+        const TeacherGroupsScreen(role: UserRole.teacher),
+        const TeacherSessionsScreen(role: UserRole.teacher),
         const TeacherHomeScreen(),
       ];
     }
-    // Secretary placeholder — Phase 3
+    // Secretary role pages
     return [
-      _SecretaryPlaceholder(
-        label: StringsManager.navFinance.tr(),
-        onLogout: _logout,
-      ),
-      _SecretaryPlaceholder(
-        label: StringsManager.navGroups.tr(),
-        onLogout: _logout,
-      ),
-      _SecretaryPlaceholder(
-        label: StringsManager.navSessions.tr(),
-        onLogout: _logout,
-      ),
-      _SecretaryPlaceholder(
-        label: StringsManager.navHome.tr(),
-        onLogout: _logout,
-      ),
+      const SecretaryFinanceScreen(),
+      const TeacherGroupsScreen(role: UserRole.secretary),
+      const TeacherSessionsScreen(role: UserRole.secretary),
+      const SecretaryHomeScreen(),
     ];
-  }
-
-  Future<void> _logout() async {
-    await CacheService.deleteItem(key: CacheConstants.userToken);
-    await CacheService.deleteItem(key: CacheConstants.role);
-    if (mounted) context.goNamed(RoutesManager.loginName);
   }
 }
 
@@ -112,91 +91,3 @@ NavigationDestination _navItem({
       selectedIcon: Icon(selectedIcon, color: ColorManager.primary),
       label: label,
     );
-
-// ── Finance placeholder (Phase 3 scope) ─────────────────────────────────────
-
-class _FinancePlaceholder extends StatelessWidget {
-  const _FinancePlaceholder({required this.onLogout});
-
-  final VoidCallback onLogout;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(StringsManager.navFinance.tr()),
-        actions: [
-          IconButton(
-            onPressed: onLogout,
-            icon: const Icon(Icons.logout_outlined),
-            tooltip: StringsManager.actionLogout.tr(),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(AppPadding.p32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.account_balance_wallet_outlined,
-                size: AppSize.s64,
-                color: ColorManager.grey300,
-              ),
-              const SizedBox(height: AppSize.s16),
-              Text(
-                StringsManager.financeComingSoon.tr(),
-                style: AppTextStyles.headlineSmall.copyWith(
-                  color: ColorManager.textSecondary,
-                ),
-              ),
-              const SizedBox(height: AppSize.s8),
-              Text(
-                StringsManager.financeComingSoonSubtitle.tr(),
-                style: AppTextStyles.bodySmall,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Secretary placeholder (Phase 3 scope) ───────────────────────────────────
-
-class _SecretaryPlaceholder extends StatelessWidget {
-  const _SecretaryPlaceholder({
-    required this.label,
-    required this.onLogout,
-  });
-
-  final String label;
-  final VoidCallback onLogout;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(label),
-        actions: [
-          IconButton(
-            onPressed: onLogout,
-            icon: const Icon(Icons.logout_outlined),
-            tooltip: StringsManager.actionLogout.tr(),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text(
-          'Secretary — $label (Phase 3)',
-          style: AppTextStyles.bodyMedium,
-        ),
-      ),
-    );
-  }
-}

@@ -12,7 +12,12 @@ import 'package:flutter/material.dart';
 /// Sessions screen — 3 views: Day / Week / Month
 /// Matches Figma exactly for all three views.
 class TeacherSessionsScreen extends StatefulWidget {
-  const TeacherSessionsScreen({super.key});
+  const TeacherSessionsScreen({
+    this.role = UserRole.teacher,
+    super.key,
+  });
+
+  final UserRole role;
 
   @override
   State<TeacherSessionsScreen> createState() => _TeacherSessionsScreenState();
@@ -83,7 +88,10 @@ class _TeacherSessionsScreenState extends State<TeacherSessionsScreen> {
   void _openDetails(Session session) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => TeacherSessionDetailsScreen(session: session),
+        builder: (_) => TeacherSessionDetailsScreen(
+          session: session,
+          role: widget.role,
+        ),
       ),
     );
   }
@@ -227,7 +235,6 @@ class _WeekView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
       children: [
         const SizedBox(height: AppSize.s8),
-        // Week navigation header
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -240,7 +247,6 @@ class _WeekView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSize.s10),
-        // Day pills
         Row(
           children: [
             for (final day in days)
@@ -546,7 +552,7 @@ class _LegendDot extends StatelessWidget {
   }
 }
 
-// ── Summary Strip (3-stat / 4-stat card) ───────────────────────────────────────────────
+// ── Summary Strip ─────────────────────────────────────────────────────────────
 
 class _SummaryStrip extends StatelessWidget {
   const _SummaryStrip({
@@ -694,8 +700,6 @@ class _Divider extends StatelessWidget {
     );
   }
 }
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 bool _sameDay(DateTime a, DateTime b) =>
     a.year == b.year && a.month == b.month && a.day == b.day;

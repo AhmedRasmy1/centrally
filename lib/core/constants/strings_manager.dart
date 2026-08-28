@@ -291,4 +291,99 @@ class StringsManager {
   static const String financeTitle = 'finance_title';
   static const String financeComingSoon = 'finance_coming_soon';
   static const String financeComingSoonSubtitle = 'finance_coming_soon_subtitle';
+
+  // Phase 3 — Secretary Dashboard & Operations
+  static const String secretaryDashboardTitle = 'secretary_dashboard_title';
+  static const String secretaryLiveAttendanceBanner = 'secretary_live_attendance_banner';
+  static const String secretaryAttendanceWindowRemaining = 'secretary_attendance_window_remaining';
+  static const String secretaryAttendanceWindowClosed = 'secretary_attendance_window_closed';
+  static const String secretaryRecordAttendanceNow = 'secretary_record_attendance_now';
+  static const String secretaryQuickActions = 'secretary_quick_actions';
+  static const String secretaryActionAddStudent = 'secretary_action_add_student';
+  static const String secretaryActionAddGroup = 'secretary_action_add_group';
+  static const String secretaryActionRecordPayment = 'secretary_action_record_payment';
+  static const String secretaryActionEnterGrades = 'secretary_action_enter_grades';
+  static const String secretaryTodaySessionsTitle = 'secretary_today_sessions_title';
+  static const String secretaryActiveStudentsStat = 'secretary_active_students_stat';
+  static const String secretaryCollectedTodayStat = 'secretary_collected_today_stat';
+  static const String secretaryAttendanceSheetTitle = 'secretary_attendance_sheet_title';
+  static const String secretarySearchQrHint = 'secretary_search_qr_hint';
+  static const String secretaryMarkPresent = 'secretary_mark_present';
+  static const String secretaryMarkAbsent = 'secretary_mark_absent';
+  static const String secretaryMarkExcused = 'secretary_mark_excused';
+  static const String secretaryMarkNotMarked = 'secretary_mark_not_marked';
+  static const String secretaryScanQr = 'secretary_scan_qr';
+  static const String secretaryAttendanceLockedMsg = 'secretary_attendance_locked_msg';
+  static const String secretaryTakeAttendanceBtn = 'secretary_take_attendance_btn';
+
+  // Phase 3 — Data Management
+  static const String dataMgmtAddStudentTitle = 'data_mgmt_add_student_title';
+  static const String dataMgmtEditStudentTitle = 'data_mgmt_edit_student_title';
+  static const String dataMgmtStudentName = 'data_mgmt_student_name';
+  static const String dataMgmtStudentNameHint = 'data_mgmt_student_name_hint';
+  static const String dataMgmtPhone = 'data_mgmt_phone';
+  static const String dataMgmtPhoneHint = 'data_mgmt_phone_hint';
+  static const String dataMgmtGuardianPhone = 'data_mgmt_guardian_phone';
+  static const String dataMgmtLevelTag = 'data_mgmt_level_tag';
+  static const String dataMgmtLevelTagHint = 'data_mgmt_level_tag_hint';
+  static const String dataMgmtGroupSelect = 'data_mgmt_group_select';
+  static const String dataMgmtSelectGroupHint = 'data_mgmt_select_group_hint';
+  static const String dataMgmtQrCode = 'data_mgmt_qr_code';
+  static const String dataMgmtSaveStudent = 'data_mgmt_save_student';
+  static const String dataMgmtStudentSaved = 'data_mgmt_student_saved';
+
+  static const String dataMgmtAddGroupTitle = 'data_mgmt_add_group_title';
+  static const String dataMgmtEditGroupTitle = 'data_mgmt_edit_group_title';
+  static const String dataMgmtGroupName = 'data_mgmt_group_name';
+  static const String dataMgmtGroupNameHint = 'data_mgmt_group_name_hint';
+  static const String dataMgmtSubjectName = 'data_mgmt_subject_name';
+  static const String dataMgmtSubjectNameHint = 'data_mgmt_subject_name_hint';
+  static const String dataMgmtGradeLevel = 'data_mgmt_grade_level';
+  static const String dataMgmtCapacity = 'data_mgmt_capacity';
+  static const String dataMgmtCapacityHint = 'data_mgmt_capacity_hint';
+  static const String dataMgmtScheduleDays = 'data_mgmt_schedule_days';
+  static const String dataMgmtScheduleHint = 'data_mgmt_schedule_hint';
+  static const String dataMgmtStartTime = 'data_mgmt_start_time';
+  static const String dataMgmtEndTime = 'data_mgmt_end_time';
+  static const String dataMgmtSaveGroup = 'data_mgmt_save_group';
+  static const String dataMgmtGroupSaved = 'data_mgmt_group_saved';
+
+  static const String dataMgmtEnrollmentTitle = 'data_mgmt_enrollment_title';
+  static const String dataMgmtEnrollStudent = 'data_mgmt_enroll_student';
+  static const String dataMgmtEnrolledStudents = 'data_mgmt_enrolled_students';
+  static const String dataMgmtRemoveStudent = 'data_mgmt_remove_student';
+  static const String dataMgmtStudentEnrolled = 'data_mgmt_student_enrolled';
+  static const String dataMgmtStudentRemoved = 'data_mgmt_student_removed';
+  static const String dataMgmtNoEnrolledStudents = 'data_mgmt_no_enrolled_students';
+
+  static const String dataMgmtCreateInvoiceTitle = 'data_mgmt_create_invoice_title';
+  static const String dataMgmtRecordPaymentTitle = 'data_mgmt_record_payment_title';
+  static const String dataMgmtSelectStudent = 'data_mgmt_select_student';
+  static const String dataMgmtInvoiceNumber = 'data_mgmt_invoice_number';
+  static const String dataMgmtAmount = 'data_mgmt_amount';
+  static const String dataMgmtDueDate = 'data_mgmt_due_date';
+  static const String dataMgmtSelectInvoice = 'data_mgmt_select_invoice';
+  static const String dataMgmtPaymentAmount = 'data_mgmt_payment_amount';
+  static const String dataMgmtSaveInvoice = 'data_mgmt_save_invoice';
+  static const String dataMgmtSavePayment = 'data_mgmt_save_payment';
+  static const String dataMgmtInvoiceSaved = 'data_mgmt_invoice_saved';
+  static const String dataMgmtPaymentSaved = 'data_mgmt_payment_saved';
+  static const String dataMgmtNoDueInvoices = 'data_mgmt_no_due_invoices';
+
+  static const String dataMgmtGradesAssignmentsTitle = 'data_mgmt_grades_assignments_title';
+  static const String dataMgmtTabExams = 'data_mgmt_tab_exams';
+  static const String dataMgmtTabAssignments = 'data_mgmt_tab_assignments';
+  static const String dataMgmtExamTitle = 'data_mgmt_exam_title';
+  static const String dataMgmtExamTitleHint = 'data_mgmt_exam_title_hint';
+  static const String dataMgmtAssignmentTitle = 'data_mgmt_assignment_title';
+  static const String dataMgmtAssignmentTitleHint = 'data_mgmt_assignment_title_hint';
+  static const String dataMgmtScoreHint = 'data_mgmt_score_hint';
+  static const String dataMgmtSaveAll = 'data_mgmt_save_all';
+  static const String dataMgmtGradesSaved = 'data_mgmt_grades_saved';
+
+  static const String financeFilterAll = 'finance_filter_all';
+  static const String financeFilterPaid = 'finance_filter_paid';
+  static const String financeFilterDue = 'finance_filter_due';
+  static const String financeCreateInvoiceBtn = 'finance_create_invoice_btn';
+  static const String financeRecordPaymentBtn = 'finance_record_payment_btn';
 }

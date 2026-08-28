@@ -1,12 +1,14 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/models/centerly_models.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Student Info Tab — matches Figma exactly:
-/// - معلومات التواصل card (phone, guardian phone) with circle call/whatsapp icons
-/// - ملاحظات المدرس card with grey box and "تعديل الملاحظة" button
+/// - Contact info card (phone, guardian phone) with circle call/whatsapp icons
+/// - Teacher notes card with grey box and "Edit Note" button
 /// - QR Code card
 class StudentInfoTab extends StatelessWidget {
   const StudentInfoTab({required this.student, super.key});
@@ -19,17 +21,17 @@ class StudentInfoTab extends StatelessWidget {
       padding: const EdgeInsets.all(AppPadding.p16),
       children: [
         _SectionCard(
-          title: 'معلومات التواصل',
+          title: StringsManager.profileContactTitle.tr(),
           icon: Icons.phone_in_talk_outlined,
           child: Column(
             children: [
               _ContactRow(
-                label: 'هاتف الطالب',
+                label: StringsManager.profileStudentPhone.tr(),
                 phone: student.phone,
               ),
               const Divider(height: 1, color: ColorManager.divider),
               _ContactRow(
-                label: 'هاتف ولي الأمر',
+                label: StringsManager.profileGuardianPhone.tr(),
                 phone: student.guardianPhone,
               ),
             ],
@@ -37,7 +39,7 @@ class StudentInfoTab extends StatelessWidget {
         ),
         const SizedBox(height: AppSize.s16),
         _SectionCard(
-          title: 'ملاحظات المدرس',
+          title: StringsManager.profileNotesTitle.tr(),
           icon: Icons.assignment_outlined,
           child: Container(
             margin: const EdgeInsets.all(AppPadding.p14),
@@ -59,7 +61,11 @@ class StudentInfoTab extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'آخر تحديث: 12 مايو',
+                      StringsManager.profileNotesLastUpdated.tr(
+                        namedArgs: {
+                          'date': '12 ${StringsManager.monthMay.tr()}',
+                        },
+                      ),
                       style: AppTextStyles.labelSmall.copyWith(
                         color: ColorManager.textSecondary,
                       ),
@@ -67,7 +73,7 @@ class StudentInfoTab extends StatelessWidget {
                     OutlinedButton.icon(
                       onPressed: () {},
                       icon: const Icon(Icons.edit_outlined, size: AppSize.s16),
-                      label: const Text('تعديل الملاحظة'),
+                      label: Text(StringsManager.profileNotesEdit.tr()),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppPadding.p12,
@@ -87,7 +93,7 @@ class StudentInfoTab extends StatelessWidget {
         ),
         const SizedBox(height: AppSize.s16),
         _SectionCard(
-          title: 'QR Code',
+          title: StringsManager.profileQrTitle.tr(),
           icon: Icons.qr_code_scanner_outlined,
           child: Padding(
             padding: const EdgeInsets.all(AppPadding.p14),
@@ -98,7 +104,7 @@ class StudentInfoTab extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'يتم مسح كود الطالب لتأكيد حضوره',
+                        StringsManager.profileQrHint.tr(),
                         style: AppTextStyles.labelSmall.copyWith(
                           color: ColorManager.textSecondary,
                         ),
@@ -115,7 +121,9 @@ class StudentInfoTab extends StatelessWidget {
                           borderRadius: BorderRadius.circular(AppRadius.r8),
                         ),
                         child: Text(
-                          'معرف الطالب: #${student.qrCodeValue}',
+                          StringsManager.profileQrId.tr(
+                            namedArgs: {'id': student.qrCodeValue},
+                          ),
                           style: AppTextStyles.labelSmall,
                         ),
                       ),
@@ -168,10 +176,7 @@ class _SectionCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(AppPadding.p14),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(title, style: AppTextStyles.titleMedium),
-                const Spacer(),
                 Container(
                   padding: const EdgeInsets.all(AppPadding.p8),
                   decoration: BoxDecoration(
@@ -184,6 +189,8 @@ class _SectionCard extends StatelessWidget {
                     color: ColorManager.primary,
                   ),
                 ),
+                const SizedBox(width: AppSize.s10),
+                Text(title, style: AppTextStyles.titleMedium),
               ],
             ),
           ),
@@ -207,6 +214,15 @@ class _ContactRow extends StatelessWidget {
       padding: const EdgeInsets.all(AppPadding.p14),
       child: Row(
         children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: AppTextStyles.labelSmall),
+                Text(phone, style: AppTextStyles.titleSmall),
+              ],
+            ),
+          ),
           _CircleIconButton(
             icon: Icons.chat_outlined,
             color: ColorManager.success,
@@ -217,14 +233,6 @@ class _ContactRow extends StatelessWidget {
             icon: Icons.call_outlined,
             color: ColorManager.primary,
             onTap: () {},
-          ),
-          const Spacer(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(label, style: AppTextStyles.labelSmall),
-              Text(phone, style: AppTextStyles.titleSmall),
-            ],
           ),
         ],
       ),

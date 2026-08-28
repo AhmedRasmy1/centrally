@@ -1,8 +1,10 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Student Attendance Tab — matches Figma exactly:
@@ -15,7 +17,6 @@ class StudentAttendanceTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Filter attendance records that belong to this student
     final records = CenterlyMockData.attendance
         .where((a) => a.studentId == student.id)
         .toList();
@@ -32,30 +33,37 @@ class StudentAttendanceTab extends StatelessWidget {
       children: [
         _SectionCard(
           icon: Icons.pie_chart_outline,
-          title: 'ملخص الحضور',
+          title: StringsManager.profileAttendanceSummaryTitle.tr(),
           child: Padding(
             padding: const EdgeInsets.all(AppPadding.p14),
             child: Row(
               children: [
                 Expanded(
                   child: _StatBox(
-                    label: 'غاب',
-                    value: '$absentCount حصة',
+                    label: StringsManager.profileStatAbsent.tr(),
+                    value: StringsManager.profileAbsentSessions.tr(
+                      namedArgs: {'count': '$absentCount'},
+                    ),
                     valueColor: ColorManager.error,
                   ),
                 ),
                 const SizedBox(width: AppSize.s12),
                 Expanded(
                   child: _StatBox(
-                    label: 'حضر',
-                    value: '$presentCount من $total حصة',
+                    label: StringsManager.profileStatPresent.tr(),
+                    value: StringsManager.profilePresentOfTotal.tr(
+                      namedArgs: {
+                        'present': '$presentCount',
+                        'total': '$total',
+                      },
+                    ),
                     valueColor: ColorManager.success,
                   ),
                 ),
                 const SizedBox(width: AppSize.s12),
                 Expanded(
                   child: _StatBox(
-                    label: 'معدل الحضور',
+                    label: StringsManager.profileStatRate.tr(),
                     value: '$attendanceRate%',
                     valueColor: ColorManager.textPrimary,
                   ),
@@ -67,12 +75,14 @@ class StudentAttendanceTab extends StatelessWidget {
         const SizedBox(height: AppSize.s12),
         _SectionCard(
           icon: Icons.calendar_today_outlined,
-          title: 'سجل الحضور',
+          title: StringsManager.profileAttendanceLogTitle.tr(),
           child: records.isEmpty
               ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: AppPadding.p20),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppPadding.p20,
+                  ),
                   child: Text(
-                    'لا توجد سجلات حضور',
+                    StringsManager.profileNoAttendance.tr(),
                     style: AppTextStyles.bodySmall,
                     textAlign: TextAlign.center,
                   ),
@@ -119,18 +129,21 @@ class _SectionCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(AppPadding.p14),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(title, style: AppTextStyles.titleMedium),
-                const Spacer(),
                 Container(
                   padding: const EdgeInsets.all(AppPadding.p8),
                   decoration: BoxDecoration(
                     color: ColorManager.primary.withAlpha(20),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, size: AppSize.s18, color: ColorManager.primary),
+                  child: Icon(
+                    icon,
+                    size: AppSize.s18,
+                    color: ColorManager.primary,
+                  ),
                 ),
+                const SizedBox(width: AppSize.s10),
+                Text(title, style: AppTextStyles.titleMedium),
               ],
             ),
           ),
@@ -191,15 +204,14 @@ class _TableHeader extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              'الحالة',
+              StringsManager.profileColDay.tr(),
               style: AppTextStyles.labelSmall,
-              textAlign: TextAlign.left,
             ),
           ),
           Expanded(
             flex: 3,
             child: Text(
-              'التاريخ',
+              StringsManager.profileColDate.tr(),
               style: AppTextStyles.labelSmall,
               textAlign: TextAlign.center,
             ),
@@ -207,9 +219,9 @@ class _TableHeader extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              'اليوم',
+              StringsManager.profileColStatus.tr(),
               style: AppTextStyles.labelSmall,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.end,
             ),
           ),
         ],
@@ -231,8 +243,9 @@ class _AttendanceRow extends StatelessWidget {
     );
 
     final (label, color, icon) = _statusInfo(record.status);
-    final dayName = _arabicDayName(session.date.weekday);
-    final dateStr = '${session.date.day} مايو';
+    final dayKey = _dayKey(session.date.weekday);
+    final monthKey = _monthKey(session.date.month);
+    final dateStr = '${session.date.day} ${monthKey.tr()}';
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -243,8 +256,23 @@ class _AttendanceRow extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
+            child: Text(
+              dayKey.tr(),
+              style: AppTextStyles.titleSmall,
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              dateStr,
+              style: AppTextStyles.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            flex: 2,
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerEnd,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppPadding.p12,
@@ -269,22 +297,6 @@ class _AttendanceRow extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              dateStr,
-              style: AppTextStyles.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              dayName,
-              style: AppTextStyles.titleSmall,
-              textAlign: TextAlign.right,
-            ),
-          ),
         ],
       ),
     );
@@ -292,22 +304,49 @@ class _AttendanceRow extends StatelessWidget {
 }
 
 (String, Color, IconData) _statusInfo(AttendanceStatus status) => switch (status) {
-  AttendanceStatus.present => ('حاضر', ColorManager.success, Icons.check_circle_outline),
-  AttendanceStatus.absent => ('غائب', ColorManager.error, Icons.cancel_outlined),
-  AttendanceStatus.excused => ('معتذر', ColorManager.warning, Icons.info_outline),
-  AttendanceStatus.notMarked => ('لم يُسجل', ColorManager.grey500, Icons.help_outline),
+  AttendanceStatus.present => (
+    StringsManager.attendancePresent.tr(),
+    ColorManager.success,
+    Icons.check_circle_outline,
+  ),
+  AttendanceStatus.absent => (
+    StringsManager.attendanceAbsent.tr(),
+    ColorManager.error,
+    Icons.cancel_outlined,
+  ),
+  AttendanceStatus.excused => (
+    StringsManager.attendanceExcused.tr(),
+    ColorManager.warning,
+    Icons.info_outline,
+  ),
+  AttendanceStatus.notMarked => (
+    StringsManager.attendanceNotMarked.tr(),
+    ColorManager.grey500,
+    Icons.help_outline,
+  ),
 };
 
-String _arabicDayName(int weekday) {
-  const names = [
-    '',
-    'الإثنين',
-    'الثلاثاء',
-    'الأربعاء',
-    'الخميس',
-    'الجمعة',
-    'السبت',
-    'الأحد'
-  ];
-  return names[weekday];
-}
+String _dayKey(int weekday) => switch (weekday) {
+  1 => StringsManager.dayMonday,
+  2 => StringsManager.dayTuesday,
+  3 => StringsManager.dayWednesday,
+  4 => StringsManager.dayThursday,
+  5 => StringsManager.dayFriday,
+  6 => StringsManager.daySaturday,
+  _ => StringsManager.daySunday,
+};
+
+String _monthKey(int month) => switch (month) {
+  1 => StringsManager.monthJanuary,
+  2 => StringsManager.monthFebruary,
+  3 => StringsManager.monthMarch,
+  4 => StringsManager.monthApril,
+  5 => StringsManager.monthMay,
+  6 => StringsManager.monthJune,
+  7 => StringsManager.monthJuly,
+  8 => StringsManager.monthAugust,
+  9 => StringsManager.monthSeptember,
+  10 => StringsManager.monthOctober,
+  11 => StringsManager.monthNovember,
+  _ => StringsManager.monthDecember,
+};

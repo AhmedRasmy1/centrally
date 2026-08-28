@@ -1,3 +1,4 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/router/routes_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
@@ -7,6 +8,7 @@ import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/teacher/teacher_groups_screen.dart';
 import 'package:centrally/screens/teacher/teacher_home_screen.dart';
 import 'package:centrally/screens/teacher/teacher_sessions_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,48 +24,43 @@ class MainShellView extends StatefulWidget {
 }
 
 class _MainShellViewState extends State<MainShellView> {
-  int _index = 3; // default to Home (rightmost tab)
+  int _index = 3; // default to Home (rightmost tab in RTL)
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        body: IndexedStack(
-          index: _index,
-          children: _buildPages(),
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _index,
-          onDestinationSelected: (value) =>
-              setState(() => _index = value),
-          backgroundColor: ColorManager.surface,
-          indicatorColor: ColorManager.primaryBright,
-          labelBehavior:
-              NavigationDestinationLabelBehavior.alwaysShow,
-          destinations: [
-            _navItem(
-              icon: Icons.account_balance_wallet_outlined,
-              selectedIcon: Icons.account_balance_wallet,
-              label: 'المالية',
-            ),
-            _navItem(
-              icon: Icons.groups_2_outlined,
-              selectedIcon: Icons.groups_2,
-              label: 'المجموعات',
-            ),
-            _navItem(
-              icon: Icons.calendar_month_outlined,
-              selectedIcon: Icons.calendar_month,
-              label: 'الحصص',
-            ),
-            _navItem(
-              icon: Icons.home_outlined,
-              selectedIcon: Icons.home,
-              label: 'الرئيسية',
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: IndexedStack(
+        index: _index,
+        children: _buildPages(),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _index,
+        onDestinationSelected: (value) => setState(() => _index = value),
+        backgroundColor: ColorManager.surface,
+        indicatorColor: ColorManager.primaryBright,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        destinations: [
+          _navItem(
+            icon: Icons.account_balance_wallet_outlined,
+            selectedIcon: Icons.account_balance_wallet,
+            label: StringsManager.navFinance.tr(),
+          ),
+          _navItem(
+            icon: Icons.groups_2_outlined,
+            selectedIcon: Icons.groups_2,
+            label: StringsManager.navGroups.tr(),
+          ),
+          _navItem(
+            icon: Icons.calendar_month_outlined,
+            selectedIcon: Icons.calendar_month,
+            label: StringsManager.navSessions.tr(),
+          ),
+          _navItem(
+            icon: Icons.home_outlined,
+            selectedIcon: Icons.home,
+            label: StringsManager.navHome.tr(),
+          ),
+        ],
       ),
     );
   }
@@ -79,10 +76,22 @@ class _MainShellViewState extends State<MainShellView> {
     }
     // Secretary placeholder — Phase 3
     return [
-      _SecretaryPlaceholder(label: 'المالية', onLogout: _logout),
-      _SecretaryPlaceholder(label: 'المجموعات', onLogout: _logout),
-      _SecretaryPlaceholder(label: 'الحصص', onLogout: _logout),
-      _SecretaryPlaceholder(label: 'الرئيسية', onLogout: _logout),
+      _SecretaryPlaceholder(
+        label: StringsManager.navFinance.tr(),
+        onLogout: _logout,
+      ),
+      _SecretaryPlaceholder(
+        label: StringsManager.navGroups.tr(),
+        onLogout: _logout,
+      ),
+      _SecretaryPlaceholder(
+        label: StringsManager.navSessions.tr(),
+        onLogout: _logout,
+      ),
+      _SecretaryPlaceholder(
+        label: StringsManager.navHome.tr(),
+        onLogout: _logout,
+      ),
     ];
   }
 
@@ -116,12 +125,12 @@ class _FinancePlaceholder extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('المالية'),
+        title: Text(StringsManager.navFinance.tr()),
         actions: [
           IconButton(
             onPressed: onLogout,
             icon: const Icon(Icons.logout_outlined),
-            tooltip: 'تسجيل الخروج',
+            tooltip: StringsManager.actionLogout.tr(),
           ),
         ],
       ),
@@ -138,14 +147,14 @@ class _FinancePlaceholder extends StatelessWidget {
               ),
               const SizedBox(height: AppSize.s16),
               Text(
-                'شاشة المالية',
+                StringsManager.financeComingSoon.tr(),
                 style: AppTextStyles.headlineSmall.copyWith(
                   color: ColorManager.textSecondary,
                 ),
               ),
               const SizedBox(height: AppSize.s8),
               Text(
-                'ستكون متاحة في المرحلة القادمة',
+                StringsManager.financeComingSoonSubtitle.tr(),
                 style: AppTextStyles.bodySmall,
                 textAlign: TextAlign.center,
               ),
@@ -163,7 +172,6 @@ class _SecretaryPlaceholder extends StatelessWidget {
   const _SecretaryPlaceholder({
     required this.label,
     required this.onLogout,
-    super.key,
   });
 
   final String label;
@@ -179,7 +187,7 @@ class _SecretaryPlaceholder extends StatelessWidget {
           IconButton(
             onPressed: onLogout,
             icon: const Icon(Icons.logout_outlined),
-            tooltip: 'تسجيل الخروج',
+            tooltip: StringsManager.actionLogout.tr(),
           ),
         ],
       ),

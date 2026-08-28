@@ -1,3 +1,4 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
@@ -6,16 +7,17 @@ import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/teacher/student_profile/teacher_student_profile_screen.dart';
 import 'package:centrally/screens/teacher/teacher_attendance_sheet_screen.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Session Details Screen — matches Figma:
-/// - AppBar: "تفاصيل الحصة", back arrow, no auto leading
-/// - Header card: group name + duration (2ث), time, date, avatar icon button
-/// - Two stat cards: ✓ 15 حاضر / 👥 20 المتوقعين
-/// - TabBar: الحاضرون (n) / لم يحضروا (n)
+/// - AppBar: Session Details, back arrow
+/// - Header card: group name + duration, time, date, avatar icon button
+/// - Two stat cards: Present / Expected
+/// - TabBar: Present / Absent
 /// - Student list with avatar + name + group + status chip
-/// - "فتح كشف الحضور" filled button
-/// - "إلغاء الحصة" text button in red
+/// - Open Attendance Sheet filled button
+/// - Cancel Session text button
 /// - Footer note
 class TeacherSessionDetailsScreen extends StatefulWidget {
   const TeacherSessionDetailsScreen({required this.session, super.key});
@@ -59,95 +61,102 @@ class _TeacherSessionDetailsScreenState
         )
         .toList();
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: ColorManager.background,
+      appBar: AppBar(
         backgroundColor: ColorManager.background,
-        appBar: AppBar(
-          backgroundColor: ColorManager.background,
-          leading: IconButton(
-            icon: const Icon(Icons.chevron_right),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text('تفاصيل الحصة', style: AppTextStyles.headlineSmall),
+        leading: IconButton(
+          icon: const Icon(Icons.chevron_right),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppPadding.p16,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: AppSize.s8),
-                    _SessionHeaderCard(session: widget.session),
-                    const SizedBox(height: AppSize.s16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _StatCard(
-                            icon: Icons.check_circle_outline,
-                            value: present.length.toString(),
-                            label: 'حاضر',
-                            color: ColorManager.success,
-                          ),
+        title: Text(
+          StringsManager.sessionDetailsTitle.tr(),
+          style: AppTextStyles.headlineSmall,
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppPadding.p16,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: AppSize.s8),
+                  _SessionHeaderCard(session: widget.session),
+                  const SizedBox(height: AppSize.s16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _StatCard(
+                          icon: Icons.check_circle_outline,
+                          value: present.length.toString(),
+                          label: StringsManager.sessionStatPresent.tr(),
+                          color: ColorManager.success,
                         ),
-                        const SizedBox(width: AppSize.s12),
-                        Expanded(
-                          child: _StatCard(
-                            icon: Icons.people_outline,
-                            value: widget.session.expectedStudentsCount
-                                .toString(),
-                            label: 'الطلاب المتوقعين',
-                            color: ColorManager.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSize.s16),
-                    TabBar(
-                      controller: _tabController,
-                      labelColor: ColorManager.primary,
-                      unselectedLabelColor: ColorManager.textSecondary,
-                      indicatorColor: ColorManager.primary,
-                      tabs: [
-                        Tab(text: 'الحاضرون (${present.length})'),
-                        Tab(text: 'لم يحضروا (${absent.length})'),
-                      ],
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          _StudentAttendanceList(
-                            items: present,
-                            emptyLabel: 'لا يوجد حاضرون',
-                          ),
-                          _StudentAttendanceList(
-                            items: absent,
-                            emptyLabel: 'لا يوجد غائبون',
-                          ),
-                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // Bottom action buttons
-            _BottomActions(
-              onOpenSheet: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => TeacherAttendanceSheetScreen(
-                    session: widget.session,
+                      const SizedBox(width: AppSize.s12),
+                      Expanded(
+                        child: _StatCard(
+                          icon: Icons.people_outline,
+                          value: widget.session.expectedStudentsCount
+                              .toString(),
+                          label: StringsManager.sessionStatExpected.tr(),
+                          color: ColorManager.primary,
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: AppSize.s16),
+                  TabBar(
+                    controller: _tabController,
+                    labelColor: ColorManager.primary,
+                    unselectedLabelColor: ColorManager.textSecondary,
+                    indicatorColor: ColorManager.primary,
+                    tabs: [
+                      Tab(
+                        text: StringsManager.sessionTabPresent.tr(
+                          namedArgs: {'count': present.length.toString()},
+                        ),
+                      ),
+                      Tab(
+                        text: StringsManager.sessionTabAbsent.tr(
+                          namedArgs: {'count': absent.length.toString()},
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        _StudentAttendanceList(
+                          items: present,
+                          emptyLabel: StringsManager.sessionEmptyPresent.tr(),
+                        ),
+                        _StudentAttendanceList(
+                          items: absent,
+                          emptyLabel: StringsManager.sessionEmptyAbsent.tr(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          _BottomActions(
+            onOpenSheet: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => TeacherAttendanceSheetScreen(
+                  session: widget.session,
                 ),
               ),
-              onCancel: () => _showCancelSheet(context),
             ),
-          ],
-        ),
+            onCancel: () => _showCancelSheet(context),
+          ),
+        ],
       ),
     );
   }
@@ -179,7 +188,11 @@ class _SessionHeaderCard extends StatelessWidget {
                     ),
                     const SizedBox(width: AppSize.s8),
                     Text(
-                      '${session.expectedStudentsCount ~/ 10}ث',
+                      StringsManager.sessionDurationLabel.tr(
+                        namedArgs: {
+                          'count': '${session.expectedStudentsCount ~/ 10}',
+                        },
+                      ),
                       style: AppTextStyles.titleSmall.copyWith(
                         color: ColorManager.primary,
                       ),
@@ -195,8 +208,10 @@ class _SessionHeaderCard extends StatelessWidget {
                       color: ColorManager.grey500,
                     ),
                     const SizedBox(width: AppSize.s4),
-                    Text('11:00 صباحًا - 12:00 مساءً',
-                        style: AppTextStyles.bodySmall),
+                    Text(
+                      '${session.startTime.hour}:00 - ${session.endTime.hour}:00',
+                      style: AppTextStyles.bodySmall,
+                    ),
                   ],
                 ),
                 const SizedBox(height: AppSize.s4),
@@ -208,8 +223,10 @@ class _SessionHeaderCard extends StatelessWidget {
                       color: ColorManager.grey500,
                     ),
                     const SizedBox(width: AppSize.s4),
-                    Text('السبت، 19 أبريل 2025',
-                        style: AppTextStyles.bodySmall),
+                    Text(
+                      '${session.date.day} ${_monthKey(session.date.month).tr()} ${session.date.year}',
+                      style: AppTextStyles.bodySmall,
+                    ),
                   ],
                 ),
               ],
@@ -309,8 +326,7 @@ class _StudentAttendanceList extends StatelessWidget {
           trailing: _StatusChip(status: item.status),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (_) =>
-                  TeacherStudentProfileScreen(student: student),
+              builder: (_) => TeacherStudentProfileScreen(student: student),
             ),
           ),
         );
@@ -373,7 +389,7 @@ class _BottomActions extends StatelessWidget {
             child: FilledButton.icon(
               onPressed: onOpenSheet,
               icon: const Icon(Icons.assignment_outlined),
-              label: const Text('فتح كشف الحضور'),
+              label: Text(StringsManager.sessionOpenSheet.tr()),
             ),
           ),
           const SizedBox(height: AppSize.s12),
@@ -381,7 +397,7 @@ class _BottomActions extends StatelessWidget {
             onPressed: onCancel,
             icon: const Icon(Icons.delete_outline, color: ColorManager.error),
             label: Text(
-              'إلغاء الحصة',
+              StringsManager.sessionCancelButton.tr(),
               style: AppTextStyles.titleMedium.copyWith(
                 color: ColorManager.error,
               ),
@@ -398,7 +414,7 @@ class _BottomActions extends StatelessWidget {
               ),
               const SizedBox(width: AppSize.s4),
               Text(
-                'سيتم طلب سبب الإلغاء قبل تأكيد العملية',
+                StringsManager.sessionCancelNote.tr(),
                 style: AppTextStyles.labelSmall,
               ),
             ],
@@ -446,126 +462,123 @@ class _CancelSessionSheetState extends State<_CancelSessionSheet> {
 
   void _submit() {
     if (_reason == null) {
-      setState(() => _error = 'يرجى اختيار سبب الإلغاء');
+      setState(() => _error = StringsManager.cancelValidationChoose.tr());
       return;
     }
     if (_reason == 'other' && _textController.text.trim().isEmpty) {
-      setState(() => _error = 'يرجى كتابة السبب');
+      setState(() => _error = StringsManager.cancelValidationWrite.tr());
       return;
     }
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('تم إرسال طلب إلغاء الحصة')),
+      SnackBar(content: Text(StringsManager.cancelSuccessMessage.tr())),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: AppPadding.p16,
-          right: AppPadding.p16,
-          bottom: MediaQuery.of(context).viewInsets.bottom + AppPadding.p24,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'سبب إلغاء الحصة',
-              style: AppTextStyles.headlineSmall,
-            ),
-            const SizedBox(height: AppSize.s20),
-            _CancelReason(
-              value: 'low_attendance',
-              groupValue: _reason,
-              label: 'عدد الطلاب قليل',
-              icon: Icons.people_outline,
-              iconColor: ColorManager.warning,
-              onChanged: (v) => setState(() => _reason = v),
-            ),
-            _CancelReason(
-              value: 'technical_issue',
-              groupValue: _reason,
-              label: 'عطل فني',
-              icon: Icons.block_outlined,
-              iconColor: ColorManager.error,
-              onChanged: (v) => setState(() => _reason = v),
-            ),
-            _CancelReason(
-              value: 'other',
-              groupValue: _reason,
-              label: 'سبب آخر',
-              icon: Icons.chat_bubble_outline,
-              iconColor: ColorManager.primary,
-              onChanged: (v) => setState(() => _reason = v),
-            ),
-            if (_reason == 'other') ...[
-              const SizedBox(height: AppSize.s8),
-              TextField(
-                controller: _textController,
-                textDirection: TextDirection.rtl,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: 'أكتب السبب...',
-                  fillColor: ColorManager.grey200,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.r8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.r8),
-                    borderSide: BorderSide.none,
-                  ),
+    return Padding(
+      padding: EdgeInsets.only(
+        left: AppPadding.p16,
+        right: AppPadding.p16,
+        bottom: MediaQuery.of(context).viewInsets.bottom + AppPadding.p24,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            StringsManager.cancelSessionTitle.tr(),
+            style: AppTextStyles.headlineSmall,
+          ),
+          const SizedBox(height: AppSize.s20),
+          _CancelReason(
+            value: 'low_attendance',
+            groupValue: _reason,
+            label: StringsManager.cancelLowAttendance.tr(),
+            icon: Icons.people_outline,
+            iconColor: ColorManager.warning,
+            onChanged: (v) => setState(() => _reason = v),
+          ),
+          _CancelReason(
+            value: 'technical_issue',
+            groupValue: _reason,
+            label: StringsManager.cancelTechnicalIssue.tr(),
+            icon: Icons.block_outlined,
+            iconColor: ColorManager.error,
+            onChanged: (v) => setState(() => _reason = v),
+          ),
+          _CancelReason(
+            value: 'other',
+            groupValue: _reason,
+            label: StringsManager.cancelOther.tr(),
+            icon: Icons.chat_bubble_outline,
+            iconColor: ColorManager.primary,
+            onChanged: (v) => setState(() => _reason = v),
+          ),
+          if (_reason == 'other') ...[
+            const SizedBox(height: AppSize.s8),
+            TextField(
+              controller: _textController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: StringsManager.cancelReasonHint.tr(),
+                fillColor: ColorManager.grey200,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.r8),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.r8),
+                  borderSide: BorderSide.none,
                 ),
               ),
-            ],
-            if (_error != null) ...[
-              const SizedBox(height: AppSize.s8),
-              Text(
-                _error!,
-                style: AppTextStyles.labelSmall
-                    .copyWith(color: ColorManager.error),
-              ),
-            ],
-            const SizedBox(height: AppSize.s20),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _submit,
-                style: FilledButton.styleFrom(
-                  backgroundColor: ColorManager.error,
-                ),
-                child: const Text('إلغاء الحصة'),
-              ),
-            ),
-            const SizedBox(height: AppSize.s10),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('رجوع'),
-              ),
-            ),
-            const SizedBox(height: AppSize.s12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.check_circle_outline,
-                  size: AppSize.s14,
-                  color: ColorManager.grey500,
-                ),
-                const SizedBox(width: AppSize.s4),
-                Text(
-                  'سيتم إرسال السبب إلى السكرتيرة تلقائيًا',
-                  style: AppTextStyles.labelSmall,
-                ),
-              ],
             ),
           ],
-        ),
+          if (_error != null) ...[
+            const SizedBox(height: AppSize.s8),
+            Text(
+              _error!,
+              style: AppTextStyles.labelSmall.copyWith(
+                color: ColorManager.error,
+              ),
+            ),
+          ],
+          const SizedBox(height: AppSize.s20),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: _submit,
+              style: FilledButton.styleFrom(
+                backgroundColor: ColorManager.error,
+              ),
+              child: Text(StringsManager.cancelSubmit.tr()),
+            ),
+          ),
+          const SizedBox(height: AppSize.s10),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(StringsManager.cancelBack.tr()),
+            ),
+          ),
+          const SizedBox(height: AppSize.s12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.check_circle_outline,
+                size: AppSize.s14,
+                color: ColorManager.grey500,
+              ),
+              const SizedBox(width: AppSize.s4),
+              Text(
+                StringsManager.cancelNotifyNote.tr(),
+                style: AppTextStyles.labelSmall,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -603,9 +616,12 @@ class _CancelReason extends StatelessWidget {
           ),
           child: Row(
             children: [
+              // ignore: deprecated_member_use
               Radio<String>(
                 value: value,
+                // ignore: deprecated_member_use
                 groupValue: groupValue,
+                // ignore: deprecated_member_use
                 onChanged: onChanged,
               ),
               const SizedBox(width: AppSize.s8),
@@ -620,3 +636,18 @@ class _CancelReason extends StatelessWidget {
     );
   }
 }
+
+String _monthKey(int month) => switch (month) {
+  1 => StringsManager.monthJanuary,
+  2 => StringsManager.monthFebruary,
+  3 => StringsManager.monthMarch,
+  4 => StringsManager.monthApril,
+  5 => StringsManager.monthMay,
+  6 => StringsManager.monthJune,
+  7 => StringsManager.monthJuly,
+  8 => StringsManager.monthAugust,
+  9 => StringsManager.monthSeptember,
+  10 => StringsManager.monthOctober,
+  11 => StringsManager.monthNovember,
+  _ => StringsManager.monthDecember,
+};

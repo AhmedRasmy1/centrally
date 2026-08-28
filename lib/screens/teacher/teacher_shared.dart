@@ -1,12 +1,11 @@
-﻿import 'package:centrally/core/theme/color_manager.dart';
+import 'package:centrally/core/constants/strings_manager.dart';
+import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-const String teacherTodayLabel = 'الثلاثاء، 14 أبريل 2026';
-const String teacherMonthLabel = 'أبريل 2026';
 
 class TeacherPage extends StatelessWidget {
   const TeacherPage({
@@ -26,25 +25,29 @@ class TeacherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: ColorManager.background,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: blueHeader ? ColorManager.primary : ColorManager.background,
-          foregroundColor: blueHeader ? ColorManager.white : ColorManager.textPrimary,
-          title: Text(title),
-          actions: actions,
-        ),
-        body: Padding(padding: padding, child: child),
+    return Scaffold(
+      backgroundColor: ColorManager.background,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor:
+            blueHeader ? ColorManager.primary : ColorManager.background,
+        foregroundColor:
+            blueHeader ? ColorManager.white : ColorManager.textPrimary,
+        title: Text(title),
+        actions: actions,
       ),
+      body: Padding(padding: padding, child: child),
     );
   }
 }
 
 class TeacherSectionTitle extends StatelessWidget {
-  const TeacherSectionTitle({required this.title, super.key, this.actionLabel, this.onAction});
+  const TeacherSectionTitle({
+    required this.title,
+    super.key,
+    this.actionLabel,
+    this.onAction,
+  });
 
   final String title;
   final String? actionLabel;
@@ -67,7 +70,11 @@ class TeacherSectionTitle extends StatelessWidget {
 }
 
 class TeacherCard extends StatelessWidget {
-  const TeacherCard({required this.child, super.key, this.padding = const EdgeInsets.all(AppPadding.p16)});
+  const TeacherCard({
+    required this.child,
+    super.key,
+    this.padding = const EdgeInsets.all(AppPadding.p16),
+  });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -120,7 +127,11 @@ class TeacherStatCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSize.s4),
-          Text(title, style: AppTextStyles.labelSmall, textAlign: TextAlign.center),
+          Text(
+            title,
+            style: AppTextStyles.labelSmall,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -128,7 +139,11 @@ class TeacherStatCard extends StatelessWidget {
 }
 
 class TeacherSearchField extends StatelessWidget {
-  const TeacherSearchField({required this.hint, required this.onChanged, super.key});
+  const TeacherSearchField({
+    required this.hint,
+    required this.onChanged,
+    super.key,
+  });
 
   final String hint;
   final ValueChanged<String> onChanged;
@@ -136,7 +151,6 @@ class TeacherSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      textDirection: TextDirection.rtl,
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hint,
@@ -156,7 +170,12 @@ class TeacherSearchField extends StatelessWidget {
 }
 
 class TeacherEmptyState extends StatelessWidget {
-  const TeacherEmptyState({required this.title, required this.subtitle, super.key, this.icon});
+  const TeacherEmptyState({
+    required this.title,
+    required this.subtitle,
+    super.key,
+    this.icon,
+  });
 
   final String title;
   final String subtitle;
@@ -171,12 +190,24 @@ class TeacherEmptyState extends StatelessWidget {
           CircleAvatar(
             radius: AppSize.s40,
             backgroundColor: ColorManager.primaryBright,
-            child: Icon(icon ?? Icons.event_busy_outlined, color: ColorManager.primary, size: AppSize.s40),
+            child: Icon(
+              icon ?? Icons.event_busy_outlined,
+              color: ColorManager.primary,
+              size: AppSize.s40,
+            ),
           ),
           const SizedBox(height: AppSize.s20),
-          Text(title, style: AppTextStyles.headlineSmall, textAlign: TextAlign.center),
+          Text(
+            title,
+            style: AppTextStyles.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: AppSize.s8),
-          Text(subtitle, style: AppTextStyles.bodySmall, textAlign: TextAlign.center),
+          Text(
+            subtitle,
+            style: AppTextStyles.bodySmall,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -184,7 +215,12 @@ class TeacherEmptyState extends StatelessWidget {
 }
 
 class TeacherSessionCard extends StatelessWidget {
-  const TeacherSessionCard({required this.session, required this.onTap, super.key, this.highlight = false});
+  const TeacherSessionCard({
+    required this.session,
+    required this.onTap,
+    super.key,
+    this.highlight = false,
+  });
 
   final Session session;
   final VoidCallback onTap;
@@ -215,7 +251,9 @@ class TeacherSessionCard extends StatelessWidget {
                 formatTime(session.startTime),
                 textAlign: TextAlign.center,
                 style: AppTextStyles.labelSmall.copyWith(
-                  color: highlight ? ColorManager.white : ColorManager.textSecondary,
+                  color: highlight
+                      ? ColorManager.white
+                      : ColorManager.textSecondary,
                 ),
               ),
             ),
@@ -224,13 +262,30 @@ class TeacherSessionCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${group.name} - ${group.subjectName}', style: AppTextStyles.titleMedium),
+                  Text(
+                    '${group.name} - ${group.subjectName}',
+                    style: AppTextStyles.titleMedium,
+                  ),
                   const SizedBox(height: AppSize.s4),
-                  Text('$presentCount/${session.expectedStudentsCount}', style: AppTextStyles.labelSmall.copyWith(color: ColorManager.success)),
+                  Text(
+                    '$presentCount/${session.expectedStudentsCount}',
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: ColorManager.success,
+                    ),
+                  ),
                 ],
               ),
             ),
-            Text('${session.expectedStudentsCount ~/ 10}ث', style: AppTextStyles.labelLarge.copyWith(color: ColorManager.primary)),
+            Text(
+              StringsManager.sessionDurationLabel.tr(
+                namedArgs: {
+                  'count': '${session.expectedStudentsCount ~/ 10}',
+                },
+              ),
+              style: AppTextStyles.labelLarge.copyWith(
+                color: ColorManager.primary,
+              ),
+            ),
             const SizedBox(width: AppSize.s8),
             const Icon(Icons.chevron_left, color: ColorManager.grey500),
           ],
@@ -241,7 +296,13 @@ class TeacherSessionCard extends StatelessWidget {
 }
 
 class TeacherStatusChip extends StatelessWidget {
-  const TeacherStatusChip({required this.label, required this.color, super.key, this.selected = false, this.onTap});
+  const TeacherStatusChip({
+    required this.label,
+    required this.color,
+    super.key,
+    this.selected = false,
+    this.onTap,
+  });
 
   final String label;
   final Color color;
@@ -260,7 +321,9 @@ class TeacherStatusChip extends StatelessWidget {
         color: selected ? ColorManager.white : ColorManager.textPrimary,
       ),
       side: BorderSide(color: selected ? color : ColorManager.divider),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.r12)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.r12),
+      ),
     );
   }
 }
@@ -286,13 +349,11 @@ String formatTime(DateTime value) {
   return '${hour.toString().padLeft(2, '0')}:00\n$suffix';
 }
 
-String formatDateShort(DateTime value) => '${value.day} مايو';
-
 String attendanceLabel(AttendanceStatus status) => switch (status) {
-  AttendanceStatus.present => 'حاضر',
-  AttendanceStatus.absent => 'غائب',
-  AttendanceStatus.excused => 'معتذر',
-  AttendanceStatus.notMarked => 'لم يسجل',
+  AttendanceStatus.present => StringsManager.attendancePresent.tr(),
+  AttendanceStatus.absent => StringsManager.attendanceAbsent.tr(),
+  AttendanceStatus.excused => StringsManager.attendanceExcused.tr(),
+  AttendanceStatus.notMarked => StringsManager.attendanceNotMarked.tr(),
 };
 
 Color attendanceColor(AttendanceStatus status) => switch (status) {

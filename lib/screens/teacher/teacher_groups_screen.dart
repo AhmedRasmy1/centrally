@@ -1,9 +1,11 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Groups screen — matches Figma:
@@ -34,60 +36,60 @@ class _TeacherGroupsScreenState extends State<TeacherGroupsScreen> {
         .toSet()
         .toList();
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: ColorManager.background,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: ColorManager.surface,
-          title: Text('المجموعات', style: AppTextStyles.headlineSmall),
-          centerTitle: true,
-          elevation: 0,
+    return Scaffold(
+      backgroundColor: ColorManager.background,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: ColorManager.surface,
+        title: Text(
+          StringsManager.groupsTitle.tr(),
+          style: AppTextStyles.headlineSmall,
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppPadding.p16,
-                AppPadding.p12,
-                AppPadding.p16,
-                AppPadding.p8,
-              ),
-              child: TeacherSearchField(
-                hint: 'ابحث عن مجموعة أو طالب',
-                onChanged: (value) => setState(() => _query = value),
-              ),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppPadding.p16,
+              AppPadding.p12,
+              AppPadding.p16,
+              AppPadding.p8,
             ),
-            Expanded(
-              child: filteredGroups.isEmpty
-                  ? const TeacherEmptyState(
-                      title: 'لا توجد مجموعات',
-                      subtitle: 'لم نجد نتيجة مطابقة لبحثك.',
-                      icon: Icons.groups_2_outlined,
-                    )
-                  : ListView(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppPadding.p16,
-                        vertical: AppPadding.p8,
-                      ),
-                      children: [
-                        for (final grade in gradeLevels) ...[
-                          _GradeLevelHeader(label: grade),
-                          const SizedBox(height: AppSize.s12),
-                          for (final group in filteredGroups.where(
-                            (g) => g.gradeLevelName == grade,
-                          )) ...[
-                            _GroupCard(group: group),
-                            const SizedBox(height: AppSize.s10),
-                          ],
-                          const SizedBox(height: AppSize.s8),
-                        ],
-                      ],
+            child: TeacherSearchField(
+              hint: StringsManager.groupsSearchHint.tr(),
+              onChanged: (value) => setState(() => _query = value),
+            ),
+          ),
+          Expanded(
+            child: filteredGroups.isEmpty
+                ? TeacherEmptyState(
+                    title: StringsManager.groupsEmptyTitle.tr(),
+                    subtitle: StringsManager.groupsEmptySubtitle.tr(),
+                    icon: Icons.groups_2_outlined,
+                  )
+                : ListView(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppPadding.p16,
+                      vertical: AppPadding.p8,
                     ),
-            ),
-          ],
-        ),
+                    children: [
+                      for (final grade in gradeLevels) ...[
+                        _GradeLevelHeader(label: grade),
+                        const SizedBox(height: AppSize.s12),
+                        for (final group in filteredGroups.where(
+                          (g) => g.gradeLevelName == grade,
+                        )) ...[
+                          _GroupCard(group: group),
+                          const SizedBox(height: AppSize.s10),
+                        ],
+                        const SizedBox(height: AppSize.s8),
+                      ],
+                    ],
+                  ),
+          ),
+        ],
       ),
     );
   }
@@ -146,7 +148,7 @@ class _GroupCard extends StatelessWidget {
           const SizedBox(height: AppSize.s6),
           _InfoLine(
             icon: Icons.people_outline,
-            text: '${group.capacity} طالب',
+            text: '${group.capacity} ${StringsManager.groupsStudentsLabel.tr()}',
           ),
           const SizedBox(height: AppSize.s12),
           Container(
@@ -161,7 +163,7 @@ class _GroupCard extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'الحصة القادمة',
+                  StringsManager.groupsNextSession.tr(),
                   style: AppTextStyles.labelLarge.copyWith(
                     color: ColorManager.primary,
                   ),
@@ -216,23 +218,24 @@ class _InfoLine extends StatelessWidget {
 }
 
 String _formatDate(DateTime dt) {
-  const months = [
-    '',
-    'يناير',
-    'فبراير',
-    'مارس',
-    'أبريل',
-    'مايو',
-    'يونيو',
-    'يوليو',
-    'أغسطس',
-    'سبتمبر',
-    'أكتوبر',
-    'نوفمبر',
-    'ديسمبر',
-  ];
-  return '${dt.day} ${months[dt.month]}';
+  final monthKey = _monthKey(dt.month);
+  return '${dt.day} ${monthKey.tr()}';
 }
+
+String _monthKey(int month) => switch (month) {
+  1 => StringsManager.monthJanuary,
+  2 => StringsManager.monthFebruary,
+  3 => StringsManager.monthMarch,
+  4 => StringsManager.monthApril,
+  5 => StringsManager.monthMay,
+  6 => StringsManager.monthJune,
+  7 => StringsManager.monthJuly,
+  8 => StringsManager.monthAugust,
+  9 => StringsManager.monthSeptember,
+  10 => StringsManager.monthOctober,
+  11 => StringsManager.monthNovember,
+  _ => StringsManager.monthDecember,
+};
 
 String _formatTimeShort(DateTime dt) {
   final hour = dt.hour > 12 ? dt.hour - 12 : (dt.hour == 0 ? 12 : dt.hour);

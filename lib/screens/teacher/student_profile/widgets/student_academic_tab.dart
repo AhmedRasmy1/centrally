@@ -1,14 +1,15 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
-import 'package:centrally/screens/teacher/teacher_shared.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Student Profile — Academic tab
 /// Shows exams table + assignments table, matching the Figma design exactly:
-/// table header row (الاختبار / التاريخ / الدرجة) then one row per record.
+/// table header row then one row per record.
 class StudentAcademicTab extends StatelessWidget {
   const StudentAcademicTab({required this.student, super.key});
 
@@ -28,13 +29,17 @@ class StudentAcademicTab extends StatelessWidget {
       children: [
         _SectionCard(
           icon: Icons.quiz_outlined,
-          title: 'الاختبارات',
+          title: StringsManager.profileExamsTitle.tr(),
           child: exams.isEmpty
-              ? const _EmptyTableRow(label: 'لا توجد اختبارات')
+              ? _EmptyTableRow(label: StringsManager.profileNoExams.tr())
               : Column(
                   children: [
                     _TableHeader(
-                      columns: const ['الاختبار', 'التاريخ', 'الدرجة'],
+                      columns: [
+                        StringsManager.profileColExam.tr(),
+                        StringsManager.profileColDate.tr(),
+                        StringsManager.profileColScore.tr(),
+                      ],
                     ),
                     const Divider(height: AppSize.s1),
                     for (final exam in exams) _ExamRow(exam: exam),
@@ -44,13 +49,19 @@ class StudentAcademicTab extends StatelessWidget {
         const SizedBox(height: AppSize.s12),
         _SectionCard(
           icon: Icons.assignment_outlined,
-          title: 'الواجبات',
+          title: StringsManager.profileAssignmentsTitle.tr(),
           child: assignments.isEmpty
-              ? const _EmptyTableRow(label: 'لا توجد واجبات')
+              ? _EmptyTableRow(
+                  label: StringsManager.profileNoAssignments.tr(),
+                )
               : Column(
                   children: [
                     _TableHeader(
-                      columns: const ['الواجب', 'التاريخ', 'الدرجة'],
+                      columns: [
+                        StringsManager.profileColAssignment.tr(),
+                        StringsManager.profileColDate.tr(),
+                        StringsManager.profileColScore.tr(),
+                      ],
                     ),
                     const Divider(height: AppSize.s1),
                     for (final a in assignments) _AssignmentRow(assignment: a),
@@ -89,10 +100,22 @@ class _SectionCard extends StatelessWidget {
             padding: const EdgeInsets.all(AppPadding.p14),
             child: Row(
               children: [
+                Container(
+                  padding: const EdgeInsets.all(AppPadding.p8),
+                  decoration: BoxDecoration(
+                    color: ColorManager.primary.withAlpha(20),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    icon,
+                    size: AppSize.s18,
+                    color: ColorManager.primary,
+                  ),
+                ),
+                const SizedBox(width: AppSize.s10),
                 Expanded(
                   child: Text(title, style: AppTextStyles.titleMedium),
                 ),
-                Icon(icon, size: AppSize.s20, color: ColorManager.primary),
               ],
             ),
           ),
@@ -138,7 +161,7 @@ class _TableHeader extends StatelessWidget {
             child: Text(
               columns[2],
               style: AppTextStyles.labelSmall,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.end,
             ),
           ),
         ],
@@ -169,7 +192,7 @@ class _ExamRow extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${exam.date.day} مايو',
+              '${exam.date.day} ${_monthKey(exam.date.month).tr()}',
               style: AppTextStyles.bodySmall,
               textAlign: TextAlign.center,
             ),
@@ -179,7 +202,7 @@ class _ExamRow extends StatelessWidget {
             child: Text(
               '${exam.scorePercent}%',
               style: AppTextStyles.titleSmall.copyWith(color: color),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.end,
             ),
           ),
         ],
@@ -210,14 +233,15 @@ class _AssignmentRow extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${assignment.date.day} مايو',
+              '${assignment.date.day} ${_monthKey(assignment.date.month).tr()}',
               style: AppTextStyles.bodySmall,
               textAlign: TextAlign.center,
             ),
           ),
           Expanded(
             flex: 2,
-            child: Center(
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppPadding.p8,
@@ -266,7 +290,31 @@ Color _scoreColor(int score) {
 }
 
 (String, Color) _assignmentChip(AssignmentStatus status) => switch (status) {
-  AssignmentStatus.submitted => ('تم التسليم', ColorManager.success),
-  AssignmentStatus.late => ('متأخر', ColorManager.warning),
-  AssignmentStatus.pending => ('لم يُسلَّم', ColorManager.error),
+  AssignmentStatus.submitted => (
+    StringsManager.assignmentSubmitted.tr(),
+    ColorManager.success,
+  ),
+  AssignmentStatus.late => (
+    StringsManager.assignmentLate.tr(),
+    ColorManager.warning,
+  ),
+  AssignmentStatus.pending => (
+    StringsManager.assignmentPending.tr(),
+    ColorManager.error,
+  ),
+};
+
+String _monthKey(int month) => switch (month) {
+  1 => StringsManager.monthJanuary,
+  2 => StringsManager.monthFebruary,
+  3 => StringsManager.monthMarch,
+  4 => StringsManager.monthApril,
+  5 => StringsManager.monthMay,
+  6 => StringsManager.monthJune,
+  7 => StringsManager.monthJuly,
+  8 => StringsManager.monthAugust,
+  9 => StringsManager.monthSeptember,
+  10 => StringsManager.monthOctober,
+  11 => StringsManager.monthNovember,
+  _ => StringsManager.monthDecember,
 };

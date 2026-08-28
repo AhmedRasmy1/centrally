@@ -1,3 +1,4 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
@@ -5,6 +6,7 @@ import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/teacher/teacher_session_details_screen.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Sessions screen — 3 views: Day / Week / Month
@@ -20,64 +22,60 @@ class _TeacherSessionsScreenState extends State<TeacherSessionsScreen> {
   _View _view = _View.day;
   DateTime _selectedDate = DateTime(2026, 4, 14);
 
-  List<Session> get _selectedDaySessions =>
-      CenterlyMockData.sessions
-          .where((s) => _sameDay(s.date, _selectedDate))
-          .toList();
+  List<Session> get _selectedDaySessions => CenterlyMockData.sessions
+      .where((s) => _sameDay(s.date, _selectedDate))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: ColorManager.background,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: ColorManager.background,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: ColorManager.background,
-          title: Text('الحصص', style: AppTextStyles.headlineSmall),
-          actions: [
-            Padding(
-              padding:
-                  const EdgeInsetsDirectional.only(end: AppPadding.p16),
-              child: Icon(
-                Icons.calendar_today_outlined,
-                color: ColorManager.grey500,
-                size: AppSize.s20,
+        title: Text(
+          StringsManager.sessionsTitle.tr(),
+          style: AppTextStyles.headlineSmall,
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsetsDirectional.only(end: AppPadding.p16),
+            child: Icon(
+              Icons.calendar_today_outlined,
+              color: ColorManager.grey500,
+              size: AppSize.s20,
+            ),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          _ViewSelector(
+            current: _view,
+            onChanged: (v) => setState(() => _view = v),
+          ),
+          Expanded(
+            child: switch (_view) {
+              _View.day => _DayView(
+                selectedDate: _selectedDate,
+                sessions: _selectedDaySessions,
+                onSessionTap: _openDetails,
               ),
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            _ViewSelector(
-              current: _view,
-              onChanged: (v) => setState(() => _view = v),
-            ),
-            Expanded(
-              child: switch (_view) {
-                _View.day => _DayView(
-                    selectedDate: _selectedDate,
-                    sessions: _selectedDaySessions,
-                    onSessionTap: _openDetails,
-                  ),
-                _View.week => _WeekView(
-                    selectedDate: _selectedDate,
-                    sessions: _selectedDaySessions,
-                    onDateChanged: (d) =>
-                        setState(() => _selectedDate = d),
-                    onSessionTap: _openDetails,
-                  ),
-                _View.month => _MonthView(
-                    selectedDate: _selectedDate,
-                    sessions: _selectedDaySessions,
-                    onDateChanged: (d) =>
-                        setState(() => _selectedDate = d),
-                    onSessionTap: _openDetails,
-                  ),
-              },
-            ),
-          ],
-        ),
+              _View.week => _WeekView(
+                selectedDate: _selectedDate,
+                sessions: _selectedDaySessions,
+                onDateChanged: (d) => setState(() => _selectedDate = d),
+                onSessionTap: _openDetails,
+              ),
+              _View.month => _MonthView(
+                selectedDate: _selectedDate,
+                sessions: _selectedDaySessions,
+                onDateChanged: (d) => setState(() => _selectedDate = d),
+                onSessionTap: _openDetails,
+              ),
+            },
+          ),
+        ],
       ),
     );
   }
@@ -114,10 +112,19 @@ class _ViewSelector extends StatelessWidget {
           selectedForegroundColor: ColorManager.white,
           foregroundColor: ColorManager.textSecondary,
         ),
-        segments: const [
-          ButtonSegment(value: _View.month, label: Text('الشهر')),
-          ButtonSegment(value: _View.week, label: Text('الأسبوع')),
-          ButtonSegment(value: _View.day, label: Text('اليوم')),
+        segments: [
+          ButtonSegment(
+            value: _View.month,
+            label: Text(StringsManager.sessionsMonth.tr()),
+          ),
+          ButtonSegment(
+            value: _View.week,
+            label: Text(StringsManager.sessionsWeek.tr()),
+          ),
+          ButtonSegment(
+            value: _View.day,
+            label: Text(StringsManager.sessionsDay.tr()),
+          ),
         ],
         selected: {current},
         onSelectionChanged: (s) => onChanged(s.first),
@@ -149,7 +156,7 @@ class _DayView extends StatelessWidget {
           expected: 50,
           present: 35,
           count: 5,
-          countLabel: 'الحصص اليوم',
+          countLabel: StringsManager.sessionsTodayCount.tr(),
         ),
         const SizedBox(height: AppSize.s20),
         Row(
@@ -160,14 +167,17 @@ class _DayView extends StatelessWidget {
               color: ColorManager.primary,
             ),
             const SizedBox(width: AppSize.s6),
-            Text('حصص اليوم', style: AppTextStyles.titleMedium),
+            Text(
+              StringsManager.homeTodaySessionsTitle.tr(),
+              style: AppTextStyles.titleMedium,
+            ),
           ],
         ),
         const SizedBox(height: AppSize.s12),
         if (sessions.isEmpty)
-          const TeacherEmptyState(
-            title: 'لا توجد حصص اليوم',
-            subtitle: 'لم يتم جدولة أي حصص في هذا اليوم.',
+          TeacherEmptyState(
+            title: StringsManager.sessionsEmptyTitle.tr(),
+            subtitle: StringsManager.sessionsEmptySubtitle.tr(),
             icon: Icons.calendar_month_outlined,
           )
         else
@@ -199,18 +209,20 @@ class _WeekView extends StatelessWidget {
   final ValueChanged<DateTime> onDateChanged;
   final ValueChanged<Session> onSessionTap;
 
-  static const _days = [
-    ('السبت', 11),
-    ('الأحد', 12),
-    ('الإثنين', 13),
-    ('الثلاثاء', 14),
-    ('الأربعاء', 15),
-    ('الخميس', 16),
-    ('الجمعة', 17),
+  List<(String, int)> _days() => [
+    (StringsManager.daySaturday.tr(), 11),
+    (StringsManager.daySunday.tr(), 12),
+    (StringsManager.dayMonday.tr(), 13),
+    (StringsManager.dayTuesday.tr(), 14),
+    (StringsManager.dayWednesday.tr(), 15),
+    (StringsManager.dayThursday.tr(), 16),
+    (StringsManager.dayFriday.tr(), 17),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final days = _days();
+
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
       children: [
@@ -219,27 +231,22 @@ class _WeekView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(
-              Icons.chevron_left,
-              color: ColorManager.grey500,
+            const Icon(Icons.chevron_left, color: ColorManager.grey500),
+            Text(
+              '10-17 ${StringsManager.monthApril.tr()} 2026',
+              style: AppTextStyles.titleSmall,
             ),
-            Text('10-17 أبريل 2026', style: AppTextStyles.titleSmall),
-            const Icon(
-              Icons.chevron_right,
-              color: ColorManager.grey500,
-            ),
+            const Icon(Icons.chevron_right, color: ColorManager.grey500),
           ],
         ),
         const SizedBox(height: AppSize.s10),
         // Day pills
         Row(
           children: [
-            for (final day in _days)
+            for (final day in days)
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSize.s2,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSize.s2),
                   child: _DayPill(
                     dayName: day.$1,
                     dayNumber: day.$2,
@@ -255,18 +262,15 @@ class _WeekView extends StatelessWidget {
           expected: 210,
           present: 168,
           count: 22,
-          countLabel: 'إجمالي الحصص',
+          countLabel: StringsManager.sessionsTotalSessions.tr(),
         ),
         const SizedBox(height: AppSize.s20),
-        Text(
-          _dateLabel(selectedDate),
-          style: AppTextStyles.titleMedium,
-        ),
+        Text(_dateLabel(selectedDate), style: AppTextStyles.titleMedium),
         const SizedBox(height: AppSize.s12),
         if (sessions.isEmpty)
-          const TeacherEmptyState(
-            title: 'لا توجد حصص',
-            subtitle: 'لا توجد حصص في هذا اليوم.',
+          TeacherEmptyState(
+            title: StringsManager.sessionsNoSessionsTitle.tr(),
+            subtitle: StringsManager.sessionsNoSessionsSubtitle.tr(),
             icon: Icons.calendar_month_outlined,
           )
         else
@@ -346,7 +350,6 @@ class _MonthView extends StatelessWidget {
   final ValueChanged<DateTime> onDateChanged;
   final ValueChanged<Session> onSessionTap;
 
-  // Days in the April 2026 calendar grid (starting from Sunday column)
   static const _calendarDays = [
     29, 30, 31, 1, 2, 3, 4,
     5, 6, 7, 8, 9, 10, 11,
@@ -354,41 +357,41 @@ class _MonthView extends StatelessWidget {
     19, 20, 21, 22, 23, 24, 25,
     26, 27, 28, 29, 30, 1, 2,
   ];
-  // Indices 3..32 are April days (index 3 = April 1)
   static const _aprilStart = 3;
   static const _aprilEnd = 32;
-
-  // Sessions that have dots (April 2026)
   static const _sessionDays = [14, 15, 17];
   static const _cancelledDays = [17];
 
   @override
   Widget build(BuildContext context) {
+    final monthName = StringsManager.monthApril.tr();
+
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
       children: [
         const SizedBox(height: AppSize.s8),
-        // Month navigation
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Icon(Icons.chevron_left, color: ColorManager.grey500),
-            Text('أبريل 2026', style: AppTextStyles.titleSmall),
+            Text(
+              '$monthName 2026',
+              style: AppTextStyles.titleSmall,
+            ),
             const Icon(Icons.chevron_right, color: ColorManager.grey500),
           ],
         ),
         const SizedBox(height: AppSize.s10),
-        // Day-of-week header
         Row(
           children: [
-            for (final d in const [
-              'الأحد',
-              'الإثنين',
-              'الثلاثاء',
-              'الأربعاء',
-              'الخميس',
-              'الجمعة',
-              'السبت',
+            for (final d in [
+              StringsManager.daySunday.tr(),
+              StringsManager.dayMonday.tr(),
+              StringsManager.dayTuesday.tr(),
+              StringsManager.dayWednesday.tr(),
+              StringsManager.dayThursday.tr(),
+              StringsManager.dayFriday.tr(),
+              StringsManager.daySaturday.tr(),
             ])
               Expanded(
                 child: Text(
@@ -400,7 +403,6 @@ class _MonthView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSize.s6),
-        // Calendar grid
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -411,17 +413,13 @@ class _MonthView extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final day = _calendarDays[index];
-            final inApril =
-                index >= _aprilStart && index <= _aprilEnd;
-            final isSelected =
-                inApril && selectedDate.day == day;
+            final inApril = index >= _aprilStart && index <= _aprilEnd;
+            final isSelected = inApril && selectedDate.day == day;
             final hasSession = inApril && _sessionDays.contains(day);
             final isCancelled = inApril && _cancelledDays.contains(day);
 
             return GestureDetector(
-              onTap: inApril
-                  ? () => onDateChanged(DateTime(2026, 4, day))
-                  : null,
+              onTap: inApril ? () => onDateChanged(DateTime(2026, 4, day)) : null,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -442,8 +440,8 @@ class _MonthView extends StatelessWidget {
                         color: !inApril
                             ? ColorManager.textDisabled
                             : isSelected
-                                ? ColorManager.white
-                                : ColorManager.textPrimary,
+                            ? ColorManager.white
+                            : ColorManager.textPrimary,
                       ),
                     ),
                   ),
@@ -467,38 +465,47 @@ class _MonthView extends StatelessWidget {
           },
         ),
         const SizedBox(height: AppSize.s6),
-        // Legend
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _LegendDot(color: ColorManager.grey500, label: 'حصص انتهت'),
-            SizedBox(width: AppSize.s12),
-            _LegendDot(color: ColorManager.success, label: 'حصص متاحة'),
-            SizedBox(width: AppSize.s12),
-            _LegendDot(color: ColorManager.error, label: 'حصص ملغية'),
+            _LegendDot(
+              color: ColorManager.grey500,
+              label: StringsManager.sessionsLegendDone.tr(),
+            ),
+            const SizedBox(width: AppSize.s12),
+            _LegendDot(
+              color: ColorManager.success,
+              label: StringsManager.sessionsLegendAvailable.tr(),
+            ),
+            const SizedBox(width: AppSize.s12),
+            _LegendDot(
+              color: ColorManager.error,
+              label: StringsManager.sessionsLegendCancelled.tr(),
+            ),
           ],
         ),
         const SizedBox(height: AppSize.s16),
-        // Month summary strip
-        Text('ملخص شهر أبريل', style: AppTextStyles.titleMedium),
+        Text(
+          StringsManager.sessionsMonthSummary.tr(
+            namedArgs: {'month': monthName},
+          ),
+          style: AppTextStyles.titleMedium,
+        ),
         const SizedBox(height: AppSize.s10),
         _SummaryStrip(
           expected: 870,
           present: 700,
           count: 88,
-          countLabel: 'إجمالي الحصص',
+          countLabel: StringsManager.sessionsTotalSessions.tr(),
           cancelled: 6,
         ),
         const SizedBox(height: AppSize.s20),
-        Text(
-          _dateLabel(selectedDate),
-          style: AppTextStyles.titleMedium,
-        ),
+        Text(_dateLabel(selectedDate), style: AppTextStyles.titleMedium),
         const SizedBox(height: AppSize.s12),
         if (sessions.isEmpty)
-          const TeacherEmptyState(
-            title: 'لا توجد حصص',
-            subtitle: 'لا توجد حصص في هذا اليوم.',
+          TeacherEmptyState(
+            title: StringsManager.sessionsNoSessionsTitle.tr(),
+            subtitle: StringsManager.sessionsNoSessionsSubtitle.tr(),
             icon: Icons.calendar_month_outlined,
           )
         else
@@ -539,7 +546,7 @@ class _LegendDot extends StatelessWidget {
   }
 }
 
-// ── Summary Strip (3-stat card) ───────────────────────────────────────────────
+// ── Summary Strip (3-stat / 4-stat card) ───────────────────────────────────────────────
 
 class _SummaryStrip extends StatelessWidget {
   const _SummaryStrip({
@@ -579,7 +586,7 @@ class _SummaryStrip extends StatelessWidget {
                   child: _StatItem(
                     icon: Icons.check_circle_outline,
                     value: present.toString(),
-                    label: 'إجمالي الحضور',
+                    label: StringsManager.sessionsTotalPresence.tr(),
                     color: ColorManager.success,
                   ),
                 ),
@@ -588,7 +595,7 @@ class _SummaryStrip extends StatelessWidget {
                   child: _StatItem(
                     icon: Icons.people_outline,
                     value: expected.toString(),
-                    label: 'الطلاب المتوقعين',
+                    label: StringsManager.sessionsExpectedStudents.tr(),
                     color: ColorManager.textPrimary,
                   ),
                 ),
@@ -597,7 +604,7 @@ class _SummaryStrip extends StatelessWidget {
                   child: _StatItem(
                     icon: Icons.cancel_outlined,
                     value: cancelled.toString(),
-                    label: 'الحصص الملغاة',
+                    label: StringsManager.sessionsCancelledCount.tr(),
                     color: ColorManager.error,
                   ),
                 ),
@@ -609,7 +616,7 @@ class _SummaryStrip extends StatelessWidget {
                   child: _StatItem(
                     icon: Icons.people_outline,
                     value: expected.toString(),
-                    label: 'الطلاب المتوقعين',
+                    label: StringsManager.sessionsExpectedStudents.tr(),
                     color: ColorManager.textPrimary,
                   ),
                 ),
@@ -618,7 +625,7 @@ class _SummaryStrip extends StatelessWidget {
                   child: _StatItem(
                     icon: Icons.check_circle_outline,
                     value: present.toString(),
-                    label: 'الطلاب الحاضرين',
+                    label: StringsManager.sessionsPresentStudents.tr(),
                     color: ColorManager.success,
                   ),
                 ),
@@ -693,32 +700,33 @@ class _Divider extends StatelessWidget {
 bool _sameDay(DateTime a, DateTime b) =>
     a.year == b.year && a.month == b.month && a.day == b.day;
 
-const _arabicDayNames = [
-  '',
-  'الإثنين',
-  'الثلاثاء',
-  'الأربعاء',
-  'الخميس',
-  'الجمعة',
-  'السبت',
-  'الأحد',
-];
+String _dateLabel(DateTime d) {
+  final dayKey = _dayKey(d.weekday);
+  final monthKey = _monthKey(d.month);
+  return '${dayKey.tr()} ${d.day} ${monthKey.tr()} ${d.year}';
+}
 
-const _arabicMonths = [
-  '',
-  'يناير',
-  'فبراير',
-  'مارس',
-  'أبريل',
-  'مايو',
-  'يونيو',
-  'يوليو',
-  'أغسطس',
-  'سبتمبر',
-  'أكتوبر',
-  'نوفمبر',
-  'ديسمبر',
-];
+String _dayKey(int weekday) => switch (weekday) {
+  1 => StringsManager.dayMonday,
+  2 => StringsManager.dayTuesday,
+  3 => StringsManager.dayWednesday,
+  4 => StringsManager.dayThursday,
+  5 => StringsManager.dayFriday,
+  6 => StringsManager.daySaturday,
+  _ => StringsManager.daySunday,
+};
 
-String _dateLabel(DateTime d) =>
-    '${_arabicDayNames[d.weekday]} ${d.day} ${_arabicMonths[d.month]} ${d.year}';
+String _monthKey(int month) => switch (month) {
+  1 => StringsManager.monthJanuary,
+  2 => StringsManager.monthFebruary,
+  3 => StringsManager.monthMarch,
+  4 => StringsManager.monthApril,
+  5 => StringsManager.monthMay,
+  6 => StringsManager.monthJune,
+  7 => StringsManager.monthJuly,
+  8 => StringsManager.monthAugust,
+  9 => StringsManager.monthSeptember,
+  10 => StringsManager.monthOctober,
+  11 => StringsManager.monthNovember,
+  _ => StringsManager.monthDecember,
+};

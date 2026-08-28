@@ -1,9 +1,11 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class TeacherMySecretaryScreen extends StatefulWidget {
@@ -14,8 +16,7 @@ class TeacherMySecretaryScreen extends StatefulWidget {
       _TeacherMySecretaryScreenState();
 }
 
-class _TeacherMySecretaryScreenState
-    extends State<TeacherMySecretaryScreen> {
+class _TeacherMySecretaryScreenState extends State<TeacherMySecretaryScreen> {
   String _query = '';
 
   @override
@@ -25,61 +26,62 @@ class _TeacherMySecretaryScreenState
       return text.contains(_query.trim().toLowerCase());
     }).toList();
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: ColorManager.background,
+      appBar: AppBar(
         backgroundColor: ColorManager.background,
-        appBar: AppBar(
-          backgroundColor: ColorManager.background,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.chevron_right, color: ColorManager.textPrimary),
-            onPressed: () => Navigator.of(context).pop(),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.chevron_right,
+            color: ColorManager.textPrimary,
           ),
-          title: Text(
-            'السكرتارية',
-            style: AppTextStyles.headlineSmall.copyWith(color: ColorManager.textPrimary),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          StringsManager.secretaryTitle.tr(),
+          style: AppTextStyles.headlineSmall.copyWith(
+            color: ColorManager.textPrimary,
           ),
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(AppPadding.p16),
-              child: TeacherSearchField(
-                hint: 'ابحث عن سكرتير',
-                onChanged: (value) => setState(() => _query = value),
-              ),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(AppPadding.p16),
+            child: TeacherSearchField(
+              hint: StringsManager.secretarySearchHint.tr(),
+              onChanged: (value) => setState(() => _query = value),
             ),
-            Expanded(
-              child: filteredSecretaries.isEmpty
-                  ? const TeacherEmptyState(
-                      title: 'لا يوجد سكرتارية',
-                      subtitle: 'لم يتم العثور على أي سكرتير.',
-                      icon: Icons.person_off_outlined,
-                    )
-                  : ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppPadding.p16,
-                        vertical: AppPadding.p8,
-                      ),
-                      itemCount: filteredSecretaries.length,
-                      itemBuilder: (context, index) {
-                        final secretary = filteredSecretaries[index];
-                        return _SecretaryCard(
-                          secretary: secretary,
-                          onRemoveRequested: () => _requestRemoval(secretary),
-                        );
-                      },
+          ),
+          Expanded(
+            child: filteredSecretaries.isEmpty
+                ? TeacherEmptyState(
+                    title: StringsManager.secretaryEmptyTitle.tr(),
+                    subtitle: StringsManager.secretaryEmptySubtitle.tr(),
+                    icon: Icons.person_off_outlined,
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppPadding.p16,
+                      vertical: AppPadding.p8,
                     ),
-            ),
-          ],
-        ),
+                    itemCount: filteredSecretaries.length,
+                    itemBuilder: (context, index) {
+                      final secretary = filteredSecretaries[index];
+                      return _SecretaryCard(
+                        secretary: secretary,
+                        onRemoveRequested: () => _requestRemoval(secretary),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }
 
   void _requestRemoval(SecretaryProfile secretary) {
-    // Add pending request to mock data
     setState(() {
       CenterlyMockData.secretaryRemovalRequests.add(
         SecretaryRemovalRequest(
@@ -92,7 +94,9 @@ class _TeacherMySecretaryScreenState
       );
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('تم إرسال طلب إزالة السكرتير للإدارة')),
+      SnackBar(
+        content: Text(StringsManager.secretaryRemovalSuccess.tr()),
+      ),
     );
   }
 }
@@ -178,10 +182,12 @@ class _SecretaryCard extends StatelessWidget {
                     color: ColorManager.warning,
                   ),
                   const SizedBox(width: AppSize.s8),
-                  Text(
-                    'جاري مراجعة طلب إزالة هذا السكرتير من الإدارة',
-                    style: AppTextStyles.labelSmall.copyWith(
-                      color: ColorManager.warning,
+                  Expanded(
+                    child: Text(
+                      StringsManager.secretaryRemovalPending.tr(),
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: ColorManager.warning,
+                      ),
                     ),
                   ),
                 ],
@@ -198,7 +204,7 @@ class _SecretaryCard extends StatelessWidget {
                   size: AppSize.s18,
                 ),
                 label: Text(
-                  'طلب إزالة السكرتير',
+                  StringsManager.secretaryRequestRemoval.tr(),
                   style: AppTextStyles.titleSmall.copyWith(
                     color: ColorManager.error,
                   ),
@@ -216,27 +222,26 @@ class _SecretaryCard extends StatelessWidget {
   Future<void> _confirmRemoval(BuildContext context) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          title: const Text('طلب إزالة سكرتير'),
-          content: Text(
-            'هل أنت متأكد أنك تريد إرسال طلب للإدارة لإزالة السكرتير "${secretary.name}"؟ لن يتمكن من الوصول للنظام بعد موافقة الإدارة.',
+      builder: (context) => AlertDialog(
+        title: Text(StringsManager.secretaryRemovalConfirmTitle.tr()),
+        content: Text(
+          StringsManager.secretaryRemovalConfirmMessage.tr(
+            namedArgs: {'name': secretary.name},
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('إلغاء'),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              style: FilledButton.styleFrom(
-                backgroundColor: ColorManager.error,
-              ),
-              child: const Text('تأكيد الطلب'),
-            ),
-          ],
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(StringsManager.secretaryCancelAction.tr()),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: FilledButton.styleFrom(
+              backgroundColor: ColorManager.error,
+            ),
+            child: Text(StringsManager.secretaryConfirmAction.tr()),
+          ),
+        ],
       ),
     );
 
@@ -266,7 +271,9 @@ class _StatusBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.circular),
       ),
       child: Text(
-        isActive ? 'نشط' : 'غير نشط',
+        isActive
+            ? StringsManager.secretaryStatusActive.tr()
+            : StringsManager.secretaryStatusInactive.tr(),
         style: AppTextStyles.labelSmall.copyWith(color: color),
       ),
     );

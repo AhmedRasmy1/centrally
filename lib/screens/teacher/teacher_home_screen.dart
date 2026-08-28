@@ -1,17 +1,19 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
-import 'package:centrally/screens/teacher/teacher_session_details_screen.dart';
 import 'package:centrally/screens/teacher/teacher_my_secretary_screen.dart';
+import 'package:centrally/screens/teacher/teacher_session_details_screen.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Teacher Home Screen — matches Figma:
 /// - Blue header with bell, teacher name, date, avatar
-/// - Stats: 7 حصص اليوم / 9 ساعات عمل اليوم
-/// - Today's sessions list with status chip (تمت / الآن / قادم)
+/// - Stats: Today sessions / Today work hours
+/// - Today's sessions list with status chip
 /// - Finance summary card with progress bar
 class TeacherHomeScreen extends StatelessWidget {
   const TeacherHomeScreen({super.key});
@@ -28,74 +30,71 @@ class TeacherHomeScreen extends StatelessWidget {
         .fold<double>(0, (sum, inv) => sum + inv.paidAmount);
     final totalDue = totalExpected - totalCollected;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: ColorManager.background,
-        body: CustomScrollView(
-          slivers: [
-            _HomeAppBar(),
-            SliverPadding(
-              padding: const EdgeInsets.all(AppPadding.p16),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  _StatsRow(),
-                  const SizedBox(height: AppSize.s24),
-                  TeacherSectionTitle(
-                    title: 'حصص اليوم',
-                    actionLabel: 'عرض الكل',
-                    onAction: () {},
-                  ),
-                  const SizedBox(height: AppSize.s12),
-                  for (final session in sessions) ...[
-                    _HomeSessionCard(
-                      session: session,
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => TeacherSessionDetailsScreen(
-                            session: session,
-                          ),
+    return Scaffold(
+      backgroundColor: ColorManager.background,
+      body: CustomScrollView(
+        slivers: [
+          const _HomeAppBar(),
+          SliverPadding(
+            padding: const EdgeInsets.all(AppPadding.p16),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                const _StatsRow(),
+                const SizedBox(height: AppSize.s24),
+                TeacherSectionTitle(
+                  title: StringsManager.homeTodaySessionsTitle.tr(),
+                  actionLabel: StringsManager.homeViewAll.tr(),
+                  onAction: () {},
+                ),
+                const SizedBox(height: AppSize.s12),
+                for (final session in sessions) ...[
+                  _HomeSessionCard(
+                    session: session,
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => TeacherSessionDetailsScreen(
+                          session: session,
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSize.s10),
-                  ],
-                  const SizedBox(height: AppSize.s24),
-                  TeacherSectionTitle(
-                    title: 'الأمور المالية هذا الشهر',
-                    actionLabel: 'عرض التفاصيل',
-                    onAction: () {},
                   ),
-                  const SizedBox(height: AppSize.s12),
-                  _FinanceCard(
-                    expected: totalExpected,
-                    collected: totalCollected,
-                    due: totalDue,
-                  ),
-                  const SizedBox(height: AppSize.s24),
-                  TeacherSectionTitle(
-                    title: 'فريق العمل',
-                    actionLabel: 'إدارة السكرتارية',
-                    onAction: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const TeacherMySecretaryScreen(),
-                      ),
+                  const SizedBox(height: AppSize.s10),
+                ],
+                const SizedBox(height: AppSize.s24),
+                TeacherSectionTitle(
+                  title: StringsManager.homeFinanceThisMonth.tr(),
+                  actionLabel: StringsManager.homeViewDetails.tr(),
+                  onAction: () {},
+                ),
+                const SizedBox(height: AppSize.s12),
+                _FinanceCard(
+                  expected: totalExpected,
+                  collected: totalCollected,
+                  due: totalDue,
+                ),
+                const SizedBox(height: AppSize.s24),
+                TeacherSectionTitle(
+                  title: StringsManager.homeMyTeam.tr(),
+                  actionLabel: StringsManager.homeManageSecretaries.tr(),
+                  onAction: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const TeacherMySecretaryScreen(),
                     ),
                   ),
-                  const SizedBox(height: AppSize.s12),
-                  _TeamCard(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const TeacherMySecretaryScreen(),
-                      ),
+                ),
+                const SizedBox(height: AppSize.s12),
+                _TeamCard(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const TeacherMySecretaryScreen(),
                     ),
                   ),
-                  const SizedBox(height: AppSize.s24),
-                ]),
-              ),
+                ),
+                const SizedBox(height: AppSize.s24),
+              ]),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -104,6 +103,8 @@ class TeacherHomeScreen extends StatelessWidget {
 // ── Blue App Bar ─────────────────────────────────────────────────────────────
 
 class _HomeAppBar extends StatelessWidget {
+  const _HomeAppBar();
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -140,13 +141,13 @@ class _HomeAppBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'صباح الخير, علي',
+                    StringsManager.homeGreeting.tr(namedArgs: {'name': 'علي'}),
                     style: AppTextStyles.titleMedium.copyWith(
                       color: ColorManager.white,
                     ),
                   ),
                   Text(
-                    teacherTodayLabel,
+                    '14 ${StringsManager.monthApril.tr()} 2026',
                     style: AppTextStyles.labelSmall.copyWith(
                       color: ColorManager.white.withAlpha(200),
                     ),
@@ -166,22 +167,24 @@ class _HomeAppBar extends StatelessWidget {
 // ── Stats Row ─────────────────────────────────────────────────────────────────
 
 class _StatsRow extends StatelessWidget {
+  const _StatsRow();
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(
+        Expanded(
           child: TeacherStatCard(
-            title: 'حصص اليوم',
+            title: StringsManager.homeSessionsToday.tr(),
             value: '7',
             color: ColorManager.textPrimary,
             icon: Icons.menu_book_outlined,
           ),
         ),
         const SizedBox(width: AppSize.s12),
-        const Expanded(
+        Expanded(
           child: TeacherStatCard(
-            title: 'ساعات عمل اليوم',
+            title: StringsManager.homeWorkingHoursToday.tr(),
             value: '9',
             color: ColorManager.textPrimary,
             icon: Icons.schedule_outlined,
@@ -215,7 +218,6 @@ class _HomeSessionCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppPadding.p14),
         child: Row(
           children: [
-            // Status chip on right (RTL)
             Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppPadding.p8,
@@ -244,7 +246,11 @@ class _HomeSessionCard extends StatelessWidget {
                       ),
                       const SizedBox(width: AppSize.s6),
                       Text(
-                        '${session.expectedStudentsCount ~/ 10}ث',
+                        StringsManager.sessionDurationLabel.tr(
+                          namedArgs: {
+                            'count': '${session.expectedStudentsCount ~/ 10}',
+                          },
+                        ),
                         style: AppTextStyles.labelSmall.copyWith(
                           color: ColorManager.primary,
                         ),
@@ -253,7 +259,7 @@ class _HomeSessionCard extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSize.s4),
                   Text(
-                    '11:00 ص - 12:00 م',
+                    '${session.startTime.hour}:00 - ${session.endTime.hour}:00',
                     style: AppTextStyles.labelSmall,
                   ),
                 ],
@@ -273,10 +279,22 @@ class _HomeSessionCard extends StatelessWidget {
 }
 
 (String, Color) _sessionStatusChip(SessionStatus status) => switch (status) {
-  SessionStatus.completed => ('تمت', ColorManager.grey500),
-  SessionStatus.ongoing => ('الآن', ColorManager.primary),
-  SessionStatus.upcoming => ('قادم', ColorManager.success),
-  SessionStatus.cancelled => ('ملغية', ColorManager.error),
+  SessionStatus.completed => (
+    StringsManager.statusCompleted.tr(),
+    ColorManager.grey500,
+  ),
+  SessionStatus.ongoing => (
+    StringsManager.statusOngoing.tr(),
+    ColorManager.primary,
+  ),
+  SessionStatus.upcoming => (
+    StringsManager.statusUpcoming.tr(),
+    ColorManager.success,
+  ),
+  SessionStatus.cancelled => (
+    StringsManager.statusCancelled.tr(),
+    ColorManager.error,
+  ),
 };
 
 // ── Finance Card ─────────────────────────────────────────────────────────────
@@ -304,21 +322,21 @@ class _FinanceCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MoneyTile(
-                  title: 'المتوقع',
+                  title: StringsManager.homeFinanceExpected.tr(),
                   value: expected,
                   color: ColorManager.textPrimary,
                 ),
               ),
               Expanded(
                 child: _MoneyTile(
-                  title: 'المحصل',
+                  title: StringsManager.homeFinanceCollected.tr(),
                   value: collected,
                   color: ColorManager.success,
                 ),
               ),
               Expanded(
                 child: _MoneyTile(
-                  title: 'المتبقي',
+                  title: StringsManager.homeFinanceRemaining.tr(),
                   value: due,
                   color: ColorManager.warning,
                 ),
@@ -348,7 +366,7 @@ class _FinanceCard extends StatelessWidget {
             children: [
               FilledButton(
                 onPressed: () {},
-                child: const Text('عرض القائمة'),
+                child: Text(StringsManager.homeViewList.tr()),
               ),
               const Spacer(),
               Text(
@@ -359,7 +377,7 @@ class _FinanceCard extends StatelessWidget {
               ),
               const SizedBox(width: AppSize.s6),
               Text(
-                'طلاب لم يسددوا\nهذا الشهر',
+                StringsManager.homeStudentsUnpaid.tr(),
                 style: AppTextStyles.labelSmall,
               ),
               const SizedBox(width: AppSize.s8),
@@ -455,12 +473,12 @@ class _TeamCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'إدارة السكرتارية',
+                    StringsManager.homeManageSecretaries.tr(),
                     style: AppTextStyles.titleSmall,
                   ),
                   const SizedBox(height: AppSize.s4),
                   Text(
-                    'عرض وإدارة أفراد طاقم العمل',
+                    StringsManager.homeTeamSubtitle.tr(),
                     style: AppTextStyles.labelSmall,
                   ),
                 ],
@@ -477,4 +495,3 @@ class _TeamCard extends StatelessWidget {
     );
   }
 }
-

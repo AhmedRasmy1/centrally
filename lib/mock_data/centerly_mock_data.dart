@@ -1,4 +1,4 @@
-﻿import 'package:centrally/models/centerly_models.dart';
+import 'package:centrally/models/centerly_models.dart';
 
 class CenterlyMockData {
   CenterlyMockData._();
@@ -299,7 +299,7 @@ class CenterlyMockData {
   ];
 
   static final List<SecretaryProfile> secretaries = [
-    SecretaryProfile(
+    const SecretaryProfile(
       id: 'secretary-1',
       teacherId: 'teacher-1',
       name: 'سارة محمود',
@@ -307,7 +307,7 @@ class CenterlyMockData {
       email: 'sara@centerly.app',
       status: SecretaryStatus.active,
     ),
-    SecretaryProfile(
+    const SecretaryProfile(
       id: 'secretary-2',
       teacherId: 'teacher-1',
       name: 'منة خالد',

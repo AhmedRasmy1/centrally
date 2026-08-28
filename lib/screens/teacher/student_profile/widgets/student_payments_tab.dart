@@ -1,8 +1,10 @@
+import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Student Payments Tab — matches Figma exactly:
@@ -30,14 +32,14 @@ class StudentPaymentsTab extends StatelessWidget {
       children: [
         _SectionCard(
           icon: Icons.monetization_on_outlined,
-          title: 'ملخص المدفوعات',
+          title: StringsManager.profilePaymentsSummaryTitle.tr(),
           child: Padding(
             padding: const EdgeInsets.all(AppPadding.p14),
             child: Row(
               children: [
                 Expanded(
                   child: _StatBox(
-                    label: 'المتبقي',
+                    label: StringsManager.profileStatRemaining.tr(),
                     value: totalDue,
                     valueColor: ColorManager.error,
                   ),
@@ -45,7 +47,7 @@ class StudentPaymentsTab extends StatelessWidget {
                 const SizedBox(width: AppSize.s12),
                 Expanded(
                   child: _StatBox(
-                    label: 'تم التحصيل',
+                    label: StringsManager.profileStatCollected.tr(),
                     value: totalPaid,
                     valueColor: ColorManager.success,
                   ),
@@ -53,7 +55,7 @@ class StudentPaymentsTab extends StatelessWidget {
                 const SizedBox(width: AppSize.s12),
                 Expanded(
                   child: _StatBox(
-                    label: 'المتوقع',
+                    label: StringsManager.profileStatExpected.tr(),
                     value: totalExpected,
                     valueColor: ColorManager.textPrimary,
                   ),
@@ -65,12 +67,14 @@ class StudentPaymentsTab extends StatelessWidget {
         const SizedBox(height: AppSize.s12),
         _SectionCard(
           icon: Icons.calendar_today_outlined,
-          title: 'سجل الفواتير',
+          title: StringsManager.profileInvoicesTitle.tr(),
           child: invoices.isEmpty
               ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: AppPadding.p20),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppPadding.p20,
+                  ),
                   child: Text(
-                    'لا توجد فواتير',
+                    StringsManager.profileNoInvoices.tr(),
                     style: AppTextStyles.bodySmall,
                     textAlign: TextAlign.center,
                   ),
@@ -117,17 +121,22 @@ class _SectionCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(AppPadding.p14),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(title, style: AppTextStyles.titleMedium),
-                const Spacer(),
                 Container(
                   padding: const EdgeInsets.all(AppPadding.p8),
                   decoration: BoxDecoration(
                     color: ColorManager.primary.withAlpha(20),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, size: AppSize.s18, color: ColorManager.primary),
+                  child: Icon(
+                    icon,
+                    size: AppSize.s18,
+                    color: ColorManager.primary,
+                  ),
+                ),
+                const SizedBox(width: AppSize.s10),
+                Expanded(
+                  child: Text(title, style: AppTextStyles.titleMedium),
                 ),
               ],
             ),
@@ -173,7 +182,7 @@ class _StatBox extends StatelessWidget {
               ),
               const SizedBox(width: AppSize.s4),
               Text(
-                'جنيه',
+                StringsManager.profileCurrency.tr(),
                 style: AppTextStyles.labelSmall.copyWith(
                   fontSize: 10,
                   color: ColorManager.textSecondary,
@@ -202,15 +211,22 @@ class _TableHeader extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              'الحالة',
+              StringsManager.profileColInvoice.tr(),
               style: AppTextStyles.labelSmall,
-              textAlign: TextAlign.left,
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              StringsManager.profileColAmount.tr(),
+              style: AppTextStyles.labelSmall,
+              textAlign: TextAlign.center,
             ),
           ),
           Expanded(
             flex: 3,
             child: Text(
-              'تاريخ الاستحقاق',
+              StringsManager.profileColDueDate.tr(),
               style: AppTextStyles.labelSmall,
               textAlign: TextAlign.center,
             ),
@@ -218,17 +234,9 @@ class _TableHeader extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              'المبلغ',
+              StringsManager.profileColStatus.tr(),
               style: AppTextStyles.labelSmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              'الفاتورة',
-              style: AppTextStyles.labelSmall,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.end,
             ),
           ),
         ],
@@ -246,7 +254,8 @@ class _InvoiceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final isPaid = invoice.status == InvoiceStatus.paid;
     final color = isPaid ? ColorManager.success : ColorManager.error;
-    final label = isPaid ? 'مدفوع' : 'مستحق';
+    final label =
+        isPaid ? StringsManager.invoicePaid.tr() : StringsManager.invoiceDue.tr();
     final icon = isPaid ? Icons.check_circle_outline : Icons.cancel_outlined;
 
     return Padding(
@@ -258,8 +267,33 @@ class _InvoiceRow extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
+            child: Text(
+              invoice.invoiceNumber,
+              style: AppTextStyles.bodySmall,
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              StringsManager.profileAmountWithCurrency.tr(
+                namedArgs: {'amount': invoice.amount.toStringAsFixed(0)},
+              ),
+              style: AppTextStyles.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              '${invoice.dueDate.day} ${_monthKey(invoice.dueDate.month).tr()}',
+              style: AppTextStyles.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            flex: 2,
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerEnd,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppPadding.p8,
@@ -284,32 +318,23 @@ class _InvoiceRow extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              '${invoice.dueDate.day} مايو',
-              style: AppTextStyles.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              '${invoice.amount.toStringAsFixed(0)} جنيه',
-              style: AppTextStyles.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              invoice.invoiceNumber,
-              style: AppTextStyles.bodySmall,
-              textAlign: TextAlign.right,
-            ),
-          ),
         ],
       ),
     );
   }
 }
+
+String _monthKey(int month) => switch (month) {
+  1 => StringsManager.monthJanuary,
+  2 => StringsManager.monthFebruary,
+  3 => StringsManager.monthMarch,
+  4 => StringsManager.monthApril,
+  5 => StringsManager.monthMay,
+  6 => StringsManager.monthJune,
+  7 => StringsManager.monthJuly,
+  8 => StringsManager.monthAugust,
+  9 => StringsManager.monthSeptember,
+  10 => StringsManager.monthOctober,
+  11 => StringsManager.monthNovember,
+  _ => StringsManager.monthDecember,
+};

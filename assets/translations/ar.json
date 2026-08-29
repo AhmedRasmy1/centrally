@@ -359,5 +359,10 @@
   "finance_filter_paid": "تم التحصيل",
   "finance_filter_due": "المستحقة",
   "finance_create_invoice_btn": "إصدار فاتورة",
-  "finance_record_payment_btn": "تسجيل دفعة"
+  "finance_record_payment_btn": "تسجيل دفعة",
+
+  "loading_data": "جاري تحميل البيانات...",
+  "error_title": "حدث خطأ",
+  "error_subtitle": "تعذّر تحميل البيانات. تحقق من اتصالك بالإنترنت.",
+  "retry_button": "إعادة المحاولة"
 }

@@ -7,6 +7,7 @@ import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/teacher/teacher_my_secretary_screen.dart';
 import 'package:centrally/screens/teacher/teacher_session_details_screen.dart';
 import 'package:centrally/screens/teacher/teacher_shared.dart';
+import 'package:centrally/core/widgets/app_status_badge.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -209,7 +210,6 @@ class _HomeSessionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final group = CenterlyMockData.groupById(session.groupId);
-    final (statusLabel, statusColor) = _sessionStatusChip(session.status);
 
     return InkWell(
       onTap: onTap,
@@ -218,20 +218,7 @@ class _HomeSessionCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppPadding.p14),
         child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppPadding.p8,
-                vertical: AppPadding.p4,
-              ),
-              decoration: BoxDecoration(
-                color: statusColor.withAlpha(25),
-                borderRadius: BorderRadius.circular(AppRadius.circular),
-              ),
-              child: Text(
-                statusLabel,
-                style: AppTextStyles.labelSmall.copyWith(color: statusColor),
-              ),
-            ),
+            AppStatusBadge.session(status: session.status),
             const SizedBox(width: AppSize.s12),
             Expanded(
               child: Column(
@@ -278,24 +265,6 @@ class _HomeSessionCard extends StatelessWidget {
   }
 }
 
-(String, Color) _sessionStatusChip(SessionStatus status) => switch (status) {
-  SessionStatus.completed => (
-    StringsManager.statusCompleted.tr(),
-    ColorManager.grey500,
-  ),
-  SessionStatus.ongoing => (
-    StringsManager.statusOngoing.tr(),
-    ColorManager.primary,
-  ),
-  SessionStatus.upcoming => (
-    StringsManager.statusUpcoming.tr(),
-    ColorManager.success,
-  ),
-  SessionStatus.cancelled => (
-    StringsManager.statusCancelled.tr(),
-    ColorManager.error,
-  ),
-};
 
 // ── Finance Card ─────────────────────────────────────────────────────────────
 

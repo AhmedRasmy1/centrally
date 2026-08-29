@@ -2,6 +2,8 @@ import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
+import 'package:centrally/core/widgets/app_empty_state.dart';
+import 'package:centrally/core/widgets/app_session_card.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -169,6 +171,7 @@ class TeacherSearchField extends StatelessWidget {
   }
 }
 
+/// Backward-compatible wrapper — delegates to [AppEmptyState] from core.
 class TeacherEmptyState extends StatelessWidget {
   const TeacherEmptyState({
     required this.title,
@@ -183,37 +186,16 @@ class TeacherEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppPadding.p32),
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: AppSize.s40,
-            backgroundColor: ColorManager.primaryBright,
-            child: Icon(
-              icon ?? Icons.event_busy_outlined,
-              color: ColorManager.primary,
-              size: AppSize.s40,
-            ),
-          ),
-          const SizedBox(height: AppSize.s20),
-          Text(
-            title,
-            style: AppTextStyles.headlineSmall,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppSize.s8),
-          Text(
-            subtitle,
-            style: AppTextStyles.bodySmall,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+    return AppEmptyState(
+      title: title,
+      subtitle: subtitle,
+      icon: icon,
+      iconColor: ColorManager.primary,
     );
   }
 }
 
+/// Backward-compatible wrapper — delegates to [AppSessionCard] from core.
 class TeacherSessionCard extends StatelessWidget {
   const TeacherSessionCard({
     required this.session,
@@ -228,69 +210,10 @@ class TeacherSessionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final group = CenterlyMockData.groupById(session.groupId);
-    final presentCount = CenterlyMockData.attendanceForSession(session.id)
-        .where((item) => item.status == AttendanceStatus.present)
-        .length;
-
-    return InkWell(
+    return AppSessionCard(
+      session: session,
       onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.r12),
-      child: TeacherCard(
-        padding: const EdgeInsets.all(AppPadding.p14),
-        child: Row(
-          children: [
-            Container(
-              width: AppSize.s48,
-              padding: const EdgeInsets.symmetric(vertical: AppPadding.p8),
-              decoration: BoxDecoration(
-                color: highlight ? ColorManager.primary : ColorManager.grey200,
-                borderRadius: BorderRadius.circular(AppRadius.r8),
-              ),
-              child: Text(
-                formatTime(session.startTime),
-                textAlign: TextAlign.center,
-                style: AppTextStyles.labelSmall.copyWith(
-                  color: highlight
-                      ? ColorManager.white
-                      : ColorManager.textSecondary,
-                ),
-              ),
-            ),
-            const SizedBox(width: AppSize.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${group.name} - ${group.subjectName}',
-                    style: AppTextStyles.titleMedium,
-                  ),
-                  const SizedBox(height: AppSize.s4),
-                  Text(
-                    '$presentCount/${session.expectedStudentsCount}',
-                    style: AppTextStyles.labelSmall.copyWith(
-                      color: ColorManager.success,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              StringsManager.sessionDurationLabel.tr(
-                namedArgs: {
-                  'count': '${session.expectedStudentsCount ~/ 10}',
-                },
-              ),
-              style: AppTextStyles.labelLarge.copyWith(
-                color: ColorManager.primary,
-              ),
-            ),
-            const SizedBox(width: AppSize.s8),
-            const Icon(Icons.chevron_left, color: ColorManager.grey500),
-          ],
-        ),
-      ),
+      highlight: highlight,
     );
   }
 }

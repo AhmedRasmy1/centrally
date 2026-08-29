@@ -2,6 +2,7 @@ import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
+import 'package:centrally/core/widgets/app_qr_widget.dart';
 import 'package:centrally/models/centerly_models.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -96,54 +97,13 @@ class StudentInfoTab extends StatelessWidget {
           title: StringsManager.profileQrTitle.tr(),
           icon: Icons.qr_code_scanner_outlined,
           child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p14),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        StringsManager.profileQrHint.tr(),
-                        style: AppTextStyles.labelSmall.copyWith(
-                          color: ColorManager.textSecondary,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: AppSize.s8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppPadding.p16,
-                          vertical: AppPadding.p8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: ColorManager.grey200,
-                          borderRadius: BorderRadius.circular(AppRadius.r8),
-                        ),
-                        child: Text(
-                          StringsManager.profileQrId.tr(
-                            namedArgs: {'id': student.qrCodeValue},
-                          ),
-                          style: AppTextStyles.labelSmall,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: AppSize.s16),
-                Container(
-                  width: AppSize.s80,
-                  height: AppSize.s80,
-                  decoration: BoxDecoration(
-                    color: ColorManager.white,
-                    border: Border.all(color: ColorManager.divider),
-                    borderRadius: BorderRadius.circular(AppRadius.r8),
-                  ),
-                  child: const Center(
-                    child: Icon(Icons.qr_code_2, size: AppSize.s64),
-                  ),
-                ),
-              ],
+            padding: const EdgeInsets.all(AppPadding.p16),
+            child: Center(
+              child: AppQrWidget(
+                value: student.qrCodeValue,
+                hint: StringsManager.profileQrHint.tr(),
+                size: AppSize.s100,
+              ),
             ),
           ),
         ),

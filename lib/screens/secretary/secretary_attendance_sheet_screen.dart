@@ -4,6 +4,7 @@ import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
+import 'package:centrally/core/widgets/app_status_badge.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/teacher/student_profile/teacher_student_profile_screen.dart';
@@ -457,7 +458,7 @@ class _SecretaryStudentAttendanceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                _StatusBadge(status: currentStatus),
+                AppStatusBadge.attendance(status: currentStatus),
               ],
             ),
           ),
@@ -564,32 +565,7 @@ class _AttendanceActionButton extends StatelessWidget {
   }
 }
 
-class _StatusBadge extends StatelessWidget {
-  const _StatusBadge({required this.status});
-
-  final AttendanceStatus status;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = attendanceColor(status);
-    final label = attendanceLabel(status);
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppPadding.p8,
-        vertical: AppPadding.p4,
-      ),
-      decoration: BoxDecoration(
-        color: color.withAlpha(25),
-        borderRadius: BorderRadius.circular(AppRadius.circular),
-      ),
-      child: Text(
-        label,
-        style: AppTextStyles.labelSmall.copyWith(color: color),
-      ),
-    );
-  }
-}
+// Replaced by AppStatusBadge.attendance
 
 class _FilterChip extends StatelessWidget {
   const _FilterChip({

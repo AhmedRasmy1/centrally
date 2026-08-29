@@ -2,6 +2,8 @@ import 'package:centrally/core/constants/strings_manager.dart';
 import 'package:centrally/core/theme/color_manager.dart';
 import 'package:centrally/core/theme/style_manager.dart';
 import 'package:centrally/core/theme/values_manager.dart';
+import 'package:centrally/core/widgets/app_bottom_sheet.dart';
+import 'package:centrally/core/widgets/app_status_badge.dart';
 import 'package:centrally/mock_data/centerly_mock_data.dart';
 import 'package:centrally/models/centerly_models.dart';
 import 'package:centrally/screens/secretary/secretary_attendance_sheet_screen.dart';
@@ -343,7 +345,7 @@ class _StudentAttendanceList extends StatelessWidget {
           leading: const StudentAvatar(radius: AppSize.s20),
           title: Text(student.name, style: AppTextStyles.titleSmall),
           subtitle: Text(group.name, style: AppTextStyles.labelSmall),
-          trailing: _StatusChip(status: item.status),
+          trailing: AppStatusBadge.attendance(status: item.status),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
               builder: (_) => TeacherStudentProfileScreen(student: student),
@@ -355,31 +357,7 @@ class _StudentAttendanceList extends StatelessWidget {
   }
 }
 
-class _StatusChip extends StatelessWidget {
-  const _StatusChip({required this.status});
-
-  final AttendanceStatus status;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = attendanceColor(status);
-    final label = attendanceLabel(status);
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppPadding.p10,
-        vertical: AppPadding.p4,
-      ),
-      decoration: BoxDecoration(
-        color: color.withAlpha(25),
-        borderRadius: BorderRadius.circular(AppRadius.circular),
-      ),
-      child: Text(
-        label,
-        style: AppTextStyles.labelSmall.copyWith(color: color),
-      ),
-    );
-  }
-}
+// _StatusChip replaced by AppStatusBadge.attendance — see usage in _StudentAttendanceList
 
 // ── Bottom action buttons ─────────────────────────────────────────────────────
 
@@ -448,17 +426,9 @@ class _BottomActions extends StatelessWidget {
 // ── Cancel session bottom sheet ───────────────────────────────────────────────
 
 Future<void> _showCancelSheet(BuildContext context) async {
-  await showModalBottomSheet<void>(
+  await AppBottomSheet.show<void>(
     context: context,
-    isScrollControlled: true,
-    showDragHandle: true,
-    backgroundColor: ColorManager.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(AppRadius.r24),
-      ),
-    ),
-    builder: (_) => const _CancelSessionSheet(),
+    child: const _CancelSessionSheet(),
   );
 }
 
@@ -497,14 +467,8 @@ class _CancelSessionSheetState extends State<_CancelSessionSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: AppPadding.p16,
-        right: AppPadding.p16,
-        bottom: MediaQuery.of(context).viewInsets.bottom + AppPadding.p24,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             StringsManager.cancelSessionTitle.tr(),
@@ -599,8 +563,7 @@ class _CancelSessionSheetState extends State<_CancelSessionSheet> {
             ],
           ),
         ],
-      ),
-    );
+      );
   }
 }
 

@@ -359,5 +359,10 @@
   "finance_filter_paid": "Collected",
   "finance_filter_due": "Due",
   "finance_create_invoice_btn": "Issue Invoice",
-  "finance_record_payment_btn": "Record Payment"
+  "finance_record_payment_btn": "Record Payment",
+
+  "loading_data": "Loading data...",
+  "error_title": "Something went wrong",
+  "error_subtitle": "Failed to load data. Check your internet connection.",
+  "retry_button": "Try Again"
 }

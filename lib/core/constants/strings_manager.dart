@@ -386,4 +386,10 @@ class StringsManager {
   static const String financeFilterDue = 'finance_filter_due';
   static const String financeCreateInvoiceBtn = 'finance_create_invoice_btn';
   static const String financeRecordPaymentBtn = 'finance_record_payment_btn';
+
+  // Phase 5 — Polish
+  static const String loadingData = 'loading_data';
+  static const String errorTitle = 'error_title';
+  static const String errorSubtitle = 'error_subtitle';
+  static const String retryButton = 'retry_button';
 }
